@@ -6,3 +6,5 @@ console.log("HI THERE!")
 
 console.log('HELLO HELLO HELLO HELLO HELLO!!?!??!')
 /* Wesley's code here */
+
+console.log('YAYYYYYYY!');
