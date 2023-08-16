@@ -1,7 +1,12 @@
 /* Ethan's code here */
 
+console.log("HI THERE!")
+
+console.log("THIS IS ANOTHER TEST");
+
 /* Stavros's code here */
 
-
-console.log('I hope this works')
+console.log('HELLO HELLO HELLO HELLO HELLO!!?!??!')
 /* Wesley's code here */
+
+console.log('YAYYYYYYY!');
