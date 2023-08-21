@@ -7,26 +7,49 @@ Last Edited 2023/08/21
 
 /* Ethan's code here */
 
+//gets references to HTML elements necessary for event tracker functionality
+var traverseLeft = $("#traverse-left");
+var traverseRight = $("#traverse-right");
+
 //variable to track how far in each direction of the event calendar the user has traversed
-var traverseClicks
+var traverseClicks = 0;
 
 //use dayjs to assign dates to each block in the event calendar (IDs or data attributes)
 
-//HEY ETHAN, YOU WILL PROBABLY PUT AN IF STATEMENT HERE TO CHANGE HOW EVENTBLOCKS IS DEFINED IN THE YEARLY VIEW, AS YOU'LL HAVE TO GET THE CHILDREN OF EACH MONTH
-var eventBlocks = $(".row").children();
-
-//assigns an ID to each block such that they will represent consecutive days of the week, starting at the most recent sunday
-for (day = 0; day < eventBlocks.length; day++)
+function assignDates()
 {
-  var block = $(eventBlocks[day]);
+  //HEY ETHAN, YOU WILL PROBABLY PUT AN IF STATEMENT HERE TO CHANGE HOW EVENTBLOCKS IS DEFINED IN THE YEARLY VIEW, AS YOU'LL HAVE TO GET THE CHILDREN OF EACH MONTH
+  var eventBlocks = $(".row").children();
 
-  //assigns ID to each block to represent sunday -> saturday
-  var date = dayjs().add(day - dayjs().day() /* subtracts integer of day of the week such that blocks start at sunday */, "d").format("YYYY/MM/DD");
-  block.attr("id", date)
+  //assigns an ID to each block such that they will represent consecutive days of the week, starting at the most recent sunday
+  for (day = 0; day < eventBlocks.length; day++)
+  {
+    var block = $(eventBlocks[day]);
 
-  //removes the year and month from date string and sets the block's date text to that
-  block.children(".date").text(date.slice(8))
+    //assigns ID to each block to represent sunday -> saturday
+    /* subtracts integer of day of the week such that blocks start at sunday */
+    var date = dayjs().add(day + traverseClicks - dayjs().day(), "d").format("YYYY/MM/D");
+    block.attr("id", date)
+
+    //removes the year and month from date string and sets the block's date text to that
+    block.children(".date").text(date.slice(8))
+  }
 }
+
+//initializes event calendar view on current week
+assignDates();
+
+traverseLeft.on("click", function()
+{
+  traverseClicks -= 7;
+  assignDates();
+});
+
+traverseRight.on("click", function()
+{
+  traverseClicks += 7;
+  assignDates();
+});
 
 //.add method in dayJS to adds a certain number of weeks based on a variable value
 //right traverse arrow increases variable by 1, left decreases by 1
