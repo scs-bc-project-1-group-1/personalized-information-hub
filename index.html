@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/15
+Last Edited 2023/08/21
 -->
 
 <!DOCTYPE html>
@@ -11,15 +11,106 @@ Last Edited 2023/08/15
 
 <head>
 
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-    <title>Personal Information Hub</title>
+	<meta charset = "UTF-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+	<meta http-equiv = "X-UA-Compatible" content = "ie=edge"/>
+	<link rel = "stylesheet" href = "./assets/css/reset.css">
+	<link rel = "stylesheet" href = "./assets/css/style.css">
+	<title>Personal Information Hub</title>
 
 </head>
 
 <body>
     
 
+
+<!--ETHAN'S CODE BELOW-->
+
+	<div id = "event-creator">
+
+		<input id = "event-input">
+		<input id = "event-date-picker">
+		<button id = "add-event-button">Add</button>
+
+	</div>
+
+	<div id = "event-calendar">
+
+		<div id = "day-names">
+
+			<p>Sun</p>
+			<p>Mon</p>
+			<p>Tue</p>
+			<p>Wed</p>
+			<p>Thu</p>
+			<p>Fri</p>
+			<p>Sat</p>
+
+		</div>
+
+		<div id = "row-1" class = "row">
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-2" class = "row"></div>
+		<div id = "row-3" class = "row"></div>
+		<div id = "row-4" class = "row"></div>
+		<div id = "row-5" class = "row"></div>
+		<div id = "row-6" class = "row"></div>
+
+	</div>
+
+	<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src = "https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity = "sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin = "anonymous"></script>
+	<script src = "./assets/scripts/script.js"></script>
 
 </body>
 
