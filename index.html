@@ -21,10 +21,13 @@ Last Edited 2023/08/21
 </head>
 
 <body>
-    
+
+
 
 
 <!--ETHAN'S CODE BELOW-->
+
+<div id = "event-planner-content">
 
 	<div id = "event-creator">
 
@@ -34,83 +37,163 @@ Last Edited 2023/08/21
 
 	</div>
 
-	<div id = "event-calendar">
+	<div id = zoom-button-wrapper>
 
-		<div id = "day-names">
-
-			<p>Sun</p>
-			<p>Mon</p>
-			<p>Tue</p>
-			<p>Wed</p>
-			<p>Thu</p>
-			<p>Fri</p>
-			<p>Sat</p>
-
-		</div>
-
-		<div id = "row-1" class = "row">
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-
-			<div class = "event-block">
-
-				<p class = "date"></p>
-				<ul class = "events"></ul>
-				
-			</div>
-		</div>
-
-		<div id = "row-2" class = "row"></div>
-		<div id = "row-3" class = "row"></div>
-		<div id = "row-4" class = "row"></div>
-		<div id = "row-5" class = "row"></div>
-		<div id = "row-6" class = "row"></div>
+		<button id = "zoom-out">-</button>
+		<button id = "zoom-in">+</button>
 
 	</div>
 
-	<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src = "https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity = "sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin = "anonymous"></script>
-	<script src = "./assets/scripts/script.js"></script>
+	<div id = "calendar-button-wrapper">
+
+		<div class = "traverse-button-wrapper">
+
+			<button id = "traverse-left"><</button>
+		
+		</div>
+
+		<div id = "event-calendar">
+
+			<div id = "day-names">
+
+				<p>Sun</p>
+				<p>Mon</p>
+				<p>Tue</p>
+				<p>Wed</p>
+				<p>Thu</p>
+				<p>Fri</p>
+				<p>Sat</p>
+
+			</div>
+
+			<div id = "row-1" class = "event-row">
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+			</div>
+
+			<div id = "row-2" class = "event-row">
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+			</div>
+
+			<div id = "row-3" class = "event-row"></div>
+			<div id = "row-4" class = "event-row"></div>
+			<div id = "row-5" class = "event-row"></div>
+			<div id = "row-6" class = "event-row"></div>
+
+		</div>
+
+		<div class = "traverse-button-wrapper">
+
+			<button id = "traverse-right">></button>
+
+		</div>
+	</div>
+</div>
+
+<!--STAVROS' CODE BELOW-->
+
+
+
+<!--LINKING SCRIPTS-->
+
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity = "sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin = "anonymous"></script>
+<script src = "./assets/scripts/script.js"></script>
 
 </body>
 
