@@ -12,19 +12,25 @@ var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
 var zoomOut = $("#zoom-out");
+var rowThree = $("#row-3")
+var rowFour = $("#row-4")
+var rowFive = $("#row-5")
+var rowSix = $("#row-6")
+var monthlyRows = $(".monthly-row");
+var nonYearlyRows = $(".non-yearly-row");
 
 //variables for event tracker functionality
 var traverseClicks = 0;
 var eventView = "weekly";
+var forLoopCycles;
 
 //function to set up event calendar to have data rendered to it
 function setUpEventCalendar()
 {
-  var forLoopCycles;
-
   //determine how many event blocks to display based on zoom level
   if (eventView === "weekly") //displays 14 blocks if event view is set to weekly
   {
+    monthlyRows.attr("style", "display: none");
     forLoopCycles = 14;
   }
   else if (eventView === "monthly") //displays 28-42 blocks if event view is set to monthly
@@ -35,8 +41,51 @@ function setUpEventCalendar()
     //if days in month = 30 & first day of month is saturday, for loop runs for 42 blocks
     //otherwise, for loop runs for 35 blocks (hides row 6)
 
+    //retrieves ID (date) of last day in first row of event planner
+    lastDayOfFirstRow = $("#row-1").children()[6].id;
 
+    //NOTE - THERE IS A BUG WHERE THE CALENDAR WILL NOT ADJUST ROWS WHEN IT SHOULD BECAUSE YOU RETRIEVE THE LAST DAY FO FIRST ROW
+    //BEFORE YOU RENDER THE NEW DATES WHEN TRAVERSING WITH ARROWS; CONSIDER SEPARATING SHOWING ROWS AND SETTING LOOP CYCLES SUCH
+    //THAT YOU CAN PUT THE FORMER AFTER TRAVERSAL IS COMPLETE, AND THE LATTER BEFORE
 
+    //determines how many rows of days should be displayed
+    if (dayjs(lastDayOfFirstRow).daysInMonth() === 28 && dayjs(lastDayOfFirstRow).startOf("month").day() === 0)
+    {
+      //if there are 28 days in the current month & the month starts on a sunday, display four rows & 28 days total
+      rowThree.attr("style", "display: block");
+      rowFour.attr("style", "display: block");
+      rowFive.attr("style", "display: none");
+      forLoopCycles = 28;
+    }
+    else if (dayjs(lastDayOfFirstRow).daysInMonth() >= 30 && dayjs(lastDayOfFirstRow).startOf("month").day() === 6)
+    {
+      //if there are at least 30 days in a month & the month starts on a saturday, display six rows & 42 days total
+      rowThree.attr("style", "display: block");
+      rowFour.attr("style", "display: block");
+      rowFive.attr("style", "display: block");
+      rowSix.attr("style", "display: block");
+      forLoopCycles = 42;
+    }
+    else if (dayjs(lastDayOfFirstRow).daysInMonth() === 31 && dayjs(lastDayOfFirstRow).startOf("month").day() === 5)
+    {
+      //if there are 31 days in a month & the month starts on a friday, display six rows & 42 days total
+      rowThree.attr("style", "display: block");
+      rowFour.attr("style", "display: block");
+      rowFive.attr("style", "display: block");
+      rowSix.attr("style", "display: block");
+      forLoopCycles = 42;
+    }
+    else //otherwise, display five rows & 35 days total
+    {
+      rowThree.attr("style", "display: block");
+      rowFour.attr("style", "display: block");
+      rowFive.attr("style", "display: block");
+      rowSix.attr("style", "display: none");
+      forLoopCycles = 35;
+    }
+
+    //CALCULATE DIFFERENCE BETWEEN SUNDAY OF FIRST ROW INCLUDING MONTH AND SUNDAY OF CURRENT WEEK
+    //THE ABOVE NUMBER WILL BE A MULTIPLE OF SEVEN, AND THUS TRAVERSE DAYS CAN BE SET = TO IT
   }
   else //displays 365 event blocks (366 on a leap year) if event view is set to yearly
   {
@@ -68,11 +117,10 @@ function setUpEventCalendar()
     //exists for the date ID assigned to that date
     //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
 
-
+    //HIDE NON-YEARLY ROWS
+    //DISPLAY ROW 3
     
   }
-
-  return forLoopCycles;
 }
 
 //function to assign dates to each event block
@@ -83,14 +131,13 @@ function renderEventPlanner()
   //YOU DO DAY < 14 FOR THE (BI)-WEEKLY VIEW, ETC... FOR MONTHS & YEARS
   var eventBlocks = $(".event-row").children();
 
-  var forLoopCycles = setUpEventCalendar();
-
-  
+  setUpEventCalendar();
 
   //dayjs(dayjs().date(1)).format("ddd") -> day of week for first day of month
 
   //https://jqueryui.com/datepicker/ -> datepicker widget
 
+  //THIS SECTION BELOW SHOULD ONLY APPLY TO 
   //assigns an ID to each block such that they will represent consecutive days of the week, starting at the most recent sunday
   for (day = 0; day < forLoopCycles; day++)
   {
@@ -113,6 +160,7 @@ function switchEventZoom(zoomButton)
     //convert variable based on factor of time difference between weeks / months / years (e.g. x / 12 when going months -> years)(?)
     //get dayJS of any visible day and use it as an anchor point(?)
     //check to see if you can use get + set methods in dayJS or some sort of extension for this
+  //try dividing traverseClicks by factor difference between weeks -> months / months -> years & then truncating
   
   if (zoomButton === "in") //checks if the user clicked the zoom in button
   {
@@ -136,6 +184,9 @@ function switchEventZoom(zoomButton)
       eventView = "weekly"
     }
   }
+
+  //re-renders event planner to account for changes in zoom
+  renderEventPlanner();
 }
 
 //initializes event calendar view on current week
