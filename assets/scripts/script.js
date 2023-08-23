@@ -96,8 +96,9 @@ function setUpEventCalendar(firstDay)
         //repeats for the remaining ten months
     //traverse buttons uses .add() method to add / subtract a year with each click in either direction
 
-    //first row of month blocks in yearly calendar float right
-    //last row floats left
+    //add empty divs to first row of month such that the days hug the right side
+      //if internal counter = 4 at start, i.e. first day = wednesday
+      //add empty divs in a for loop until you reach internal counter, at which point you stop and proceed to add real days
 
     //traverse will need to return first day of year as firstDay variable to be processed by other functions
 
@@ -268,10 +269,10 @@ function switchEventZoom(zoomButton)
   {
     //retrieves ID (date) of last day in first row of event planner
     var lastDayOfFirstRow = $("#row-1").children()[6].id;
+    var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
 
     if (eventView === "weekly") //if the planner is currently in weekly view, switch to monthly view
     {
-      var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
       var monthOfLastDay = dayjs(lastDayOfFirstRow).startOf("month"); //retrieves first day of month containing lastDayOfFirstRow
       var sundayOfMonthStart = dayjs(monthOfLastDay).startOf("week"); //retrieves sunday of week containing monthOfLastDay
       
@@ -282,7 +283,10 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to yearly view
     {
-      
+      var yearOfLastDay = dayjs(lastDayOfFirstRow).startOf("year");
+      var sundayOfYearStart = dayjs(yearOfLastDay).startOf("week");
+
+      traverseDays = sundayOfYearStart.diff(sundayOfThisWeek, "day");
       
       eventView = "yearly"
     }

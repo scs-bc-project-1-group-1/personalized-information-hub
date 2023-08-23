@@ -44,8 +44,3 @@ Last Edited 2023/08/23
   text-align: center;
   display: inline-block;
 }
-
-#test1 > *
-{
-  float: right;
-}
