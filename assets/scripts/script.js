@@ -81,7 +81,7 @@ traverseRight.on("click", function()
 
 
 //Visual Crossing API Key
-var apiKey = '5949XGHGML2VDMYSFYV8PCKVY';
+var weatherApiKey = '5949XGHGML2VDMYSFYV8PCKVY';
 
 var fetchButton = document.getElementById('search-button');
 var currentDayWeather = document.getElementById('current-day-weather');
@@ -91,15 +91,13 @@ var wind = document.getElementById('current-wind');
 var nextDays = document.getElementById('five-day-forecast');
 var windDirection = document.getElementById('current-wind-direction');
 var inputCity = document.getElementById('city-search');
+var currentDay = document.getElementById('current-date');
 
 
 function getApi() {
   var city = inputCity.value;
-  // var queryUrl = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=' + apiKey + '&unitGroup=metric';
-  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}&unitGroup=metric`
+  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
   console.log(queryUrl);
-  var currentDate = new Date();
-  console.log(currentDate);
 
 
   fetch(queryUrl)
@@ -120,7 +118,7 @@ function getApi() {
 
   function sevenDayForecast(lat, lon){
     console.log(lat, lon);
-    var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${apiKey}&unitGroup=metric`;
+    var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
 
     console.log(queryUrl);
     fetch(queryUrl)
@@ -132,17 +130,23 @@ function getApi() {
 
       var forecastList = data.days;
 
-      for (var i = 0; i < 7; i = i + 1) {
+      for (var i = 1; i < 8; i = i + 1) {
         var dailyForecastContent = document.createElement('div');
         dailyForecastContent.classList.add('forecast-sections', 'daily-forecast');
         var nextDaysTemp = document.createElement('div');
         var nextDaysHumidity = document.createElement('div');
         var nextDaysWind = document.createElement('div');
         var nextDaysWindDirection = document.createElement('div');
+        var nextDaysDate = document.createElement('div');
+        var rawDate = forecastList[i].datetime;
+        var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {weekday: 'short' , month: 'long' , day: 'numeric'});
+
+        nextDaysDate.textContent = formattedDate;
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
         nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``
         nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + 'degrees';
+        dailyForecastContent.appendChild(nextDaysDate);
         dailyForecastContent.appendChild(nextDaysTemp);
         dailyForecastContent.appendChild(nextDaysHumidity);
         dailyForecastContent.appendChild(nextDaysWind);
