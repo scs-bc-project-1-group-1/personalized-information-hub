@@ -8,12 +8,19 @@ Last Edited 2023/08/23
 
 
 
+*
+{
+  box-sizing: border-box;
+}
 
-
-
+/* PLACEHOLDER WIDTH FOR TESTING */
+.calendar-block
+{
+  width: 50%;
+}
 
 /* displays names of each day of the week horizontally in-line */
-#day-names p
+#day-names div
 {
   display: inline-block;
 }
@@ -22,4 +29,23 @@ Last Edited 2023/08/23
 .event-block
 {
   display: inline-block;
+}
+
+/* displays four months in each row of yearly event view */
+.month-block
+{
+  width: 25%;
+}
+
+/* each day in yearly view month blocks takes up 1 / 7th of month width */
+.date-row div
+{
+  width: 14.28%;
+  text-align: center;
+  display: inline-block;
+}
+
+#test1 > *
+{
+  float: right;
 }
