@@ -17,6 +17,7 @@ Last Edited 2023/08/23
 //add removing events from local storage
 
 //gets references to HTML elements necessary for event tracker functionality
+var monthYear = $("#month-year");
 var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
@@ -106,6 +107,12 @@ function setUpEventCalendar(firstDayOfNewMonth)
   }
 }
 
+function updateMonthYearHeader()
+{
+  var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+  monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of last day of first row
+}
+
 //function render event calendar content
 function renderEventPlanner(firstDayOfNewMonth)
 {
@@ -139,12 +146,14 @@ function renderEventPlanner(firstDayOfNewMonth)
     //removes the year and month from date string and sets the block's date text to that
     block.children(".date").text(date.slice(8))
   }
+
+  updateMonthYearHeader();
 }
 
 //function to manage traversing event blocks using left & right buttons
 function traverseBlocks(direction)
 {
-  var firstDayOfNewMonth; // variable to hold first day of new month when traversing through months
+  var firstDayOfNewMonth; //variable to hold first day of new month when traversing through months
 
   if (direction === "left") //checks if the user clicked the left button
   {
