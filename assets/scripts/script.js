@@ -98,6 +98,9 @@ function getApi() {
   // var queryUrl = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=' + apiKey + '&unitGroup=metric';
   var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}&unitGroup=metric`
   console.log(queryUrl);
+  var currentDate = new Date();
+  console.log(currentDate);
+
 
   fetch(queryUrl)
   .then(function (response) {
@@ -138,7 +141,7 @@ function getApi() {
         var nextDaysWindDirection = document.createElement('div');
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
-        nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';
+        nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``
         nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + 'degrees';
         dailyForecastContent.appendChild(nextDaysTemp);
         dailyForecastContent.appendChild(nextDaysHumidity);
@@ -148,10 +151,7 @@ function getApi() {
         nextDays.appendChild(dailyForecastContent);
         console.log(data.length);
       }
-    })
+    });
   }
 
   fetchButton.addEventListener('click', getApi);
-  
-
-  
