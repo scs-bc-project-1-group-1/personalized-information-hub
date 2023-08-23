@@ -8,16 +8,18 @@ Last Edited 2023/08/23
 /* Ethan's code here */
 
 //NEXT TO DO
-//add traversing between months
 //add zooming between months & years
 //add traversing between years
 //add event creation
 //add event deletion
 //add saving events to local storage
 //add removing events from local storage
+//update styles
 
 //gets references to HTML elements necessary for event tracker functionality
 var monthYear = $("#month-year");
+var weeklyMonthlyCalendar = $("#weekly-monthly-calendar");
+var yearlyCalendar = $("#yearly-calendar");
 var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
@@ -27,7 +29,6 @@ var rowFour = $("#row-4")
 var rowFive = $("#row-5")
 var rowSix = $("#row-6")
 var monthlyRows = $(".monthly-row");
-var nonYearlyRows = $(".non-yearly-row");
 
 //variables for event tracker functionality
 var traverseDays = 0;
@@ -100,17 +101,31 @@ function setUpEventCalendar(firstDayOfNewMonth)
     //when checking if a date in the yearly view should be highlighted, check if a local storage entry
     //exists for the date ID assigned to that date
     //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
-
-    //HIDE NON-YEARLY ROWS
-    //DISPLAY ROW 3
     
+    //displays yearly calendar & hides weekly / monthly calendar
+    weeklyMonthlyCalendar.attr("style", "display: none");
+    yearlyCalendar.attr("style", "display: block");
+
+    return; //returns early such that weekly / monthly calendar is not displayed again as per the code below
   }
+
+  //hides yearly calendar & displays weekly / monthly calendar
+  weeklyMonthlyCalendar.attr("style", "display: block");
+  yearlyCalendar.attr("style", "display: none");
 }
 
+//function to update month / year header above calendar
 function updateMonthYearHeader()
 {
-  var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
-  monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of last day of first row
+  if (eventView === "yearly") //if event planner is set to yearly view, update the text with the appropriate year
+  {
+
+  }
+  else //otherwise, update the text with the appropriate month & year
+  {
+    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of last day of first row
+  }
 }
 
 //function render event calendar content
@@ -120,6 +135,10 @@ function renderEventPlanner(firstDayOfNewMonth)
   //CONSIDER HAVING ALL THE BLOCKS IN PLACE IN HTML, AND INSTEAD OF USING EVENTBLOCKS.LENGTH IN THE FOR LOOP,
   //YOU DO DAY < 14 FOR THE (BI)-WEEKLY VIEW, ETC... FOR MONTHS & YEARS
   var eventBlocks = $(".event-row").children();
+
+  //eventBlocks is returned by setUpEventCalendar
+  //eventBlocks is the children of $(".event-row") if in monthly / weekly view
+  //eventBlocks is the children of $(".month-row") if in yearly view
 
   //setUpEventCalendar takes an argument (last day of first week containing month)
   //uses this to calculate iterations for monthly view instead of lastDayOfFirstRow
@@ -147,6 +166,20 @@ function renderEventPlanner(firstDayOfNewMonth)
     block.children(".date").text(date.slice(8))
   }
 
+  //change all text colour of days not in current month in monthly view to gray
+  //e.g. month starts on tuesday, ends on thursday
+    //sunday & monday of first week + friday & saturday of last week are gray
+    //use two for loops which which run for up to 6 iterations, one to check every day of first week in monthly view (other than saturday), the other for every day of final week (other than sunday)
+      //get reference to lastDayOfFirstRow / firstDayOfNewMonth
+      //for each iteration, check if dayjs().month() of day being checked equals that of the above
+        //if yes, for loop returns to end early
+        //if not, colour the day being checked gray, and repeat until all reaches the start of the month being viewed, or all 6 days are grey
+      //counts up from 0 for first week checks (sunday -> friday), counts down from 6 for final week checks (saturday -> monday)
+
+  //when creating dates for yearly view check if there is a local storage entry for its date
+    //if yes, change the text colour of that date
+    //otherwise, do nothing
+
   updateMonthYearHeader();
 }
 
@@ -173,6 +206,10 @@ function traverseBlocks(direction)
 
       firstDayOfNewMonth = firstDayOfLastMonth; //sets first day of new month to first day of last month
     }
+    else //otherwise (calendar is in yearly view), shift one year backwards
+    {
+
+    }
   }
   else //if they did not, then they clicked the right button
   {
@@ -191,6 +228,10 @@ function traverseBlocks(direction)
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
 
       firstDayOfNewMonth = firstDayOfNextMonth; //sets first day of new month to first day of next month
+    }
+    else //otherwise (calendar is in yearly view), shift one year forwards
+    {
+      
     }
   }
 
@@ -236,6 +277,12 @@ function switchEventZoom(zoomButton)
       eventView = "weekly"
     }
   }
+
+  //ZOOMING IN FROM YEARLY -> MONTHLY
+  //get text of month / year header (in yearly view, it will just be the year)
+  //use dayJS to get a reference to january of that year
+  //get the first sunday containing january first
+  //set traverseDays to the difference between the sunday of this week and the above sunday
 
   renderEventPlanner();
 }
