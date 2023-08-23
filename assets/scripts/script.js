@@ -7,6 +7,15 @@ Last Edited 2023/08/22
 
 /* Ethan's code here */
 
+//NEXT TO DO
+//add traversing between months
+//add zooming between months & years
+//add traversing between years
+//add event creation
+//add event deletion
+//add saving events to local storage
+//add removing events from local storage
+
 //gets references to HTML elements necessary for event tracker functionality
 var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
@@ -20,62 +29,40 @@ var monthlyRows = $(".monthly-row");
 var nonYearlyRows = $(".non-yearly-row");
 
 //variables for event tracker functionality
-var traverseClicks = 0;
+var traverseDays = 0;
 var eventView = "weekly";
 var forLoopCycles;
 
-//function to set up event calendar to have data rendered to it
-function setUpEventCalendar()
+function setUpEventCalendar() //function to determine how many iterations the for loop will run for
 {
   //determine how many event blocks to display based on zoom level
-  if (eventView === "weekly") //displays 14 blocks if event view is set to weekly
+  if (eventView === "weekly") //displays 14 blocks across two rows if event view is set to weekly
   {
     monthlyRows.attr("style", "display: none");
     forLoopCycles = 14;
   }
   else if (eventView === "monthly") //displays 28-42 blocks if event view is set to monthly
   {
-    //multi-if statement when in monthly view
-    //if days in month = 28 & first day of month is sunday, for loop runs for 28 blocks (hides row 5 & 6)
-    //if days in month = 31 & first day of month is friday / saturday for loop runs for 42 blocks
-    //if days in month = 30 & first day of month is saturday, for loop runs for 42 blocks
-    //otherwise, for loop runs for 35 blocks (hides row 6)
+    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
 
-    //retrieves ID (date) of last day in first row of event planner
-    lastDayOfFirstRow = $("#row-1").children()[6].id;
-
-    //NOTE - THERE IS A BUG WHERE THE CALENDAR WILL NOT ADJUST ROWS WHEN IT SHOULD BECAUSE YOU RETRIEVE THE LAST DAY FO FIRST ROW
-    //BEFORE YOU RENDER THE NEW DATES WHEN TRAVERSING WITH ARROWS; CONSIDER SEPARATING SHOWING ROWS AND SETTING LOOP CYCLES SUCH
-    //THAT YOU CAN PUT THE FORMER AFTER TRAVERSAL IS COMPLETE, AND THE LATTER BEFORE
-
-    //determines how many rows of days should be displayed
     if (dayjs(lastDayOfFirstRow).daysInMonth() === 28 && dayjs(lastDayOfFirstRow).startOf("month").day() === 0)
     {
-      //if there are 28 days in the current month & the month starts on a sunday, display four rows & 28 days total
+      //if there are 28 days in current month & month starts on sunday, run for 28 iterations across four rows
       rowThree.attr("style", "display: block");
       rowFour.attr("style", "display: block");
       rowFive.attr("style", "display: none");
+      rowSix.attr("style", "display: none");
       forLoopCycles = 28;
     }
-    else if (dayjs(lastDayOfFirstRow).daysInMonth() >= 30 && dayjs(lastDayOfFirstRow).startOf("month").day() === 6)
+    else if ((dayjs(lastDayOfFirstRow).daysInMonth() >= 30 && dayjs(lastDayOfFirstRow).startOf("month").day() === 6)
+           ||(dayjs(lastDayOfFirstRow).daysInMonth() === 31 && dayjs(lastDayOfFirstRow).startOf("month").day() === 5))
     {
-      //if there are at least 30 days in a month & the month starts on a saturday, display six rows & 42 days total
-      rowThree.attr("style", "display: block");
-      rowFour.attr("style", "display: block");
-      rowFive.attr("style", "display: block");
-      rowSix.attr("style", "display: block");
+      //if there are at least 30 days in current month & month starts on saturday
+      //OR if there are 31 days in current month & month starts on friday, run for 42 iterations across six rows
+      monthlyRows.attr("style", "display: block");
       forLoopCycles = 42;
     }
-    else if (dayjs(lastDayOfFirstRow).daysInMonth() === 31 && dayjs(lastDayOfFirstRow).startOf("month").day() === 5)
-    {
-      //if there are 31 days in a month & the month starts on a friday, display six rows & 42 days total
-      rowThree.attr("style", "display: block");
-      rowFour.attr("style", "display: block");
-      rowFive.attr("style", "display: block");
-      rowSix.attr("style", "display: block");
-      forLoopCycles = 42;
-    }
-    else //otherwise, display five rows & 35 days total
+    else //otherwise, run for 35 iterations across five rows
     {
       rowThree.attr("style", "display: block");
       rowFour.attr("style", "display: block");
@@ -83,9 +70,6 @@ function setUpEventCalendar()
       rowSix.attr("style", "display: none");
       forLoopCycles = 35;
     }
-
-    //CALCULATE DIFFERENCE BETWEEN SUNDAY OF FIRST ROW INCLUDING MONTH AND SUNDAY OF CURRENT WEEK
-    //THE ABOVE NUMBER WILL BE A MULTIPLE OF SEVEN, AND THUS TRAVERSE DAYS CAN BE SET = TO IT
   }
   else //displays 365 event blocks (366 on a leap year) if event view is set to yearly
   {
@@ -123,14 +107,14 @@ function setUpEventCalendar()
   }
 }
 
-//function to assign dates to each event block
-function renderEventPlanner()
+function renderEventPlanner() //function render event calendar content
 {
   //HEY ETHAN, YOU WILL PROBABLY PUT AN IF STATEMENT HERE TO CHANGE HOW EVENTBLOCKS IS DEFINED IN THE YEARLY VIEW, AS YOU'LL HAVE TO GET THE CHILDREN OF EACH MONTH
   //CONSIDER HAVING ALL THE BLOCKS IN PLACE IN HTML, AND INSTEAD OF USING EVENTBLOCKS.LENGTH IN THE FOR LOOP,
   //YOU DO DAY < 14 FOR THE (BI)-WEEKLY VIEW, ETC... FOR MONTHS & YEARS
   var eventBlocks = $(".event-row").children();
 
+  //determines how many iterations the upcoming for loop will run for, and how many rows of event blocks will be displayed
   setUpEventCalendar();
 
   //dayjs(dayjs().date(1)).format("ddd") -> day of week for first day of month
@@ -145,7 +129,7 @@ function renderEventPlanner()
 
     //date of block is adjusted such that blocks will go from sunday -> saturday
     //shifted forward / backward based on how many times the user has clicked the traverse buttons and in which direction
-    var date = dayjs().add(day + traverseClicks - dayjs().day(), "d").format("YYYY/MM/D");
+    var date = dayjs().add(day + traverseDays - dayjs().day(), "d").format("YYYY/MM/D");
     block.attr("id", date)
 
     //removes the year and month from date string and sets the block's date text to that
@@ -153,19 +137,62 @@ function renderEventPlanner()
   }
 }
 
-//function to change zoom level of event view
-function switchEventZoom(zoomButton)
+function traverseBlocks(direction) //function to manage traversing event blocks using left & right buttons
+{
+  if (direction === "left")
+  {
+    if (eventView === "weekly")
+    {
+      traverseDays -= 7;
+    }
+    else if (eventView === "monthly")
+    {
+      var lastDayOfFirstRow = $("#row-1").children()[6].id;
+      var firstDayOfFirstRow = $("#row-1").children()[0].id;
+    }
+  }
+  else
+  {
+    if (eventView === "weekly")
+    {
+      traverseDays += 7;
+    }
+    else if (eventView === "monthly")
+    {
+      
+    }
+  }
+
+  //FOR MONTH TRAVERSING
+  //get dayjs of last day of first row
+  //use that month as an anchor point, and add one month via dayjs
+  //get last day of first row of this new month
+  //CONT.
+
+  renderEventPlanner();
+}
+
+function switchEventZoom(zoomButton) //function to change zoom level of event view
 {
   //preserve how far the user has traversed when zooming in / out
     //convert variable based on factor of time difference between weeks / months / years (e.g. x / 12 when going months -> years)(?)
     //get dayJS of any visible day and use it as an anchor point(?)
     //check to see if you can use get + set methods in dayJS or some sort of extension for this
-  //try dividing traverseClicks by factor difference between weeks -> months / months -> years & then truncating
+  //try dividing traverseDays by factor difference between weeks -> months / months -> years & then truncating
   
-  if (zoomButton === "in") //checks if the user clicked the zoom in button
+  if (zoomButton === "out") //checks if the user clicked the zoom out button
   {
     if (eventView === "weekly") //if the planner is currently in weekly view, switch to monthly view
     {
+      var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+
+      var monthOfLastDay = dayjs(lastDayOfFirstRow).startOf("month"); //retrieves first day of month containing lastDayOfFirstRow
+      var sundayOfMonthStart = dayjs(monthOfLastDay).startOf("week"); //retrieves sunday of week containing monthOfLastDay
+      var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
+      
+      //changes traverseDays such that calendar will start at the week containing first day of the month currently being viewed
+      traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
+
       eventView = "monthly"
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to yearly view
@@ -173,7 +200,7 @@ function switchEventZoom(zoomButton)
       eventView = "yearly"
     }
   }
-  else //if they did not, then they clicked the zoom out button
+  else //if they did not, then they clicked the zoom in button
   {
     if (eventView === "yearly") //if the planner is currently in yearly view, switch to monthly view
     {
@@ -185,7 +212,6 @@ function switchEventZoom(zoomButton)
     }
   }
 
-  //re-renders event planner to account for changes in zoom
   renderEventPlanner();
 }
 
@@ -195,15 +221,13 @@ renderEventPlanner();
 //moves event calendar one week backward when left arrow is clicked
 traverseLeft.on("click", function()
 {
-  traverseClicks -= 7;
-  renderEventPlanner();
+  traverseBlocks("left");
 });
 
 //moves event calendar one week forward when left arrow is clicked
 traverseRight.on("click", function()
 {
-  traverseClicks += 7;
-  renderEventPlanner();
+  traverseBlocks("right");
 });
 
 //moves event calendar one week forward when left arrow is clicked
@@ -217,9 +241,6 @@ zoomOut.on("click", function()
 {
   switchEventZoom("out");
 });
-
-
-
 
 /* Stavros's code here */
 
