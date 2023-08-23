@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/15
+Last Edited 2023/08/21
 -->
 
 <!DOCTYPE html>
@@ -11,18 +11,16 @@ Last Edited 2023/08/15
 
 <head>
 
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Personal Information Hub</title>
+	<meta charset = "UTF-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+	<meta http-equiv = "X-UA-Compatible" content = "ie=edge"/>
+	<link rel = "stylesheet" href = "./assets/css/reset.css">
+	<link rel = "stylesheet" href = "./assets/css/style.css">
+	<title>Personal Information Hub</title>
 
 </head>
 
 <body>
-  
-  <input type="text" id="city-search">
-  <button id="add-city-button">✓</button>
 
   <div id="current-day-weather">
     <div id="current-temp"></div>
@@ -33,7 +31,178 @@ Last Edited 2023/08/15
   <div id="five-day-forecast">
   </div>
 
-  <script src="./assets/scripts/script.js"></script>
+
+
+<!--ETHAN'S CODE BELOW-->
+
+<div id = "event-planner-content">
+
+	<div id = "event-creator">
+
+		<input id = "event-input">
+		<input id = "event-date-picker">
+		<button id = "add-event-button">Add</button>
+
+	</div>
+
+	<div id = zoom-button-wrapper>
+
+		<button id = "zoom-out">-</button>
+		<button id = "zoom-in">+</button>
+
+	</div>
+
+	<div id = "calendar-button-wrapper">
+
+		<div class = "traverse-button-wrapper">
+
+			<button id = "traverse-left"><</button>
+		
+		</div>
+
+		<div id = "event-calendar">
+
+			<div id = "day-names">
+
+				<p>Sun</p>
+				<p>Mon</p>
+				<p>Tue</p>
+				<p>Wed</p>
+				<p>Thu</p>
+				<p>Fri</p>
+				<p>Sat</p>
+
+			</div>
+
+			<div id = "row-1" class = "event-row">
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+			</div>
+
+			<div id = "row-2" class = "event-row">
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+
+				<div class = "event-block">
+
+					<p class = "date"></p>
+					<ul class = "events"></ul>
+					
+				</div>
+			</div>
+
+			<div id = "row-3" class = "event-row"></div>
+			<div id = "row-4" class = "event-row"></div>
+			<div id = "row-5" class = "event-row"></div>
+			<div id = "row-6" class = "event-row"></div>
+
+		</div>
+
+		<div class = "traverse-button-wrapper">
+
+			<button id = "traverse-right">></button>
+
+		</div>
+	</div>
+</div>
+
+<!--STAVROS' CODE BELOW-->
+
+
+
+<!--LINKING SCRIPTS-->
+
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity = "sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin = "anonymous"></script>
+<script src = "./assets/scripts/script.js"></script>
+
 </body>
 
 </html>
