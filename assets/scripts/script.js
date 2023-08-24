@@ -403,6 +403,45 @@ zoomOut.on("click", function()
 /* Stavros's code here */
 
 
+// adding the variables for the Youtube API as well as the channel ID
+
+var channelId = 'UCuFFtHWoLl5fauMMD5Ww2jA';
+var ytapiKey = 'AIzaSyCDB2oab3fR-AMCm0dmxoQO8YttA2Ls0Pc';
+
+
+//I will now write the function to fetch the videos from the CBC news Youtube channel to recieve their most recent videos and embed it in the webpage
+
+function fetchVideos() {
+    var videosDiv = document.getElementById('videos');
+
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=5&key=${ytapiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            videosDiv.innerHTML = '';
+
+            data.items.forEach(video => {
+                var videoId = video.id.videoId;
+
+                var iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                iframe.width = '560';
+                iframe.height = '315';
+
+                var videoDiv = document.createElement('div');
+                videoDiv.className = 'video-box';
+                videoDiv.appendChild(iframe);
+
+                videosDiv.appendChild(videoDiv);
+            });
+        })
+        .catch(error => console.error(error));
+}
+
+// Fetch videos on page load instead of every 60 seconds or other variable
+fetchVideos();
+
+
+
 /* Wesley's code here */
 
 
