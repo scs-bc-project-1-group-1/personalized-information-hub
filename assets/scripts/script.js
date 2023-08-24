@@ -119,6 +119,7 @@ function getApi() {
     humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
     windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees';
+    inputCity.value='';
     sevenDayForecast(data.latitude, data.longitude);
   });
 
