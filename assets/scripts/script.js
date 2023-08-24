@@ -8,7 +8,6 @@ Last Edited 2023/08/24
 /* Ethan's code here */
 
 //NEXT TO DO
-//add traversing between years
 //add event creation
 //add event deletion
 //add saving events to local storage
