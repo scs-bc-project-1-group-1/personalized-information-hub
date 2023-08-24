@@ -187,9 +187,14 @@ function updateMonthYearHeader(firstDay)
   {
     monthYear.text(dayjs(firstDay).format("YYYY")); //updates month / year header above calendar based on year of firstDay
   }
-  else //otherwise, update the text with the appropriate month & year
+  else if (eventView === "monthly") //if event planner is set to monthly view, update the text with the appropriate month & year
   {
     monthYear.text(dayjs(firstDay).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of firstDay
+  }
+  else //otherwise (i.e. event planner is in weekly view), update the text with the appropriate month & year
+  {
+    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of lastDayOfFirstRow
   }
 }
 
@@ -303,12 +308,12 @@ function switchEventZoom(zoomButton)
     //check to see if you can use get + set methods in dayJS or some sort of extension for this
   //try dividing traverseDays by factor difference between weeks -> months / months -> years & then truncating
   
+  var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+  var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
+  var firstDay; //variable to hold first day of new month / year when traversing
+
   if (zoomButton === "out") //checks if the user clicked the zoom out button
   {
-    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
-    var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-    var firstDay; //variable to hold first day of new month / year when traversing
-
     if (eventView === "weekly") //if the planner is currently in weekly view, switch to monthly view
     {
       var monthOfLastDay = dayjs(lastDayOfFirstRow).startOf("month"); //retrieves first day of month containing lastDayOfFirstRow
@@ -316,6 +321,8 @@ function switchEventZoom(zoomButton)
       
       //changes traverseDays such that calendar will start at the week containing first day of the month currently being viewed
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
+
+      firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
 
       eventView = "monthly"
     }
@@ -332,12 +339,20 @@ function switchEventZoom(zoomButton)
     if (eventView === "yearly") //if the planner is currently in yearly view, switch to monthly view
     {
       firstDayOfYear = dayjs(monthYear.text()).startOf("year"); //retrieves first day of year currently being viewed
+      var sundayOfYearStart = dayjs(firstDayOfYear).startOf("week"); //retrieves sunday of week containing firstDayOfYear
+
+      //changes traverseDays such that calendar will start at the week containing first day of the year currently being viewed
+      traverseDays = sundayOfYearStart.diff(sundayOfThisWeek, "day");
+
       firstDay = firstDayOfYear //sets firstDay to first day of the year currently being viewed
 
       eventView = "monthly"
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
+      var monthOfLastDay = dayjs(lastDayOfFirstRow).startOf("month"); //retrieves first day of month containing lastDayOfFirstRow
+      firstDay = monthOfLastDay; //sets first day to first day of month currently being viewed
+
       eventView = "weekly"
     }
   }
