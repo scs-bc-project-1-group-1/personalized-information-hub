@@ -331,6 +331,9 @@ function switchEventZoom(zoomButton)
   {
     if (eventView === "yearly") //if the planner is currently in yearly view, switch to monthly view
     {
+      firstDayOfYear = dayjs(monthYear.text()).startOf("year"); //retrieves first day of year currently being viewed
+      firstDay = firstDayOfYear //sets firstDay to first day of the year currently being viewed
+
       eventView = "monthly"
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
