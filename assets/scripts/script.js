@@ -94,9 +94,14 @@ var inputCity = document.getElementById('city-search');
 var currentDay = document.getElementById('current-date');
 var clearCityInput = document.getElementById('clear-city');
 
+// var weatherIcon = document.getElementById('weather-icon');
+
 
 function clearCity() {
   localStorage.clear();
+
+  currentDayWeather.innerHTML = "";
+
 }
 
 clearCityInput.addEventListener('click', clearCity);
