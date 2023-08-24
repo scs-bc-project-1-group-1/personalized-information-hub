@@ -31,16 +31,12 @@ var rowSix = $("#row-6")
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
 
-//REMEMBER TO WIPE ALL YEARLY VIEW DAY DATA WHEN CHANGING YEARS
-//SINCE THERE WILL BE UNUSED DIVS IN THE SAME MONTHS IN SOME YEARS BUT NOT OTHERS
-//THERE MAY BE CASES WHERE DAYS REMAIN WHEN THEY SHOULD BE GONE
-
 //variables for event tracker functionality
 var traverseDays = 0;
 var eventView = "weekly";
 var forLoopCycles;
 
-//function to determine how many iterations the for loop will run for
+//function to set up event calendar
 function setUpEventCalendar(firstDay)
 {
   //determine how many event blocks to display based on zoom level
@@ -77,7 +73,7 @@ function setUpEventCalendar(firstDay)
       forLoopCycles = 35;
     }
   }
-  else //displays 365 event blocks (366 on a leap year) if event view is set to yearly
+  else //hides monthly / weekly calendar & displays yearly calendar if event view is set to yearly
   {
     //for yearly view, have three rows with four divs each (three rows of four months)
     //each month div has six divs within (one for possible row of weeks)
@@ -101,19 +97,11 @@ function setUpEventCalendar(firstDay)
         //repeats for the remaining ten months
     //traverse buttons uses .add() method to add / subtract a year with each click in either direction
 
-    //add empty divs to first row of month such that the days hug the right side
-      //if internal counter = 4 at start, i.e. first day = wednesday
-      //add empty divs in a for loop until you reach internal counter, at which point you stop and proceed to add real days
-
     //traverse will need to return first day of year as firstDay variable to be processed by other functions
-
-    //https://day.js.org/docs/en/plugin/day-of-year -> DAY OF YEAR PLUGIN
 
     //when checking if a date in the yearly view should be highlighted, check if a local storage entry
     //exists for the date ID assigned to that date
     //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
-
-
 
     //displays yearly calendar & hides weekly / monthly calendar
     weeklyMonthlyCalendar.attr("style", "display: none");
@@ -131,30 +119,16 @@ function setUpEventCalendar(firstDay)
   return blocks;
 }
 
-//function to update month / year header above calendar
-function updateMonthYearHeader()
-{
-  if (eventView === "yearly") //if event planner is set to yearly view, update the text with the appropriate year
-  {
-
-  }
-  else //otherwise, update the text with the appropriate month & year
-  {
-    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
-    monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of last day of first row
-  }
-}
-
 //function to render and add dates to relevant blocks
 function renderBlockDetails(blocks, firstDay)
 {
   if (eventView === "yearly") //if event planner is set to yearly view, create elements representing each day as such
   {
+    monthBlocks.children(".date-row").text(""); //clears any already-existing dates
     var dayOfWeek = firstDay.day(); //retrieves which day of the week firstDay is
     var daysPast = 0; //variable to track how many days of the current year have been added
-    monthBlocks.children("div").text(""); //clears any already-existing dates
-
-    for (month = 0; month < 12; month++)
+    
+    for (month = 0; month < 12; month++) //for loop to create days for each month of the year
     {
       //sets number of for loop cycles to number of days in current month
       forLoopCycles = dayjs(firstDay).add(month, "month").daysInMonth(); 
@@ -163,71 +137,69 @@ function renderBlockDetails(blocks, firstDay)
       for (div = 0; div < dayOfWeek; div++) 
       {
         var emptyDiv = $("<div></div>"); //creates empty div
-        var firstWeekOfMonth = $(monthBlocks[month]).children()[0]; //gets reference to first week of current month
+        var firstWeekOfMonth = $(monthBlocks[month]).children()[1]; //gets reference to first week of current month (+1 to avoid month name div)
         firstWeekOfMonth.append(emptyDiv[0]) //adds empty div to first week of current month
       }
 
       var weekOfMonth = 0; //variable to track which week of the month new date element should be added to
 
-      for (day = 0; day < forLoopCycles; day++)
+      for (day = 0; day < forLoopCycles; day++) //for loop to create days of current month
       {
         var block = $("<div></div>"); //creates empty div
-        var week = $(monthBlocks[month]).children()[weekOfMonth];
-        var date = dayjs(firstDay).add(day + daysPast, "d").format("YYYY/MM/D");
-
-        //THE ISSUE IS THAT IT'S MODIFYING THE OBJECT OF THE DIV AND NOT THE TEXT (OR SOMETHING)
-        //FIGURE IT OUT BELOW (PROBABLY)
-        block.attr("id", date);
+        var week = $(monthBlocks[month]).children()[weekOfMonth + 1]; //gets reference to current week of month (+1 to avoid month name div)
+        var date = dayjs(firstDay).add(day + daysPast, "d").format("YYYY/MM/D"); //retrieves date of current day being added
+        block.attr("id", date); //assigns current day's date as an ID
         block.text(date.slice(8)); //removes the year and month from date string and sets the block's date text to that
-        week.append(block[0]);
-
+        week.append(block[0]); //adds new day to appropriate week
         dayOfWeek++; //increase dayOfWeek by 1
 
-        //
-        if (dayOfWeek > 6)
+        if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
-          dayOfWeek = 0
-          console.log("reset dayOfWeek");
-          weekOfMonth++;
+          dayOfWeek = 0 //reset day of week to 0 (sunday)
+          weekOfMonth++; //proceeds to next week in current month
         }   
       }
 
-      daysPast += forLoopCycles; //increase daysPast variable once for every day
+      daysPast += forLoopCycles; //increase daysPast variable once for each day added
     }
   }
-  else //otherwise (event planner is set to weekly / monthly view),
+  else //otherwise (event planner is set to weekly / monthly view), add days to already-existing day-week structure as such
   {
-    //assigns an ID to each block such that they will represent consecutive days of the week, starting at the most recent sunday
+    //assigns an ID to & modifies text of each block such that they will represent consecutive days of the week, starting at the most recent sunday
     for (day = 0; day < forLoopCycles; day++) 
     {
-      var block = $(blocks[day]);
+      var block = $(blocks[day]); //gets reference to current day being implemented
 
       //date of block is adjusted such that blocks will go from sunday -> saturday
       //shifted forward / backward based on how many times the user has clicked the traverse buttons and in which direction
       var date = dayjs().add(day + traverseDays - dayjs().day(), "d").format("YYYY/MM/D");
-      block.attr("id", date)
 
-      //removes the year and month from date string and sets the block's date text to that
-      block.children(".date").text(date.slice(8))
+      block.attr("id", date) //assigns current day's date as an ID
+      block.children(".date").text(date.slice(8)) //removes the year and month from date string and sets the block's date text to that
     }
+  }
+}
+
+//function to update month / year header above calendar
+function updateMonthYearHeader(firstDay)
+{
+  if (eventView === "yearly") //if event planner is set to yearly view, update the text with the appropriate year
+  {
+    monthYear.text(dayjs(firstDay).format("YYYY")); //updates month / year header above calendar based on year of firstDay
+  }
+  else //otherwise, update the text with the appropriate month & year
+  {
+    monthYear.text(dayjs(firstDay).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of firstDay
   }
 }
 
 //function render event calendar content
 function renderEventPlanner(firstDay)
 {
-  //HEY ETHAN, YOU WILL PROBABLY PUT AN IF STATEMENT HERE TO CHANGE HOW EVENTBLOCKS IS DEFINED IN THE YEARLY VIEW, AS YOU'LL HAVE TO GET THE CHILDREN OF EACH MONTH
-  //CONSIDER HAVING ALL THE BLOCKS IN PLACE IN HTML, AND INSTEAD OF USING EVENTBLOCKS.LENGTH IN THE FOR LOOP,
-  //YOU DO DAY < 14 FOR THE (BI)-WEEKLY VIEW, ETC... FOR MONTHS & YEARS
-
-  //eventBlocks is returned by setUpEventCalendar
-  //eventBlocks is the children of $(".event-row") if in monthly / weekly view
-  //eventBlocks is the children of $(".month-row") if in yearly view
-
   //determines how many iterations the upcoming for loop will run for, and how many rows of event blocks will be displayed
   var blocks = setUpEventCalendar(firstDay);
 
-  //
+  //renders & assigns dates to calendar
   renderBlockDetails(blocks, firstDay);
 
   /* var lastDayOfFirstRow = $("#row-1").children()[6].id;
@@ -263,7 +235,8 @@ function renderEventPlanner(firstDay)
       //use a for loop running for iterations equal to the length of the list
       //.find() days which have an ID matching
 
-  updateMonthYearHeader();
+  //updates month / year header above calendar
+  updateMonthYearHeader(firstDay);
 }
 
 //function to manage traversing event blocks using left & right buttons
@@ -318,7 +291,7 @@ function traverseBlocks(direction)
     }
   }
 
-  renderEventPlanner(firstDay); //updates event planner
+  renderEventPlanner(firstDay); //updates event planner to reflect the changes above
 }
 
 //function to change zoom level of event view
@@ -349,11 +322,6 @@ function switchEventZoom(zoomButton)
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to yearly view
     {
       var yearOfLastDay = dayjs(lastDayOfFirstRow).startOf("year"); //retrieves first day of year containing lastDayOfFirstRow
-      var sundayOfYearStart = dayjs(yearOfLastDay).startOf("week"); //retrieves sunday of week containing yearOfLastDay
-
-      //changes traverseDays such that calendar will start at the week containing first day of the year currently being viewed
-      traverseDays = sundayOfYearStart.diff(sundayOfThisWeek, "day");
-
       firstDay = yearOfLastDay; //sets firstDay to first day of year
       
       eventView = "yearly"
@@ -374,7 +342,7 @@ function switchEventZoom(zoomButton)
   //ZOOMING IN FROM YEARLY -> MONTHLY
   //get text of month / year header (in yearly view, it will just be the year)
   //use dayJS to get a reference to january of that year
-  //get the first sunday containing january first
+  //get the first sunday containing january 1st
   //set traverseDays to the difference between the sunday of this week and the above sunday
 
   renderEventPlanner(firstDay);
