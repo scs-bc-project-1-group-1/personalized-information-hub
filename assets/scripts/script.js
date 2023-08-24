@@ -96,7 +96,7 @@ var currentDay = document.getElementById('current-date');
 
 function getApi() {
   var city = inputCity.value;
-  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
+  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric&iconSet=icons2`
   console.log(queryUrl);
 
 
@@ -107,6 +107,12 @@ function getApi() {
   .then(function (data) {
     console.log('Fetch Response \n-------------');
     console.log(data);
+    var weatherConditions = data.currentConditions.icon;
+    var weatherIcon = document.createElement('img');
+    weatherIcon.setAttribute('id', 'weather-icon');
+    var weatherImage = document.getElementById('weather-icon');
+    var imageLink = "./assets/images/WeatherIcons-main/SVG/2nd Set - Color/" + weatherConditions + ".svg";
+    weatherImage = imageLink;
     temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
