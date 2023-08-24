@@ -26,6 +26,7 @@ var rowThree = $("#row-3")
 var rowFour = $("#row-4")
 var rowFive = $("#row-5")
 var rowSix = $("#row-6")
+var eventBlocks = $(".event-block");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
 
@@ -319,6 +320,7 @@ function switchEventZoom(zoomButton)
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
 
       firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
+      eventBlocks.css({"min-height": "", "height": "150px"}) //removes min-height & sets a fixed height of 100px to all event day blocks
 
       eventView = "monthly"
     }
@@ -350,12 +352,16 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
+      eventBlocks.css({"min-height": "200px", "height": ""}) //removes fixed height & sets a min-height of 200px to all event day blocks
       eventView = "weekly"
     }
   }
 
   renderEventPlanner(firstDay);
 }
+
+//sets default height of event day blocks
+eventBlocks.css("min-height", "200px");
 
 //initializes event calendar view on current week
 renderEventPlanner();
