@@ -106,7 +106,19 @@ function getApi() {
   })
   .then(function (data) {
     console.log('Fetch Response \n-------------');
-    console.log(data.currentConditions.icon);
+    console.log(data);
+
+    // Get the current weather icon element if it exists
+    var existingWeatherIcon = document.getElementById('weather-icon');
+
+    // If the existing icon element exists, remove it
+    if (existingWeatherIcon) {
+        existingWeatherIcon.parentNode.removeChild(existingWeatherIcon);
+    }
+
+    var savedCity = document.querySelector("#city-search").value;
+    localStorage.setItem('savedCity', savedCity);
+
     var weatherConditions = data.currentConditions.icon;
     var weatherIcon = document.createElement('img');
     weatherIcon.setAttribute('id', 'weather-icon');
