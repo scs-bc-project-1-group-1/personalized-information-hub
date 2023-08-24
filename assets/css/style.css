@@ -35,7 +35,6 @@ Last Edited 2023/08/21
 /* Stavros CSS */
 
 
-
 .container {
     max-width:565px;
     margin: 10px;
@@ -50,7 +49,7 @@ Last Edited 2023/08/21
 
 
 .video-container {
-    display:table-row;
+    display:row;
     flex-wrap: wrap;
     justify-content:space-between;
     align-items: flex-end;
