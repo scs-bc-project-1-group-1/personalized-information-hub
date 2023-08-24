@@ -2,30 +2,123 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/21
+Last Edited 2023/08/24
 */
 
 
+/* ETHAN CSS */
 
-
-
-
-
-
-/* displays event calender as an in-line block element, such that the traverse buttons can sit on it's sides */
-#event-calendar
+/* sets all elements to include padding & border in element size */
+*
 {
-  display: inline-block;
+  box-sizing: border-box;
 }
 
 /* displays names of each day of the week horizontally in-line */
-#day-names p
+#day-names div
 {
-  display: inline-block;
+  width: 14.28%;
+  text-align: center;
+  display: inline;
+  float: left;
 }
 
 /* displays event blocks horizontally in-line within each week */
 .event-block
 {
-  display: inline-block;
+  width: 14.28%;
+  display: inline;
+  float: left;
+}
+
+#event-planner-content
+{
+  width: 60%;
+}
+
+#month-year
+{
+  display: flex;
+  justify-content: center;
+}
+
+#button-wrapper
+{
+  display: flex;
+  justify-content: center;
+}
+
+#button-wrapper button
+{
+  margin: 10px 5px 10px 5px;
+  padding: 5px 20px;
+  border-radius: 7px;
+  border: none;
+}
+
+/* displays month name in middle of parent block */
+.month-name
+{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+}
+
+.month-row
+{
+  display: flex;
+}
+
+/* displays four months in each row of yearly event view */
+.month-block
+{
+  width: 25%;
+  padding-bottom: 10px;
+}
+
+.date-row
+{
+  display: flex;
+  margin: 1% 3%;
+}
+
+/* each day in yearly view month blocks takes up 1 / 7th of month width */
+.date-row div
+{
+  width: 14.28%;
+  text-align: center;
+}
+
+/* Stavros CSS */
+
+
+.container {
+    max-width:565px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #232323;
+    display:grid;
+    flex-direction:column;
+    border-radius: 10px;
+    flex-grow:1;
+  
+}
+
+
+.video-container {
+    display:row;
+    flex-wrap: wrap;
+    justify-content:space-between;
+    align-items: flex-end;
+    margin-top: auto;
+}
+
+.video-box {
+    width: calc(100% - 5px);
+    margin-bottom: 10px;
+    border: 1px solid #5900ff;
+    border-radius: 5px;
+    overflow:hidden;
+  
 }
