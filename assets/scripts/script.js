@@ -92,11 +92,18 @@ var nextDays = document.getElementById('five-day-forecast');
 var windDirection = document.getElementById('current-wind-direction');
 var inputCity = document.getElementById('city-search');
 var currentDay = document.getElementById('current-date');
+var clearCityInput = document.getElementById('clear-city');
 
+
+function clearCity() {
+  localStorage.clear();
+}
+
+clearCityInput.addEventListener('click', clearCity);
 
 function getApi() {
   var city = inputCity.value;
-  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric&iconSet=icons2`
+  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
   console.log(queryUrl);
 
 
