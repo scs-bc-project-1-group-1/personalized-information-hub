@@ -8,7 +8,6 @@ Last Edited 2023/08/24
 /* Ethan's code here */
 
 //NEXT TO DO
-//add zooming between months & years
 //add traversing between years
 //add event creation
 //add event deletion
@@ -269,7 +268,9 @@ function traverseBlocks(direction)
     }
     else //otherwise (calendar is in yearly view), shift one year backwards
     {
-
+      firstDayOfYear = dayjs(monthYear.text()).startOf("year"); //retrieves first day of year currently being viewed
+      firstDayOfLastYear = dayjs(firstDayOfYear).subtract(1, "year").startOf("year") //retrieves first day of the year preceding the one currently being viewed
+      firstDay = firstDayOfLastYear; //sets first day to first day of year previous to the one currently being viewed
     }
   }
   else //if they did not, then they clicked the right button
@@ -292,7 +293,9 @@ function traverseBlocks(direction)
     }
     else //otherwise (calendar is in yearly view), shift one year forwards
     {
-      
+      firstDayOfYear = dayjs(monthYear.text()).startOf("year"); //retrieves first day of year currently being viewed
+      firstDayOfLastYear = dayjs(firstDayOfYear).add(1, "year").startOf("year") //retrieves first day of the year following the one currently being viewed
+      firstDay = firstDayOfLastYear; //sets first day to first day of year following the one currently being viewed
     }
   }
 
@@ -302,12 +305,6 @@ function traverseBlocks(direction)
 //function to change zoom level of event view
 function switchEventZoom(zoomButton)
 {
-  //preserve how far the user has traversed when zooming in / out
-    //convert variable based on factor of time difference between weeks / months / years (e.g. x / 12 when going months -> years)(?)
-    //get dayJS of any visible day and use it as an anchor point(?)
-    //check to see if you can use get + set methods in dayJS or some sort of extension for this
-  //try dividing traverseDays by factor difference between weeks -> months / months -> years & then truncating
-  
   var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
   var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
   var firstDay; //variable to hold first day of new month / year when traversing
@@ -333,6 +330,10 @@ function switchEventZoom(zoomButton)
       
       eventView = "yearly"
     }
+    else //otherwise (i.e. event planner is in yearly view), return early to prevent event planner from trying to re-render
+    {
+      return;
+    }
   }
   else //if they did not, then they clicked the zoom in button
   {
@@ -350,18 +351,9 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
-      var monthOfLastDay = dayjs(lastDayOfFirstRow).startOf("month"); //retrieves first day of month containing lastDayOfFirstRow
-      firstDay = monthOfLastDay; //sets first day to first day of month currently being viewed
-
       eventView = "weekly"
     }
   }
-
-  //ZOOMING IN FROM YEARLY -> MONTHLY
-  //get text of month / year header (in yearly view, it will just be the year)
-  //use dayJS to get a reference to january of that year
-  //get the first sunday containing january 1st
-  //set traverseDays to the difference between the sunday of this week and the above sunday
 
   renderEventPlanner(firstDay);
 }
