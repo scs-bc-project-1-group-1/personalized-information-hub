@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/21
+Last Edited 2023/08/24
 -->
 
 <!DOCTYPE html>
@@ -35,162 +35,511 @@ Last Edited 2023/08/21
 
 
 
-<!--ETHAN'S CODE BELOW-->
+<!--ETHAN'S CODE BELOW & WESLEY'S ABOVE-->
 
-<div id = "event-planner-content">
+<div id = "event-planner-content" class = "main-content-block">
 
 	<div id = "event-creator">
 
 		<input id = "event-input">
 		<input id = "event-date-picker">
-		<button id = "add-event-button">Add</button>
+		<button id = "add-event-button">Add Event</button>
 
 	</div>
 
-	<div id = zoom-button-wrapper>
+	<div id = "month-year"></div>
 
+	<div id = button-wrapper>
+
+		<button id = "traverse-left"><</button>
+		<button id = "traverse-right">></button>
 		<button id = "zoom-out">-</button>
 		<button id = "zoom-in">+</button>
 
 	</div>
 
-	<div id = "calendar-button-wrapper">
+	<div id = "weekly-monthly-calendar" class = "calendar-block">
 
-		<div class = "traverse-button-wrapper">
+		<div id = "day-names">
 
-			<button id = "traverse-left"><</button>
-		
-		</div>
-
-		<div id = "event-calendar">
-
-			<div id = "day-names">
-
-				<p>Sun</p>
-				<p>Mon</p>
-				<p>Tue</p>
-				<p>Wed</p>
-				<p>Thu</p>
-				<p>Fri</p>
-				<p>Sat</p>
-
-			</div>
-
-			<div id = "row-1" class = "event-row">
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-			</div>
-
-			<div id = "row-2" class = "event-row">
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-
-				<div class = "event-block">
-
-					<p class = "date"></p>
-					<ul class = "events"></ul>
-					
-				</div>
-			</div>
-
-			<div id = "row-3" class = "event-row"></div>
-			<div id = "row-4" class = "event-row"></div>
-			<div id = "row-5" class = "event-row"></div>
-			<div id = "row-6" class = "event-row"></div>
+			<div>Sun</div>
+			<div>Mon</div>
+			<div>Tue</div>
+			<div>Wed</div>
+			<div>Thu</div>
+			<div>Fri</div>
+			<div>Sat</div>
 
 		</div>
 
-		<div class = "traverse-button-wrapper">
+		<div id = "row-1" class = "event-row">
 
-			<button id = "traverse-right">></button>
+			<div class = "event-block">
 
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-2" class = "event-row">
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-3" class = "event-row monthly-row">
+
+			<div class = "event-block">
+
+				<p class = "date">test</p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-4" class = "event-row monthly-row">
+
+			<div class = "event-block">
+
+				<p class = "date">test</p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-5" class = "event-row monthly-row">
+
+			<div class = "event-block">
+
+				<p class = "date">test</p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+
+		<div id = "row-6" class = "event-row monthly-row">
+
+			<div class = "event-block">
+
+				<p class = "date">test</p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+
+			<div class = "event-block">
+
+				<p class = "date"></p>
+				<ul class = "events"></ul>
+				
+			</div>
+		</div>
+	</div>
+
+	<div id = "yearly-calendar" class = "calendar-block">
+
+		<div class = "month-row">
+
+			<div class = "month-block">
+
+				<div class = "month-name">January</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">February</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			
+
+			<div class = "month-block">
+
+				<div class = "month-name">March</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">April</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+		</div>
+
+		<div class = "month-row">
+
+			<div class = "month-block">
+
+				<div class = "month-name">May</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">June</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">July</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">August</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+		</div>
+
+		<div class = "month-row">
+
+			<div class = "month-block">
+
+				<div class = "month-name">September</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">October</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">November</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
+
+			<div class = "month-block">
+
+				<div class = "month-name">December</div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+				<div class = "date-row"></div>
+
+			</div>
 		</div>
 	</div>
 </div>
@@ -198,12 +547,10 @@ Last Edited 2023/08/21
 <!--STAVROS' CODE BELOW-->
 
 
-
+  
 	<div class="container">
 	<div id="videos" class="video-container"></div>
 	</div>
-
-
 
 
 <!--LINKING SCRIPTS-->
