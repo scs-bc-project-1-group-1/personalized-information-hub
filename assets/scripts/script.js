@@ -394,10 +394,26 @@ zoomOut.on("click", function()
 /* Stavros's code here */
 
 
-// adding the variables for the Youtube API as well as the channel ID
+
+// adding the variables for the Youtube API as well as the channel ID 
+//the youtube api is very straight forward when fetching videos
 
 var channelId = 'UCuFFtHWoLl5fauMMD5Ww2jA';
-var ytapiKey = 'AIzaSyCDB2oab3fR-AMCm0dmxoQO8YttA2Ls0Pc';
+var ytapiKey = 'AIzaSyBoyiJ4FMEcXbXXRVnFQFMIEH2ljt85RhU';
+
+//adding a function to save data to local storage
+
+//function to save data to local storage
+function saveToLocalStorage(key, data) {
+  
+  localStorage.setItem(key, JSON.stringify(data));
+}
+// Add a function to load the data from the local storage
+function loadFromLocalStorage(key) {
+
+  var data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
+}
 
 
 //I will now write the function to fetch the videos from the CBC news Youtube channel to recieve their most recent videos and embed it in the webpage
@@ -405,32 +421,43 @@ var ytapiKey = 'AIzaSyCDB2oab3fR-AMCm0dmxoQO8YttA2Ls0Pc';
 function fetchVideos() {
     var videosDiv = document.getElementById('videos');
 
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=5&key=${ytapiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            videosDiv.innerHTML = '';
+//A Check to see if the data is available in the local storage
+var storedData = loadFromLocalStorage('youtubeData');
+if (storedData){
 
-            data.items.forEach(video => {
-                var videoId = video.id.videoId;
+  renderVideos(storedData);
+} else {
+  fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=5&key=${ytapiKey}`)
+  .then (response => response.json())
+  .then(data => {
+     saveToLocalStorage('youtubeData', data);
+    renderVideos(data);
+  })
+  .catch(error => console.error(error));
+            }
+}
+function renderVideos(data) {
+  var videosDiv = document.getElementById('videos');
+  videosDiv.innerHTML = '';
 
-                var iframe = document.createElement('iframe');
-                iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                iframe.width = '560';
-                iframe.height = '315';
+  data.items.forEach(video => {
+      var videoId = video.id.videoId;
 
-                var videoDiv = document.createElement('div');
-                videoDiv.className = 'video-box';
-                videoDiv.appendChild(iframe);
+      var iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
+      iframe.width = '560';
+      iframe.height = '315';
 
-                videosDiv.appendChild(videoDiv);
-            });
-        })
-        .catch(error => console.error(error));
+      var videoDiv = document.createElement('div');
+      videoDiv.className = 'video-box';
+      videoDiv.appendChild(iframe);
+
+      videosDiv.appendChild(videoDiv);
+  });
 }
 
-// Fetch videos on page load instead of every 60 seconds or other variable
+// Fetch videos on page load
 fetchVideos();
-
 
 
 /* Wesley's code here */
