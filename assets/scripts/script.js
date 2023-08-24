@@ -106,13 +106,15 @@ function getApi() {
   })
   .then(function (data) {
     console.log('Fetch Response \n-------------');
-    console.log(data);
+    console.log(data.currentConditions.icon);
     var weatherConditions = data.currentConditions.icon;
     var weatherIcon = document.createElement('img');
     weatherIcon.setAttribute('id', 'weather-icon');
     var weatherImage = document.getElementById('weather-icon');
-    var imageLink = "./assets/images/WeatherIcons-main/SVG/2nd Set - Color/" + weatherConditions + ".svg";
-    weatherImage = imageLink;
+    weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+    currentDayWeather.appendChild(weatherIcon);
+    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
+    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
     temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
@@ -147,6 +149,16 @@ function getApi() {
         var rawDate = forecastList[i].datetime;
         var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {weekday: 'short' , month: 'long' , day: 'numeric'});
 
+
+        var weatherConditions = data.days[i].icon;
+        var weatherIcon = document.createElement('img');
+        weatherIcon.setAttribute('id', 'weather-icon');
+        var weatherImage = document.getElementById('weather-icon');
+        weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+        weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
+        weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+
+
         nextDaysDate.textContent = formattedDate;
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
@@ -157,6 +169,7 @@ function getApi() {
         dailyForecastContent.appendChild(nextDaysHumidity);
         dailyForecastContent.appendChild(nextDaysWind);
         dailyForecastContent.appendChild(nextDaysWindDirection);
+        dailyForecastContent.appendChild(weatherIcon);
 
         nextDays.appendChild(dailyForecastContent);
         console.log(data.length);
