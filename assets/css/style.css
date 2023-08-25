@@ -20,11 +20,6 @@ Last Edited 2023/08/24
   margin: 0px 10%;
 }
 
-.date
-{
-  text-align: center;
-}
-
 #month-year
 {
   display: flex;
@@ -54,12 +49,35 @@ Last Edited 2023/08/24
   float: left;
 }
 
+/* hides small whitespace between each event block */
+.event-row
+{
+  outline: solid 1px mediumslateblue;
+  font-size: 0px;
+}
+
 /* displays event blocks horizontally in-line within each week */
 .event-block
 {
   width: 14.28%;
-  display: inline;
-  float: left;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  outline: solid 1px mediumspringgreen;
+}
+
+.events > *
+{
+  white-space: nowrap;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75%;
+}
+
+.date
+{
+  text-align: center;
 }
 
 /* displays month name in middle of parent block */

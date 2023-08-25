@@ -8,6 +8,7 @@ Last Edited 2023/08/24
 /* Ethan's code here */
 
 //NEXT TO DO
+//text becomes ellipsis in monthly view but wraps in weekly view (INCLUDING BUTTON);
 //add event creation
 //add event deletion
 //add saving events to local storage
@@ -15,6 +16,8 @@ Last Edited 2023/08/24
 //update styles
 
 //gets references to HTML elements necessary for event tracker functionality
+var eventTextInput = $("#event-input");
+var eventDatePicker = $("#event-date-picker");
 var monthYear = $("#month-year");
 var weeklyMonthlyCalendar = $("#weekly-monthly-calendar");
 var yearlyCalendar = $("#yearly-calendar");
@@ -22,10 +25,12 @@ var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
 var zoomOut = $("#zoom-out");
-var rowThree = $("#row-3")
-var rowFour = $("#row-4")
-var rowFive = $("#row-5")
-var rowSix = $("#row-6")
+var rowOne = $("#row-1");
+var rowTwo = $("#row-2");
+var rowThree = $("#row-3");
+var rowFour = $("#row-4");
+var rowFive = $("#row-5");
+var rowSix = $("#row-6");
 var eventBlocks = $(".event-block");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
@@ -74,30 +79,6 @@ function setUpEventCalendar(firstDay)
   }
   else //hides monthly / weekly calendar & displays yearly calendar if event view is set to yearly
   {
-    //for yearly view, have three rows with four divs each (three rows of four months)
-    //each month div has six divs within (one for possible row of weeks)
-    //12 for loops (one for each month) adds horizontally-aligned dates to each week-row div
-      //dayjs checks if the currently viewed year is a leap year, running for 29 days instead of 28 for february
-    //each for loop has an internal counter that all share the same variable to keep track of which day of the week should be added to next
-    //before any of the for loops run, use dayjs().day() to retrieve which day of the week january 1st of that year is
-      //the value returned by the above will be the starting value of the internal shared counter
-      //counter will run from 0 -> 6 inside each for loop, transferring progress between for loops, and reset back to 0 every time it hits 6
-      //e.g. 0 -> added to sunday & variable++, 3 -> added to wednesday & variable++, 6 -> added to sunday & variable = 0
-      //this way, you just have to determine which day of the week january 1st is for each year + if it's a leap year
-      //e.g. 2024 is a leap year, january 1st is a monday;
-        //dayjs().day() returns 1 -> first day will be added to column [1], second day to column [2], etc...
-        //sixth day is added to column [6] (saturday), variable is reset to 0, and seventh day is added to column [0] (sunday)
-        //repeats till end of for loop for that month (31 days -> 31 iterations)
-        //for loop for february immediately follows, dayjs checks that 2024 is a leap year, so loop will run for 29 iterations
-        //last day of january is a wednesday, so first day of february should be a thursday
-        //for last iteration of january loop, variable === 3, day is added to wednesday column, variable++, i.e. variable is now == 4
-        //variable is preserved between loops, so first day of february will be added to column [4] (thursday column)
-        //internal counter picks up where january loop left off, i.e. second day added to column [5], etc...
-        //repeats for the remaining ten months
-    //traverse buttons uses .add() method to add / subtract a year with each click in either direction
-
-    //traverse will need to return first day of year as firstDay variable to be processed by other functions
-
     //when checking if a date in the yearly view should be highlighted, check if a local storage entry
     //exists for the date ID assigned to that date
     //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
@@ -179,6 +160,24 @@ function renderBlockDetails(blocks, firstDay)
   }
 }
 
+//function to 
+function adjustRowHeight()
+{
+  if (eventView === "weekly") //adjust height of day blocks in weekly view to match tallest day in that row
+  {
+    rowOne.children().css({"height": "", "min-height": "200px"});
+    rowTwo.children().css({"height": "", "min-height": "200px"});
+    
+    //retrieves pixel height of week one & two rows
+    rowOneHeight = rowOne[0].offsetHeight;
+    rowTwoHeight = rowTwo[0].offsetHeight;
+
+    //sets height of rows one & two to that of the tallest day in that row
+    rowOne.children().css("min-height", rowOneHeight);
+    rowTwo.children().css("min-height", rowTwoHeight);
+  }
+}
+
 //function to update month / year header above calendar
 function updateMonthYearHeader(firstDay)
 {
@@ -239,8 +238,9 @@ function renderEventPlanner(firstDay)
       //use a for loop running for iterations equal to the length of the list
       //.find() days which have an ID matching
 
-  //updates month / year header above calendar
-  updateMonthYearHeader(firstDay);
+  
+  adjustRowHeight(); //adjusts height of rows in each week
+  updateMonthYearHeader(firstDay); //updates month / year header above calendar
 }
 
 //function to manage traversing event blocks using left & right buttons
@@ -320,7 +320,7 @@ function switchEventZoom(zoomButton)
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
 
       firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
-      eventBlocks.css({"min-height": "", "height": "150px"}) //removes min-height & sets a fixed height of 100px to all event day blocks
+      eventBlocks.css({"min-height": "", "height": "100px"}); //removes min-height & sets a fixed height of 100px to all event day blocks
 
       eventView = "monthly"
     }
@@ -352,7 +352,6 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
-      eventBlocks.css({"min-height": "200px", "height": ""}) //removes fixed height & sets a min-height of 200px to all event day blocks
       eventView = "weekly"
     }
   }
@@ -360,8 +359,23 @@ function switchEventZoom(zoomButton)
   renderEventPlanner(firstDay);
 }
 
+function createEvent()
+{
+  //retrieve event name & date and store them in an object
+  //append object to local storage event data array
+  //
+
+
+}
+
+//adds datepicker widget to event date selection input
+$(function()
+{
+  eventDatePicker.datepicker();
+});
+
 //sets default height of event day blocks
-eventBlocks.css("min-height", "200px");
+//eventBlocks.css("min-height", "200px");
 
 //initializes event calendar view on current week
 renderEventPlanner();
