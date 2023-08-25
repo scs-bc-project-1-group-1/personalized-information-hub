@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/24
+Last Edited 2023/08/25
 */
 
 
@@ -67,12 +67,46 @@ Last Edited 2023/08/24
   outline: solid 1px mediumspringgreen;
 }
 
-.events > *
+.events div
 {
-  white-space: nowrap;  
+  width: 94%;
+  margin: 0px 3% 0px 3%;
+  padding: 3px 0px;
+}
+
+.events div li
+{
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: visible;
+  text-overflow: clip;
+  width: 90%;
+}
+
+.events.monthly div
+{
+  width: 94%;
+  margin: 0px 3% 0px 3%;
+  padding: 2px 0px;
+}
+
+.events.monthly div li
+{
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 75%;
+}
+
+.events div button
+{
+  font-size: 12px;
+  padding: 2px 0px;
+  border-radius: 3px;
+  border: none;
+  float: right;
+  vertical-align: middle;
+  width: 10%;
 }
 
 .date

@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/24
+Last Edited 2023/08/25
 */
 
 /* Ethan's code here */
@@ -32,6 +32,7 @@ var rowFour = $("#row-4");
 var rowFive = $("#row-5");
 var rowSix = $("#row-6");
 var eventBlocks = $(".event-block");
+var events = eventBlocks.children(".events");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
 
@@ -321,6 +322,7 @@ function switchEventZoom(zoomButton)
 
       firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
       eventBlocks.css({"min-height": "", "height": "100px"}); //removes min-height & sets a fixed height of 100px to all event day blocks
+      events.addClass("monthly"); //adds monthly class to event lists
 
       eventView = "monthly"
     }
@@ -352,6 +354,7 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
+      events.removeClass("monthly"); //removes monthly class from event lists
       eventView = "weekly"
     }
   }
