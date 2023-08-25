@@ -479,24 +479,38 @@ var windDirection = document.getElementById('current-wind-direction');
 var inputCity = document.getElementById('city-search');
 var currentDay = document.getElementById('current-date');
 var clearCityInput = document.getElementById('clear-city');
-
-// var weatherIcon = document.getElementById('weather-icon');
-
+var weatherContainer = document.getElementById('weather-container');
 
 function clearCity() {
   localStorage.clear();
-
-  currentDayWeather.innerHTML = "";
-
+  weatherContainer.style.display = "none";
 }
 
 clearCityInput.addEventListener('click', clearCity);
 
+if (localStorage) {
+  getApi();
+}
+
 function getApi() {
-  var city = inputCity.value;
+
+  if (localStorage && localStorage.getItem("savedCity")) {
+    var storedValue = localStorage.getItem("savedCity");
+    
+    city = storedValue;
+  
+  } else {
+
+    var city = inputCity.value;
+  }
+
+
   var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
   console.log(queryUrl);
 
+  if (weatherContainer.style.display === "none") {
+    weatherContainer.style.display = "block";
+  }
 
   fetch(queryUrl)
   .then(function (response) {
