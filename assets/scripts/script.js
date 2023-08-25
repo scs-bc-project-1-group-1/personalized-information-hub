@@ -250,9 +250,20 @@ function renderEventPlanner(firstDay)
       //use a for loop running for iterations equal to the length of the list
       //.find() days which have an ID matching
 
-  
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
+
+  //if firstDay has been defined, update default datepicker date to firstDay
+  if (firstDay)
+  {
+    eventDatePicker.datepicker("setDate", firstDay.format("YYYY/MM/D")); 
+  }
+  else //if it has not, set firstDay to first day of month currently being viewed, and set default datepicker date to firstDay
+  {
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
+    eventDatePicker.datepicker("setDate", firstDay.format("YYYY/MM/D")); 
+  }
 }
 
 //function to manage traversing event blocks using left & right buttons
@@ -370,7 +381,7 @@ function switchEventZoom(zoomButton)
     }
   }
 
-  renderEventPlanner(firstDay);
+  renderEventPlanner(firstDay); //updates event calendar
 }
 
 //function to take input event data
@@ -378,15 +389,13 @@ function createEvent()
 {
   //retrieves event name & date
   var eventName = eventTextInput.val();
-  var eventDateInput = eventDatePicker.val();
+  var eventDate = eventDatePicker.val();
 
   //if the user did not input both a name and date for the event, eject from function
-  if (!(eventName && eventDateInput))
+  if (!(eventName && eventDate))
   {
     return;
   }
-
-  eventDate = dayjs(eventDateInput).format("YYYY/MM/D")
 
   //attempts to retrieve entry for input date from local storage
   var localEventList = localStorage.getItem(eventDate);
@@ -397,7 +406,7 @@ function createEvent()
     eventList.push(eventName);
     localStorage.setItem(eventDate, JSON.stringify(eventList));
   }
-  else //if it does not exist, create an empty array and append the new event to it, and save the entry to local storage
+  else //if it does not exist, create an empty array, append the new event to it, and save the entry to local storage
   {
     var eventList = [];
     eventList.push(eventName);
@@ -417,11 +426,11 @@ function createEvent()
 //adds datepicker widget to event date selection input
 $(function()
 {
-  eventDatePicker.datepicker();
+  eventDatePicker.datepicker(
+  {
+    dateFormat: "yy/mm/d"
+  });
 });
-
-//sets default height of event day blocks
-//eventBlocks.css("min-height", "200px");
 
 //initializes event calendar view on current week
 renderEventPlanner();
