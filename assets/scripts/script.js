@@ -37,6 +37,8 @@ var events = eventBlocks.children(".events");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
 
+console.log(deleteButtons);
+
 //variables for event tracker functionality
 var traverseDays = 0;
 var eventView = "weekly";
@@ -81,10 +83,6 @@ function setUpEventCalendar(firstDay)
   }
   else //hides monthly / weekly calendar & displays yearly calendar if event view is set to yearly
   {
-    //when checking if a date in the yearly view should be highlighted, check if a local storage entry
-    //exists for the date ID assigned to that date
-    //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
-
     //displays yearly calendar & hides weekly / monthly calendar
     weeklyMonthlyCalendar.attr("style", "display: none");
     yearlyCalendar.attr("style", "display: block");
@@ -193,10 +191,6 @@ function renderBlockDetails(blocks, firstDay)
           block.children(".events").append(eventContainer); //adds div container to current day block
         }
       }
-
-      //if in weekly / monthly view
-        //when date id is calculated, check if a local storage entry exists for that date
-        //if yes, use a for loop to render an event entry to the block for each item in the array
     }
   }
 }
@@ -281,6 +275,7 @@ function renderEventPlanner(firstDay)
 
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
+  //deleteButtons = $(events.children("div")).children("button"); //updates references to event delete buttons
 
   //if firstDay has been defined, update default datepicker date to firstDay
   if (firstDay)
@@ -446,6 +441,49 @@ function createEvent()
   eventTextInput.val("");
   eventDatePicker.val("");
 
+  //gets a sample firstDay value
+  var firstDay = retrieveFirstDay();
+
+  renderEventPlanner(firstDay); //updates event calendar
+}
+
+function deleteEvent(buttonClicked)
+{
+  console.log("clicked");
+  
+  var buttonClicked = $(this); //gets a reference to the specific button that was clicked
+  var eventName = buttonClicked.siblings("li").text(); //gets event name from sibling list item
+  var eventContainer = buttonClicked.parent(); //gets parent div of buttonClicked
+  var eventList = eventContainer.parent(); //gets grandparent event list of buttonClicked
+  var eventDate = eventList.parent().attr("id"); //gets event date from id of parent event block
+  
+  var localStorageData = JSON.parse(localStorage.getItem(eventDate)); //retrieves event data of date associated with event block containing buttonClicked
+  
+  console.log(localStorageData);
+  console.log(eventContainer.index());
+  
+  localStorageData.splice(eventContainer.index(), 1); //removes entry matching index of eventContainer among its siblings from local storage
+
+  if (localStorageData.length === 0)
+  {
+    localStorage.removeItem(eventDate); 
+  }
+  else
+  {
+    localStorage.setItem(eventDate, JSON.stringify(localStorageData)); //updates local storage after removing appropriate entry
+  }
+
+  //gets a sample firstDay value
+  var firstDay = retrieveFirstDay();
+
+  renderEventPlanner(firstDay); //updates event calendar
+
+  console.log(deleteButtons);
+}
+
+//function to get a reference to a sample firstDay variable, used in other functions where firstDay is not referenced, but is followed up by functions that need it
+function retrieveFirstDay()
+{
   if (eventView === "yearly") //if eventView is set to yearly, set firstDay to first day of year being viewed
   {
     firstDay = dayjs(monthYear.text()).startOf("year");
@@ -455,8 +493,8 @@ function createEvent()
     var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
     var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
   }
-  
-  renderEventPlanner(firstDay); //updates event planner
+
+  return firstDay;
 }
 
 //adds datepicker widget to event date selection input
@@ -471,7 +509,13 @@ $(function()
 //initializes event calendar view on current week
 renderEventPlanner();
 
+//attempts to add an event when the add event button is clicked
 addEventButton.on("click", createEvent);
+
+var deleteButtons = $(events.children("div")).children("button"); //gets references to delete buttons attached to events
+
+//deletes an event when its associated 'X' button is clicked
+deleteButtons.on("click", deleteEvent);
 
 //moves event calendar one week backward when left arrow is clicked
 traverseLeft.on("click", function()
@@ -496,13 +540,6 @@ zoomOut.on("click", function()
 {
   switchEventZoom("out");
 });
-
-//purgeOldEvents function runs once, and deletes local storage data for events that passed over a month ago
-//you would probably have to put all events into a single object and name all sub-objects based on their date
-  //when a new event is created, the object is appended to the current list
-//function would perform a for loop which attempts to run through every event in the local storage list
-//if it finds a date > 30 days past, it is deleted
-//continues until it finds a date < 30 days past or a date ahead of today, at which point the loop returns to end early
 
 /* Stavros's code here */
 
