@@ -135,7 +135,12 @@ function renderBlockDetails(blocks, firstDay)
         week.append(block[0]); //adds new day to appropriate week
         dayOfWeek++; //increase dayOfWeek by 1
 
-        
+        //checks if there is a local storage entry for the current date, set its text colour to lavender
+        if (localStorage.getItem(date))
+        {
+          block.attr("style", "color: #b892ff");
+        }
+
         //if in yearly view
           //when date id is calculated, check if a local storage entry exists for that date
           //if yes, change the css colour of that day to lavender (or something)
@@ -165,6 +170,30 @@ function renderBlockDetails(blocks, firstDay)
       block.attr("id", date) //assigns current day's date as an ID
       block.children(".date").text(date.slice(8)) //removes the year and month from date string and sets the block's date text to that
       
+      //clears any pre-existing events in the current block
+      var eventList = block.children(".events");
+      eventList.empty();
+
+      //checks if there is a local storage entry for the current date
+      if (localStorage.getItem(date))
+      {
+        //if yes, retrieve it
+        var localEventData = localStorage.getItem(date);
+        eventData = JSON.parse(localEventData);
+
+        //for loop which runs through each event item in local storage for current date
+        for (eventItem = 0; eventItem < eventData.length; eventItem++)
+        {
+          var eventContainer = $("<div></div>"); //creates empty div
+          var eventName = $("<li></li>").text(eventData[eventItem]); //creates list item with text of current event
+          var xButton = $("<button></button>").text("X"); //creates 'X' button
+
+          eventContainer.append(eventName); //adds list item with event name to div container
+          eventContainer.append(xButton); //adds 'X' button to div container
+          block.children(".events").append(eventContainer); //adds div container to current day block
+        }
+      }
+
       //if in weekly / monthly view
         //when date id is calculated, check if a local storage entry exists for that date
         //if yes, use a for loop to render an event entry to the block for each item in the array
@@ -417,9 +446,16 @@ function createEvent()
   eventTextInput.val("");
   eventDatePicker.val("");
 
-  var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
-  var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
-
+  if (eventView === "yearly") //if eventView is set to yearly, set firstDay to first day of year being viewed
+  {
+    firstDay = dayjs(monthYear.text()).startOf("year");
+  }
+  else //otherwise, set it to the first day of the month currently being viewed
+  {
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
+  }
+  
   renderEventPlanner(firstDay); //updates event planner
 }
 
