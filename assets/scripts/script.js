@@ -21,6 +21,7 @@ var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
 var zoomOut = $("#zoom-out");
+var eventRows = $(".event-row");
 var rowOne = $("#row-1");
 var rowTwo = $("#row-2");
 var rowThree = $("#row-3");
@@ -36,6 +37,7 @@ var monthBlocks = $(".month-block");
 var traverseDays = 0;
 var eventView = "weekly";
 var forLoopCycles;
+var eventUpdated = false;
 
 //function to set up event calendar
 function setUpEventCalendar(firstDay)
@@ -181,19 +183,44 @@ function renderBlockDetails(blocks, firstDay)
       }
     }
 
-    //change all text colour of days not in current month in weekly / monthly view to gray
-    //e.g. month starts on tuesday, ends on thursday
-      //sunday & monday of first week + friday & saturday of last week are gray
-      //use two for loops which which run for up to 6 iterations, one to check every day of first week in monthly view (other than saturday), the other for every day of final week (other than sunday)
-        //get reference to lastDayOfFirstRow / firstDayOfNewMonth
-        //for each iteration, check if dayjs().month() of day being checked equals that of the above
-          //if yes, for loop returns to end early
-          //if not, colour the day being checked gray, and repeat until all reaches the start of the month being viewed, or all 6 days are grey
-        //counts up from 0 for first week checks (sunday -> friday), counts down from 6 for final week checks (saturday -> monday)
+    eventRows.children().removeClass("outside-month"); //removes any already-applied outside-month classes on certain days
+    var bottomRow; //variable to hold a reference to the bottom row of the month currently being viewed
+
+    if (forLoopCycles === 14) //if forLoopCycles is 14, i.e. event calendar is in weekly view, eject from function
+    {
+      return; 
+    }
+    else if (forLoopCycles === 28) //if forLoopCycles is 28, i.e. there are four rows of weeks, set the fourth row to be the bottom row
+    {
+      bottomRow = rowFour;
+    }
+    else if (forLoopCycles === 35) //if forLoopCycles is 35, i.e. there are five rows of weeks, set the fifth row to be the bottom row
+    {
+      bottomRow = rowFive;
+    }
+    else if (forLoopCycles === 42) //if forLoopCycles is 42, i.e. there are six rows of weeks, set the sixth row to be the bottom row
+    {
+      bottomRow = rowSix;
+    }
+
+    var dayOfWeek = firstDay.day(); //retrieves which day of the week firstDay of the month is
+    var lastDayOfMonth = firstDay.endOf("month").day(); //retrieves which day of the week last day of the month is
+
+    //for every day of the week that must be passed to reach firstDay (from sunday), change the text of an event block in the first row to gray, going from left to right
+    for (day = 0; day < dayOfWeek; day++) 
+    {
+      $(rowOne.children()[day]).addClass("outside-month") //change text in first row block with index equal to day to gray
+    }
+
+    //for every day of the week in the bottom row that isn't part of the current month, change its text to gray
+    for (day = lastDayOfMonth + 1; day < 7; day++)
+    {
+      $(bottomRow.children()[day]).addClass("outside-month"); //change text in bottom row block with index equal to day to gray
+    }
   }
 }
 
-//function to 
+//function to adjust height of all blocks in both rows of weekly view to match the tallest day in that row
 function adjustRowHeight()
 {
   if (eventView === "weekly") //adjust height of day blocks in weekly view to match tallest day in that row
@@ -240,6 +267,13 @@ function renderEventPlanner(firstDay)
 
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
+
+  //if this calendar re-render was caused by an event being added or deleted, do not change the default date of the datepicker, and reset the eventUpdated variable
+  if (eventUpdated)
+  {
+    eventUpdated = false;
+    return;
+  }
 
   //if firstDay has been defined, update default datepicker date to firstDay
   if (firstDay)
@@ -401,13 +435,13 @@ function createEvent()
     localStorage.setItem(eventDate, JSON.stringify(eventList));
   }
 
-  //clears event name & datepicker inputs
+  //clears event name inputs
   eventTextInput.val("");
-  eventDatePicker.val("");
 
   //gets a sample firstDay value
   var firstDay = retrieveFirstDay();
 
+  eventUpdated = true; //marks that the following calendar re-render was triggered by a change to events
   renderEventPlanner(firstDay); //updates event calendar
 }
 
@@ -443,6 +477,7 @@ function deleteEvent()
   //gets a sample firstDay value
   var firstDay = retrieveFirstDay();
 
+  eventUpdated = true; //marks that the following calendar re-render was triggered by a change to events
   renderEventPlanner(firstDay); //updates event calendar
 }
 
@@ -474,10 +509,10 @@ $(function()
 //initializes event calendar view on current week
 renderEventPlanner();
 
-//resets date of datepicker to current day when page is finished loading
+//resets date of datepicker to start of current month when page is finished loading
 window.addEventListener("load", function()
 {
-  eventDatePicker.datepicker("setDate", dayjs().format("YYYY/MM/D"));
+  eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
 });
 
 //attempts to add an event when the add event button is clicked

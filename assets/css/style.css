@@ -70,6 +70,11 @@ Last Edited 2023/08/25
   outline: solid 1px mediumspringgreen;
 }
 
+.outside-month
+{
+  color: #bbbbbb;
+}
+
 .events div
 {
   width: 94%;
@@ -90,7 +95,7 @@ Last Edited 2023/08/25
 .events.monthly div
 {
   width: 94%;
-  padding: 2px 0px;
+  padding: 0px;
 }
 
 .events.monthly div li
@@ -98,6 +103,7 @@ Last Edited 2023/08/25
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-bottom: 1.2px;
 }
 
 .events div button
