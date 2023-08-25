@@ -480,36 +480,43 @@ var inputCity = document.getElementById('city-search');
 var currentDay = document.getElementById('current-date');
 var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
+var city;
+
 
 function clearCity() {
-  localStorage.clear();
+  localStorage.removeItem('savedCity');
   weatherContainer.style.display = "none";
 }
 
 clearCityInput.addEventListener('click', clearCity);
 
-if (localStorage) {
+if (localStorage === null) {
+
+} else {
   getApi();
 }
 
 function getApi() {
-
-  if (localStorage && localStorage.getItem("savedCity")) {
+  console.log(inputCity);
+  if (inputCity.value === "") {
     var storedValue = localStorage.getItem("savedCity");
-    
     city = storedValue;
-  
-  } else {
-
-    var city = inputCity.value;
+  } else if (inputCity.value !== undefined){
+    city = inputCity.value; // Assuming inputCity is defined
+    localStorage.setItem('savedCity', inputCity.value);
   }
-
 
   var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
   console.log(queryUrl);
 
   if (weatherContainer.style.display === "none") {
     weatherContainer.style.display = "block";
+  }
+
+
+  if (city === null) {
+
+    return false;
   }
 
   fetch(queryUrl)
@@ -527,9 +534,6 @@ function getApi() {
     if (existingWeatherIcon) {
         existingWeatherIcon.parentNode.removeChild(existingWeatherIcon);
     }
-
-    var savedCity = document.querySelector("#city-search").value;
-    localStorage.setItem('savedCity', savedCity);
 
     var weatherConditions = data.currentConditions.icon;
     var weatherIcon = document.createElement('img');
