@@ -8,6 +8,9 @@ Last Edited 2023/08/25
 
 /* ETHAN CSS */
 
+/* NOTE; MAKE SURE TO GO OVER AND CONSOLIDATE ALL STYLES FOR BUTTONS
+   & INPUTS IN THIS SECTION TO SEE WHAT ENDS UP BEING APPLIED TO ALL */
+
 /* sets all elements to include padding & border in element size */
 *
 {
@@ -87,7 +90,6 @@ Last Edited 2023/08/25
 .events.monthly div
 {
   width: 94%;
-  margin: 0px 3% 0px 3%;
   padding: 2px 0px;
 }
 
@@ -105,7 +107,6 @@ Last Edited 2023/08/25
   border-radius: 3px;
   border: none;
   float: right;
-  vertical-align: middle;
   width: 10%;
 }
 

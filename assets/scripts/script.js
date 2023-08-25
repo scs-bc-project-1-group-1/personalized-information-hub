@@ -18,6 +18,7 @@ Last Edited 2023/08/25
 //gets references to HTML elements necessary for event tracker functionality
 var eventTextInput = $("#event-input");
 var eventDatePicker = $("#event-date-picker");
+var addEventButton = $("#add-event-button");
 var monthYear = $("#month-year");
 var weeklyMonthlyCalendar = $("#weekly-monthly-calendar");
 var yearlyCalendar = $("#yearly-calendar");
@@ -134,6 +135,12 @@ function renderBlockDetails(blocks, firstDay)
         week.append(block[0]); //adds new day to appropriate week
         dayOfWeek++; //increase dayOfWeek by 1
 
+        
+        //if in yearly view
+          //when date id is calculated, check if a local storage entry exists for that date
+          //if yes, change the css colour of that day to lavender (or something)
+          //otherwise, change it to the default (will probably be white, but do black for now)
+
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
           dayOfWeek = 0 //reset day of week to 0 (sunday)
@@ -157,6 +164,10 @@ function renderBlockDetails(blocks, firstDay)
 
       block.attr("id", date) //assigns current day's date as an ID
       block.children(".date").text(date.slice(8)) //removes the year and month from date string and sets the block's date text to that
+      
+      //if in weekly / monthly view
+        //when date id is calculated, check if a local storage entry exists for that date
+        //if yes, use a for loop to render an event entry to the block for each item in the array
     }
   }
 }
@@ -192,7 +203,7 @@ function updateMonthYearHeader(firstDay)
   }
   else //otherwise (i.e. event planner is in weekly view), update the text with the appropriate month & year
   {
-    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
     monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of lastDayOfFirstRow
   }
 }
@@ -258,7 +269,7 @@ function traverseBlocks(direction)
     else if (eventView === "monthly") //if the event calendar is in the monthly view, shift one month backwards relative to the one currently being viewed
     {
       var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-      var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+      var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
       var firstDayOfLastMonth = dayjs(lastDayOfFirstRow).subtract(1, "month").startOf("month"); //retrieves first day of month preceding the one currently being viewed
       var sundayOfMonthStart = dayjs(firstDayOfLastMonth).startOf("week"); //retrieves sunday of week containing firstDayOfLastMonth
 
@@ -283,7 +294,7 @@ function traverseBlocks(direction)
     else if (eventView === "monthly") //if the event calendar is in the monthly view, shift one month forwards relative to the one currently being viewed
     {
       var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-      var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+      var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
       var firstDayOfNextMonth = dayjs(lastDayOfFirstRow).add(1, "month").startOf("month"); //retrieves first day of month following the one currently being viewed
       var sundayOfMonthStart = dayjs(firstDayOfNextMonth).startOf("week"); //retrieves sunday of week containing firstDayOfNextMonth
 
@@ -306,7 +317,7 @@ function traverseBlocks(direction)
 //function to change zoom level of event view
 function switchEventZoom(zoomButton)
 {
-  var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+  var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
   var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
   var firstDay; //variable to hold first day of new month / year when traversing
 
@@ -362,13 +373,45 @@ function switchEventZoom(zoomButton)
   renderEventPlanner(firstDay);
 }
 
+//function to take input event data
 function createEvent()
 {
-  //retrieve event name & date and store them in an object
-  //append object to local storage event data array
-  //
+  //retrieves event name & date
+  var eventName = eventTextInput.val();
+  var eventDateInput = eventDatePicker.val();
 
+  //if the user did not input both a name and date for the event, eject from function
+  if (!(eventName && eventDateInput))
+  {
+    return;
+  }
 
+  eventDate = dayjs(eventDateInput).format("YYYY/MM/D")
+
+  //attempts to retrieve entry for input date from local storage
+  var localEventList = localStorage.getItem(eventDate);
+
+  if (localEventList) //if the above entry exists, append the new event to it, and update the local storage entry
+  {
+    var eventList = JSON.parse(localEventList);
+    eventList.push(eventName);
+    localStorage.setItem(eventDate, JSON.stringify(eventList));
+  }
+  else //if it does not exist, create an empty array and append the new event to it, and save the entry to local storage
+  {
+    var eventList = [];
+    eventList.push(eventName);
+    localStorage.setItem(eventDate, JSON.stringify(eventList));
+  }
+
+  //clears event name & datepicker inputs
+  eventTextInput.val("");
+  eventDatePicker.val("");
+
+  var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
+  var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
+
+  renderEventPlanner(firstDay); //updates event planner
 }
 
 //adds datepicker widget to event date selection input
@@ -382,6 +425,8 @@ $(function()
 
 //initializes event calendar view on current week
 renderEventPlanner();
+
+addEventButton.on("click", createEvent);
 
 //moves event calendar one week backward when left arrow is clicked
 traverseLeft.on("click", function()
@@ -480,7 +525,7 @@ function renderVideos(data) {
 }
 
 // Fetch videos on page load
-fetchVideos();
+//fetchVideos();
 
 
 /* Wesley's code here */
