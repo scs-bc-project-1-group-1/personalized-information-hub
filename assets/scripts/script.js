@@ -8,11 +8,6 @@ Last Edited 2023/08/25
 /* Ethan's code here */
 
 //NEXT TO DO
-//text becomes ellipsis in monthly view but wraps in weekly view (INCLUDING BUTTON);
-//add event creation
-//add event deletion
-//add saving events to local storage
-//add removing events from local storage
 //update styles
 
 //gets references to HTML elements necessary for event tracker functionality
@@ -36,8 +31,6 @@ var eventBlocks = $(".event-block");
 var events = eventBlocks.children(".events");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
-
-console.log(deleteButtons);
 
 //variables for event tracker functionality
 var traverseDays = 0;
@@ -139,11 +132,6 @@ function renderBlockDetails(blocks, firstDay)
           block.attr("style", "color: #b892ff");
         }
 
-        //if in yearly view
-          //when date id is calculated, check if a local storage entry exists for that date
-          //if yes, change the css colour of that day to lavender (or something)
-          //otherwise, change it to the default (will probably be white, but do black for now)
-
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
           dayOfWeek = 0 //reset day of week to 0 (sunday)
@@ -192,6 +180,16 @@ function renderBlockDetails(blocks, firstDay)
         }
       }
     }
+
+    //change all text colour of days not in current month in weekly / monthly view to gray
+    //e.g. month starts on tuesday, ends on thursday
+      //sunday & monday of first week + friday & saturday of last week are gray
+      //use two for loops which which run for up to 6 iterations, one to check every day of first week in monthly view (other than saturday), the other for every day of final week (other than sunday)
+        //get reference to lastDayOfFirstRow / firstDayOfNewMonth
+        //for each iteration, check if dayjs().month() of day being checked equals that of the above
+          //if yes, for loop returns to end early
+          //if not, colour the day being checked gray, and repeat until all reaches the start of the month being viewed, or all 6 days are grey
+        //counts up from 0 for first week checks (sunday -> friday), counts down from 6 for final week checks (saturday -> monday)
   }
 }
 
@@ -240,42 +238,8 @@ function renderEventPlanner(firstDay)
   //renders & assigns dates to calendar
   renderBlockDetails(blocks, firstDay);
 
-  /* var lastDayOfFirstRow = $("#row-1").children()[6].id;
-    var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-
-  var yearOfLastDay = dayjs(lastDayOfFirstRow).startOf("year");
-        var sundayOfYearStart = dayjs(yearOfLastDay).startOf("week");
-
-  traverseDays = sundayOfYearStart.diff(sundayOfThisWeek, "day");
-
-  dayjs().add(traverseDays - dayjs().day(), "d");*/
-
-  //dayjs(dayjs().date(1)).format("ddd") -> day of week for first day of month
-
-  //https://jqueryui.com/datepicker/ -> datepicker widget
-
-  
-  
-  //change all text colour of days not in current month in monthly view to gray
-  //e.g. month starts on tuesday, ends on thursday
-    //sunday & monday of first week + friday & saturday of last week are gray
-    //use two for loops which which run for up to 6 iterations, one to check every day of first week in monthly view (other than saturday), the other for every day of final week (other than sunday)
-      //get reference to lastDayOfFirstRow / firstDayOfNewMonth
-      //for each iteration, check if dayjs().month() of day being checked equals that of the above
-        //if yes, for loop returns to end early
-        //if not, colour the day being checked gray, and repeat until all reaches the start of the month being viewed, or all 6 days are grey
-      //counts up from 0 for first week checks (sunday -> friday), counts down from 6 for final week checks (saturday -> monday)
-
-  //when creating dates for yearly view check if there is a local storage entry for its date
-    //if yes, change the text colour of that date
-    //otherwise, do nothing
-    //it would probably be more efficient to get the length of the local storage event list
-      //use a for loop running for iterations equal to the length of the list
-      //.find() days which have an ID matching
-
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
-  //deleteButtons = $(events.children("div")).children("button"); //updates references to event delete buttons
 
   //if firstDay has been defined, update default datepicker date to firstDay
   if (firstDay)
@@ -447,20 +411,23 @@ function createEvent()
   renderEventPlanner(firstDay); //updates event calendar
 }
 
-function deleteEvent(buttonClicked)
+function deleteEvent()
 {
-  console.log("clicked");
+  elementClicked = event.target //retrieves element that was clicked
+
+  //if a button was not clicked, eject from function
+  if (!elementClicked.matches("button"))
+  {
+    return;
+  }
   
-  var buttonClicked = $(this); //gets a reference to the specific button that was clicked
+  var buttonClicked = $(elementClicked); //gets a jQuery reference to the specific button that was clicked
   var eventName = buttonClicked.siblings("li").text(); //gets event name from sibling list item
   var eventContainer = buttonClicked.parent(); //gets parent div of buttonClicked
   var eventList = eventContainer.parent(); //gets grandparent event list of buttonClicked
   var eventDate = eventList.parent().attr("id"); //gets event date from id of parent event block
   
   var localStorageData = JSON.parse(localStorage.getItem(eventDate)); //retrieves event data of date associated with event block containing buttonClicked
-  
-  console.log(localStorageData);
-  console.log(eventContainer.index());
   
   localStorageData.splice(eventContainer.index(), 1); //removes entry matching index of eventContainer among its siblings from local storage
 
@@ -477,8 +444,6 @@ function deleteEvent(buttonClicked)
   var firstDay = retrieveFirstDay();
 
   renderEventPlanner(firstDay); //updates event calendar
-
-  console.log(deleteButtons);
 }
 
 //function to get a reference to a sample firstDay variable, used in other functions where firstDay is not referenced, but is followed up by functions that need it
@@ -502,20 +467,24 @@ $(function()
 {
   eventDatePicker.datepicker(
   {
-    dateFormat: "yy/mm/d"
+    dateFormat: "yy/mm/d",
   });
 });
 
 //initializes event calendar view on current week
 renderEventPlanner();
 
+//resets date of datepicker to current day when page is finished loading
+window.addEventListener("load", function()
+{
+  eventDatePicker.datepicker("setDate", dayjs().format("YYYY/MM/D"));
+});
+
 //attempts to add an event when the add event button is clicked
 addEventButton.on("click", createEvent);
 
-var deleteButtons = $(events.children("div")).children("button"); //gets references to delete buttons attached to events
-
-//deletes an event when its associated 'X' button is clicked
-deleteButtons.on("click", deleteEvent);
+//attempts to delete an event when one is clicked
+events.on("click", deleteEvent);
 
 //moves event calendar one week backward when left arrow is clicked
 traverseLeft.on("click", function()
@@ -607,7 +576,7 @@ function renderVideos(data) {
 }
 
 // Fetch videos on page load
-//fetchVideos();
+fetchVideos();
 
 
 /* Wesley's code here */

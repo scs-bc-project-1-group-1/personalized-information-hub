@@ -18,6 +18,9 @@ https://stackoverflow.com/questions/6646376/jquery-date-picker-default-date
 .index()
 https://stackoverflow.com/questions/28952509/jquery-how-to-get-the-index-of-an-element-in-the-selection-array
 
+onload event
+https://www.w3schools.com/jsref/event_onload.asp
+
 ### WESLEY'S LINKS
 
 
