@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/25
+Last Edited 2023/08/26
 */
 
 /* COMMON CSS */
@@ -86,15 +86,48 @@ input:focus
 
 .live-update-container {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  font-size: 300%;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
-.date-container,
-.time-container {
-  margin-right: 20px;
+.date-container, .time-container {
   background-color: var(--darker-dsr-blue);
-  padding: 20px;
-  border-radius: 3px;
+  border-radius: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 20px 40px;
+}
+
+@media screen and (max-width: 880px)
+{
+  .live-update-container
+  {
+    font-size: 250%;
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 780px)
+{
+  .live-update-container
+  {
+    font-size: 225%;
+  }
+  .date-container, .time-container {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 15px;
+  }
+}
+
+@media screen and (max-width: 600px)
+{
+  .live-update-container
+  {
+    font-size: 185%;
+  }
 }
 
 #weather-container {
