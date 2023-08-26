@@ -69,8 +69,12 @@ input:focus
 
 .weather-style-container {
   /* display: flex; */
-  display: block;
+  /* display: block; */
   font-size: 0px;
+}
+
+.first-box-container {
+  display: block;
 }
 
 .hourly-forecast {
@@ -79,10 +83,16 @@ input:focus
   box-sizing: border-box;
 }
 
-.forecast-sections, .weekly-weather-style {
+.forecast-sections {
   font-size: 16px;
   display: inline-block;
   box-sizing: border-box;
+}
+
+.weekly-weather-style {
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 .weather-buttons-style {
@@ -91,6 +101,9 @@ input:focus
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  font-size: 150%;
+  padding: 10px 15px;
+  margin-right: 1%;
 }
 
 .weather-input-style {
@@ -98,7 +111,9 @@ input:focus
   background-color: var(--darker-dsr-blue);
   padding: 10px;
   border-radius: 10px;
-  /* margin-top: 20px; */
+  font-size: 150%;
+  padding: 10px;
+  margin-right: 1%;
 }
 /*
 border: solid 2px var(--light-dsr-blue);
