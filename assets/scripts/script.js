@@ -495,6 +495,7 @@ var weatherApiKey = '5949XGHGML2VDMYSFYV8PCKVY';
 
 var fetchButton = document.getElementById('search-button');
 var currentDayWeather = document.getElementById('current-day-weather');
+var nextHoursWeather = document.getElementById('next-hours-weather');
 var temp = document.getElementById('current-temp');
 var humidity = document.getElementById('current-humidity');
 var wind = document.getElementById('current-wind');
@@ -503,24 +504,51 @@ var windDirection = document.getElementById('current-wind-direction');
 var inputCity = document.getElementById('city-search');
 var currentDay = document.getElementById('current-date');
 var clearCityInput = document.getElementById('clear-city');
-
-// var weatherIcon = document.getElementById('weather-icon');
-
+var weatherContainer = document.getElementById('weather-container');
+var city;
 
 function clearCity() {
-  localStorage.clear();
-
-  currentDayWeather.innerHTML = "";
-
+  localStorage.removeItem('savedCity');
+  weatherContainer.style.display = "none";
 }
 
 clearCityInput.addEventListener('click', clearCity);
 
+if (localStorage === null) {
+
+} else {
+  getApi();
+}
+
 function getApi() {
-  var city = inputCity.value;
-  var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
+
+  currentDayWeather.innerHTML = '';
+  // nextHoursWeather = '';
+  nextDays.innerHTML = '';
+
+  console.log(inputCity);
+  if (inputCity.value === "") {
+    var storedValue = localStorage.getItem("savedCity");
+    city = storedValue;
+  } else if (inputCity.value !== undefined){
+    city = inputCity.value; // Assuming inputCity is defined
+    localStorage.setItem('savedCity', inputCity.value);
+  }
+
+  var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
+  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
+  
   console.log(queryUrl);
 
+  if (weatherContainer.style.display === "none") {
+    weatherContainer.style.display = "block";
+  }
+
+
+  if (city === null) {
+
+    return false;
+  }
 
   fetch(queryUrl)
   .then(function (response) {
@@ -530,18 +558,47 @@ function getApi() {
     console.log('Fetch Response \n-------------');
     console.log(data);
 
-    // Get the current weather icon element if it exists
+    //trying to add current day dinamically
+
+    // var currentForecastContent = document.createElement('div');
+    // currentForecastContent.classList.add('current-forecast');
+    var currentDayTemp = document.createElement('div');
+    var currentDayHumidity = document.createElement('div');
+    var currentDayWind = document.createElement('div');
+    var currentDayWindDirection = document.createElement('div');
+
+    var weatherConditions = data.currentConditions.icon;
+    var weatherIcon = document.createElement('img');
+    weatherIcon.setAttribute('id', 'weather-icon');
+    var weatherImage = document.getElementById('weather-icon');
+    weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
+    // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
+    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+    currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
+    currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
+    currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
+    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees';
+    // weatherContainer.appendChild(currentForecastContent);
+    currentDayWeather.appendChild(currentDayTemp);
+    currentDayWeather.appendChild(currentDayHumidity);
+    currentDayWeather.appendChild(currentDayWind);
+    currentDayWeather.appendChild(currentDayWindDirection);
+    currentDayWeather.appendChild(weatherIcon);
+
+
+    //end of current day dinamically
+
+/*     // Get the current weather icon element if it exists
     var existingWeatherIcon = document.getElementById('weather-icon');
 
     // If the existing icon element exists, remove it
     if (existingWeatherIcon) {
         existingWeatherIcon.parentNode.removeChild(existingWeatherIcon);
-    }
+    } */
 
-    var savedCity = document.querySelector("#city-search").value;
-    localStorage.setItem('savedCity', savedCity);
+/*     var weatherConditions = data.currentConditions.icon;
 
-    var weatherConditions = data.currentConditions.icon;
     var weatherIcon = document.createElement('img');
     weatherIcon.setAttribute('id', 'weather-icon');
     var weatherImage = document.getElementById('weather-icon');
@@ -552,16 +609,81 @@ function getApi() {
     temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
-    windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees';
+
+    windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees'; */
     inputCity.value='';
+    nextHoursForecast(data.latitude, data.longitude);
+
     sevenDayForecast(data.latitude, data.longitude);
   });
 
 }
 
+
+function nextHoursForecast(lat, lon){
+  console.log(lat, lon);
+  var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
+  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
+
+  console.log(queryUrl);
+  fetch(queryUrl)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+
+    var forecastList = data.days[0].hours;
+    console.log(forecastList);
+
+    for (var i = 0; i < 23; i = i + 1) {
+      var nextHoursForecastContent = document.createElement('div');
+      nextHoursForecastContent.classList.add('hourly-forecast');
+      var nextHourTime = document.createElement('div');
+      var nextHoursTemp = document.createElement('div');
+      var nextHoursHumidity = document.createElement('div');
+      var nextHoursWind = document.createElement('div');
+      var nextHoursWindDirection = document.createElement('div');
+      var rawDate = forecastList[i].datetime;
+      var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {hour: 'numeric', minute: 'numeric'}); //change to actual hours rather than date
+
+
+      var weatherConditions = forecastList[i].icon;
+      var weatherIcon = document.createElement('img');
+      weatherIcon.setAttribute('id', 'weather-icon');
+      var weatherImage = document.getElementById('weather-icon');
+      weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
+      // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+      weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
+      weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+
+
+      nextHourTime.textContent = formattedDate;
+      nextHoursTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
+      nextHoursHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
+      nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``
+      nextHoursWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + 'degrees';
+      nextHoursForecastContent.appendChild(nextHourTime);
+      nextHoursForecastContent.appendChild(nextHoursTemp);
+      nextHoursForecastContent.appendChild(nextHoursHumidity);
+      nextHoursForecastContent.appendChild(nextHoursWind);
+      nextHoursForecastContent.appendChild(nextHoursWindDirection);
+      nextHoursForecastContent.appendChild(weatherIcon);
+
+      nextHoursWeather.appendChild(nextHoursForecastContent);
+      console.log(data.length);
+    }
+  });
+}
+
+
+
   function sevenDayForecast(lat, lon){
     console.log(lat, lon);
-    var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
+
+    var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
+    // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
+
 
     console.log(queryUrl);
     fetch(queryUrl)
@@ -589,7 +711,10 @@ function getApi() {
         var weatherIcon = document.createElement('img');
         weatherIcon.setAttribute('id', 'weather-icon');
         var weatherImage = document.getElementById('weather-icon');
-        weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+
+        weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
+        // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+
         weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
         weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
 
@@ -607,7 +732,7 @@ function getApi() {
         dailyForecastContent.appendChild(weatherIcon);
 
         nextDays.appendChild(dailyForecastContent);
-        console.log(data.length);
+        // console.log(data.length);
       }
     });
   }
