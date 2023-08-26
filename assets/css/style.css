@@ -364,19 +364,24 @@ body, h1, h2, h3, p, ul, li {
     justify-content: flex-start;
     flex-wrap: wrap;
     min-height: 100vh;
+    margin: 0 0 0;
 }
 
+
+
 .video-box {
-    width: auto;
+
+  width: calc(19.3333333333%);
     margin-bottom: 1px;
     margin-right:10px;
     border-radius: 2%;
     overflow:hidden;
-  
+
 }
 
 .video-box iframe {
   width: 100%;
+  image-resolution:inherit;
   height: auto;
 }
 
@@ -389,16 +394,17 @@ body, h1, h2, h3, p, ul, li {
 }
 
 #channelIdInput {
-font-family: Raleway;
+font-style: Raleway;
 font-size:150%;
   flex-grow: 1;
   padding: 10px;
-    color: #fff;
+  color: #fff;
   background-color:var(--darker-dsr-blue);
 
 }
 
 #fetchButton {
+  font-style: Raleway;
   font-size:150%;
   padding: 10px;
   background-color:var(--darker-dsr-blue);
