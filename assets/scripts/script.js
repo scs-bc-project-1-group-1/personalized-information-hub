@@ -455,21 +455,20 @@ function deleteEvent()
     return;
   }
   
-  var buttonClicked = $(elementClicked); //gets a jQuery reference to the specific button that was clicked
-  var eventName = buttonClicked.siblings("li").text(); //gets event name from sibling list item
+  var buttonClicked = $(elementClicked); //gets a jQuery object reference to the specific button that was clicked
   var eventContainer = buttonClicked.parent(); //gets parent div of buttonClicked
   var eventList = eventContainer.parent(); //gets grandparent event list of buttonClicked
-  var eventDate = eventList.parent().attr("id"); //gets event date from id of parent event block
+  var eventDate = eventList.parent().attr("id"); //gets event date from id of great-grandparent event block
   
   var localStorageData = JSON.parse(localStorage.getItem(eventDate)); //retrieves event data of date associated with event block containing buttonClicked
   
-  localStorageData.splice(eventContainer.index(), 1); //removes entry matching index of eventContainer among its siblings from local storage
+  localStorageData.splice(eventContainer.index(), 1); //removes entry matching index of eventContainer from local storage
 
-  if (localStorageData.length === 0)
+  if (localStorageData.length === 0) //if the local storage entry for the current date contains no events, remove the entry for that date
   {
     localStorage.removeItem(eventDate); 
   }
-  else
+  else //if events still remain for that date, update the entry now that the appropriate event has been removed
   {
     localStorage.setItem(eventDate, JSON.stringify(localStorageData)); //updates local storage after removing appropriate entry
   }
