@@ -64,6 +64,7 @@ input:focus
   margin: 15px 10%;
 }
 
+/* increases main content width at large-moderate screen sizes */
 @media screen and (max-width: 1280px)
 {
   .main-content-section
@@ -73,6 +74,7 @@ input:focus
   }
 }
 
+/* increases main content width at small screen sizes */
 @media screen and (max-width: 720px)
 {
   .main-content-section
@@ -100,6 +102,7 @@ input:focus
   padding: 20px 40px;
 }
 
+/* decreases live date & time tracker size at moderate screen sizes */
 @media screen and (max-width: 880px)
 {
   .live-update-container
@@ -109,6 +112,7 @@ input:focus
   }
 }
 
+/* decreases live date & time tracker size at small screen sizes */
 @media screen and (max-width: 780px)
 {
   .live-update-container
@@ -122,6 +126,7 @@ input:focus
   }
 }
 
+/* decreases live date & time tracker size at very small screen sizes */
 @media screen and (max-width: 600px)
 {
   .live-update-container
@@ -223,15 +228,7 @@ input:focus
   background: var(--light-dsr-blue);
 }
 
-/*
-border: solid 2px var(--light-dsr-blue);
-background-color: var(--dark-dsr-blue);
-*/
-
 /* ETHAN CSS */
-
-/* NOTE; MAKE SURE TO GO OVER AND CONSOLIDATE ALL STYLES FOR BUTTONS
-   & INPUTS IN THIS SECTION TO SEE WHAT ENDS UP BEING APPLIED TO ALL */
 
 /* sets all elements to include padding & border in element size */
 *
@@ -289,26 +286,26 @@ background-color: var(--dark-dsr-blue);
   {
     font-size: 150%;
   }
-  #event-creator > *
-  {
-    font-size: 125%;
-  }
   #event-date-picker
   {
-    width: 20%;
+    width: 18%;
   }
 }
 
 /* changes size & width of various elements at moderate sizes */
-@media screen and (max-width: 980px)
+@media screen and (max-width: 1080px)
 {
   #event-creator > *
   {
-    font-size: 100%;
+    font-size: 125%;
   }
   #event-creator button
   {
     width: 25%;
+  }
+  #event-date-picker
+  {
+    width: 22%;
   }
   .date-row div
   {
@@ -319,13 +316,17 @@ background-color: var(--dark-dsr-blue);
 /* changes size & width of various elements at small screen sizes */
 @media screen and (max-width: 720px)
 {
+  #event-creator > *
+  {
+    font-size: 100%;
+  }
   #event-input
   {
-    width: 37%;
+    width: 41%;
   }
   #event-date-picker
   {
-    width: 32%;
+    width: 28%;
   }
   #event-creator button
   {
@@ -339,8 +340,13 @@ background-color: var(--dark-dsr-blue);
   {
     font-size: 14px;
   }
+  .events div li
+  {
+    font-size: 11px;
+  }
 }
 
+/* defines display settings for month / year header above calendar */
 #month-year
 {
   display: flex;
@@ -351,12 +357,14 @@ background-color: var(--dark-dsr-blue);
   font-weight: bold;
 }
 
+/* zoom & traverse buttons are centered above the calendar */
 #button-wrapper
 {
   display: flex;
   justify-content: center;
 }
 
+/* defines display settings for zoom & traverse buttons */
 #button-wrapper button
 {
   margin: 10px 5px 10px 5px;
@@ -366,6 +374,7 @@ background-color: var(--dark-dsr-blue);
   border: none;
 }
 
+/* defines borders and background colour for weekly-monthly calendar */
 #weekly-monthly-calendar
 {
   border-top: solid 2px var(--light-dsr-blue);
@@ -377,7 +386,7 @@ background-color: var(--dark-dsr-blue);
 /* displays names of each day of the week horizontally in-line */
 #day-names div
 {
-  width: 14.2859%;
+  width: 14.285%;
   font-size: 110%;
   text-align: center;
   padding-top: 10px;
@@ -397,7 +406,7 @@ background-color: var(--dark-dsr-blue);
 /* displays event blocks horizontally in-line within each week */
 .event-block
 {
-  width: 14.2859%;
+  width: 14.285%;
   font-size: 16px;
   display: inline-block;
   vertical-align: top;
@@ -406,11 +415,13 @@ background-color: var(--dark-dsr-blue);
   border-right: solid 2px var(--light-dsr-blue);
 }
 
+/* in monthly view, days outside month currently being viewed have their text made gray */
 .outside-month
 {
   color: #555555;
 }
 
+/* defines display settings for date number at the top of each day block */
 .date
 {
   background-color: var(--darker-dsr-blue);
@@ -419,6 +430,7 @@ background-color: var(--dark-dsr-blue);
   padding: 2px 0px 5px 0px;
 }
 
+/* defines display settings event entries in each day block */
 .events div
 {
   width: 92%;
@@ -428,11 +440,13 @@ background-color: var(--dark-dsr-blue);
   background-color: var(--darker-dsr-blue);
 }
 
+/* sets height of event entries in each day block while in monthly view */
 .events.monthly div
 {
   height: 25px;
 }
 
+/* defines display settings for event text in each event entry */
 .events div li
 {
   display: inline-block;
@@ -444,6 +458,7 @@ background-color: var(--dark-dsr-blue);
   margin-left: 2%;
 }
 
+/* event text is limited to one line & cuts off with an ellipsis if too long in monthly view */
 .events.monthly div li
 {
   white-space: nowrap;
@@ -451,6 +466,7 @@ background-color: var(--dark-dsr-blue);
   text-overflow: ellipsis;
 }
 
+/* defines display settings for 'X' buttons attached to each event entry */
 .events div button
 {
   font-size: 12px;
@@ -530,15 +546,13 @@ body, h1, h2, h3, p, ul, li {
 
 .container {
     max-width:100%;
-    margin: 0;
-    padding: 10px;
     border-radius: 10px;
+    margin-top: 10px;
     background-color: var(--desaturated-royal-blue);
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content: flex-end;
-  
    
   
 }
@@ -550,19 +564,26 @@ body, h1, h2, h3, p, ul, li {
     display:flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    margin: 0 0 0;
 }
 
 
 
 .video-box {
 
-  width: calc(19.3333333333%);
-    margin-bottom: 1px;
-    margin-right:10px;
-    border-radius: 3px;
+  width: 18%;
+    margin-right: 2%;
+    margin-bottom: 7px;
+    border-radius: 10px;
     overflow:hidden;
+}
 
+/* splits videos onto two rows at small screen sizes */
+@media screen and (max-width: 720px)
+{
+  .video-box {
+
+    width: 31%;
+  }
 }
 
 .video-box iframe {
@@ -584,6 +605,7 @@ font-style: Raleway;
 font-size:150%;
   flex-grow: 1;
   padding: 10px;
+  margin-right: 1%;
   color: #fff;
   background-color:var(--darker-dsr-blue);
 
@@ -592,7 +614,7 @@ font-size:150%;
 #fetchButton {
   font-style: Raleway;
   font-size:150%;
-  padding: 10px;
+  padding: 10px 30px;
   background-color:var(--darker-dsr-blue);
   color: #fff;
   border-radius: 10px;
@@ -604,4 +626,18 @@ font-size:150%;
   background-color: var(--light-dsr-blue);
   transition: 0.25s;
 
+}
+
+/* shrinks channel ID input & fetch videos button at small window sizes*/
+@media screen and (max-width: 600px)
+{
+  #channelIdInput {
+    font-size:125%;
+    padding: 8px;
+    width: 64%;
+  }
+  #fetchButton {
+    font-size:125%;
+    padding: 8px;
+  }
 }

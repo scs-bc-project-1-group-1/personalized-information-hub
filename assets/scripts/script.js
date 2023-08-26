@@ -262,9 +262,7 @@ function renderEventPlanner(firstDay)
   //determines how many iterations the upcoming for loop will run for, and how many rows of event blocks will be displayed
   var blocks = setUpEventCalendar(firstDay);
 
-  //renders & assigns dates to calendar
-  renderBlockDetails(blocks, firstDay);
-
+  renderBlockDetails(blocks, firstDay); //renders & assigns dates to calendar
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
 
@@ -514,6 +512,9 @@ window.addEventListener("load", function()
   eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
 });
 
+//updates row height while window is being resized
+window.addEventListener("resize", adjustRowHeight);
+
 //attempts to add an event when the add event button is clicked
 addEventButton.on("click", createEvent);
 
@@ -581,6 +582,8 @@ function fetchAndRender() {
   } else {
     console.error('Please provide a valid Youtube Channel ID.');
   }
+
+  channelIdInput.value = ""; //empties channel id input
 }
 //added a function to fetch videos from Youtube API when the channel ID is inputed
 function fetchVideos(channelId) {
