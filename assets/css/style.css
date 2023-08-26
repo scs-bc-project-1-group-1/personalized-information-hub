@@ -70,28 +70,41 @@ input:focus
   /* display: flex; */
   /* display: block; */
   font-size: 0px;
+  display: none;
 }
 
 .first-box-container {
-  display: block;
+  display: flex;
+  font-size: 16px;
 }
 
-.hourly-forecast {
-  font-size: 16px;
-  display: inline-block;
-  box-sizing: border-box;
+#current-day-weather
+{
+  width: 20%;
+  border: solid 2px var(--light-dsr-blue);
 }
 
 .forecast-sections {
-  font-size: 16px;
-  display: inline-block;
   box-sizing: border-box;
+  white-space: nowrap;
+}
+
+#next-hours-weather
+{
+  width: 80%;
+  display: flex;
+}
+
+.hourly-forecast {
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .weekly-weather-style {
-  display: inline-block;
+  display: flex;
   box-sizing: border-box;
   font-size: 16px;
+  width: 100%;
 }
 
 .weather-buttons-style {
