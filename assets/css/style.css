@@ -70,14 +70,17 @@ input:focus
 .weather-style-container {
   /* display: flex; */
   display: block;
+  font-size: 0px;
 }
 
 .hourly-forecast {
+  font-size: 16px;
   display: inline-block;
   box-sizing: border-box;
 }
 
 .forecast-sections, .weekly-weather-style {
+  font-size: 16px;
   display: inline-block;
   box-sizing: border-box;
 }
