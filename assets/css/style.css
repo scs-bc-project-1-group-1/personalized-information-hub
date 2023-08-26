@@ -61,7 +61,8 @@ input:focus
 .main-content-section
 {
   width: 80%;
-  margin: 0px 10%;
+  margin: 15px 10%;
+ 
 }
 
 /* WESLEY CSS */
@@ -353,20 +354,20 @@ body, h1, h2, h3, p, ul, li {
 }
 
 
+
 .video-container {
 
     display:flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    margin-top: 10px;
+    min-height: 100vh;
 }
 
 .video-box {
-    width: calc(50% - 10px);
-    margin-bottom: 10px;
-    margin-right: 10px;
-    border: 1px solid #5900ff;
-    border-radius: 5px;
+    width: autoa;
+    margin-bottom: 1px;
+    margin-right:10px;
+    border-radius: 2%;
     overflow:hidden;
   
 }
@@ -386,28 +387,26 @@ body, h1, h2, h3, p, ul, li {
 
 #channelIdInput {
 font-family: Raleway;
-font-size:10px x-small;
+font-size:150%;
   flex-grow: 1;
   padding: 10px;
-  /*border: 2px solid #5900ff;
-  color: #fff;
-  background-color: #232323;
-   border-radius: 0 5px 5px 0;*/
- 
+    color: #fff;
+  background-color:var(--darker-dsr-blue);
 
 }
 
-/*#fetchButton {
-
-  padding: 5px 10px;
-  background-color: #5900ff;
+#fetchButton {
+  font-size:150%;
+  padding: 10px;
+  background-color:var(--darker-dsr-blue);
   color: #fff;
-  border:none;
-  border-radius: 0 5px 5px 0;
+  border-radius: 10px;
   cursor: pointer;
-}*/
+}
 
-/*#fetchButton:hover {
+#fetchButton:hover {
 
-  background-color: #6c27ee
-}*/
+  background-color: var(--light-dsr-blue);
+  transition: 0.25s;
+
+}
