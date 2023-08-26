@@ -711,6 +711,8 @@ function getApi() {
     console.log('Fetch Response \n-------------');
     console.log(data);
 
+    $(".weather-style-container").attr("style", ("display: block"));
+
     //trying to add current day dinamically
 
     // var currentForecastContent = document.createElement('div');
