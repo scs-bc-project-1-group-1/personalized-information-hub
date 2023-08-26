@@ -548,9 +548,10 @@ zoomOut.on("click", function()
 
 
 
-//added variable for the youtube API key"
-// the youtube API is somewhat streamline
-var ytapiKey = 'AIzaSyCY2Pd1yOE43whBV0mjNYPwqtgBd9n1Pds'; 
+//added variable for the youtube API key
+// the youtube API is somewhat streamline 
+
+var ytapiKey = 'AIzaSyBCbd2zYGG1SG1qqbBwNrwanUNbLqH4OAE'; 
 
 
 //added a function to save data to local storage
@@ -571,7 +572,7 @@ function loadFromLocalStorage(key) {
 //this can be accessed by going to the specified Youtube Channel => About => Share Channel => Copy Channel ID
 function fetchAndRender() {
   var channelIdInput = document.getElementById('channelIdInput');
-  var channelId = channelIdInput.value;
+  var channelId = channelIdInput.value; 
 
   if (channelId) {
 
@@ -581,36 +582,34 @@ function fetchAndRender() {
     console.error('Please provide a valid Youtube Channel ID.');
   }
 }
-
+//added a function to fetch videos from Youtube API when the channel ID is inputed
 function fetchVideos(channelId) {
 
-  var savedData = loadFromLocalStorage('youtubeData'); // Load saved data from local storage
+  var request = new XMLHttpRequest(); //creates a new XMLHTTP Request object
+  request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
 
-  if (savedData) {
+  request.onload = function () {
 
-    renderVideos(savedData); // If data is available in local storage it will render it
+    if (request.status >= 200 && request.status < 400) {
 
-  } else {
-    var request = new XMLHttpRequest();
-    request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
+      var data = JSON.parse(request.responseText);  // this will parse the response JSON data
 
-    request.onload = function () {
-      if (request.status >= 200 && request.status < 400) {
-        var data = JSON.parse(request.responseText);
-        saveToLocalStorage('youtubeData', data); // Save fetched data to local storage
-        renderVideos(data);
-      } else {
-        console.error('Request failed with status:', request.status);
-      }
-    };
+      saveToLocalStorage('youtubeData', data); // this will save fetched data to local storage
+      renderVideos(data); //calls the renderVideos function to display videos on webpage
 
-    request.onerror = function () {
-      console.error('Request failed.');
-    };
+    } else {
 
-    request.send(); //sends the api request
-  }
+      console.error('Request failed with status:', request.status); // logs an error if the request fails
+    }
+  };
+
+  request.onerror = function () {
+    console.error('Request failed.'); //logs an error if the request encounters an error 
+  };
+
+  request.send(); // sends the Youtube API request
 }
+
 
 //added a function to render videos in the UI
 function renderVideos(data) {
@@ -620,16 +619,16 @@ function renderVideos(data) {
 
 
   for (var i = 0; i < data.items.length; i++) {
-    var video = data.items[i];
-    var videoId = video.id.videoId;
+    var video = data.items[i]; //gets a video item from the fetched youtube data
+    var videoId = video.id.videoId; //gets the video ID
 
-    var iframe = document.createElement('iframe');
-    iframe.src = "https://www.youtube.com/embed/" + videoId;
-    iframe.width = '560';
-    iframe.height = '315';
+    var iframe = document.createElement('iframe'); //creats an iframe element that will display video thumbnail
+    iframe.src = "https://www.youtube.com/embed/" + videoId; //iframe source is attatched to embedded video
+    iframe.width = '560'; //sets the iframe width
+    iframe.height = '315'; //sets iframe height
 
     var videoDiv = document.createElement('div');
-    videoDiv.className = 'video-box';
+    videoDiv.className = 'video-box'; //applies a CSS class for styling the video box
     videoDiv.appendChild(iframe);
 
     videosDiv.appendChild(videoDiv); //appends video div to the video container
@@ -648,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var savedData = loadFromLocalStorage('youtubeData');
 
   if (savedData) {
-    renderVideos(savedData);
+    renderVideos(savedData); //if there is saved data locally, the videos will render 
   }
 });
 
