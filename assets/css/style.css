@@ -64,6 +64,24 @@ input:focus
   margin: 15px 10%;
 }
 
+@media screen and (max-width: 1280px)
+{
+  .main-content-section
+  {
+    width: 90%;
+    margin: 15px 5%;
+  }
+}
+
+@media screen and (max-width: 720px)
+{
+  .main-content-section
+  {
+    width: 96%;
+    margin: 15px 2%;
+  }
+}
+
 /* WESLEY CSS */
 
 .live-update-container {
@@ -188,12 +206,20 @@ background-color: var(--dark-dsr-blue);
   box-sizing: border-box;
 }
 
+/* added hover effect to buttons in event planner section */
 #event-planner-content button:hover
 {
   background-color: var(--light-dsr-blue);
   transition: 0.25s;
 }
 
+/* displays event creator section as a flex item */
+#event-creator
+{
+  display: flex;
+}
+
+/* defines display settings for inputs & button used for creating events */
 #event-creator > *
 {
   margin-right: 1%;
@@ -203,21 +229,83 @@ background-color: var(--dark-dsr-blue);
   border-radius: 10px;
 }
 
+/* defines width of event name input */
 #event-input
 {
   width: 55%;
 }
 
+/* defines width & center-aligns text of event date picker */
 #event-date-picker
 {
   width: 15%;
   text-align: center;
 }
 
+/* defines width & increases padding of add event button */
 #event-creator button
 {
   width: 15%;
   padding: 10px;
+}
+
+/* changes size & width of various elements at large-moderate sizes */
+@media screen and (max-width: 1280px)
+{
+  #month-year
+  {
+    font-size: 150%;
+  }
+  #event-creator > *
+  {
+    font-size: 125%;
+  }
+  #event-date-picker
+  {
+    width: 20%;
+  }
+}
+
+/* changes size & width of various elements at moderate sizes */
+@media screen and (max-width: 980px)
+{
+  #event-creator > *
+  {
+    font-size: 100%;
+  }
+  #event-creator button
+  {
+    width: 25%;
+  }
+  .date-row div
+  {
+    font-size: 14px;
+  }
+}
+
+/* changes size & width of various elements at small screen sizes */
+@media screen and (max-width: 720px)
+{
+  #event-input
+  {
+    width: 37%;
+  }
+  #event-date-picker
+  {
+    width: 32%;
+  }
+  #event-creator button
+  {
+    width: 29%;
+  }
+  .date-row div
+  {
+    font-size: 11px;
+  }
+  .month-name
+  {
+    font-size: 14px;
+  }
 }
 
 #month-year
@@ -225,8 +313,8 @@ background-color: var(--dark-dsr-blue);
   display: flex;
   justify-content: center;
   font-size: 225%;
-  padding: 10px;
-  padding-top: 20px;
+  padding: 5px;
+  padding-top: 10px;
   font-weight: bold;
 }
 
@@ -302,8 +390,14 @@ background-color: var(--dark-dsr-blue);
 {
   width: 92%;
   margin: 4px 4%;
+  padding: 1px 1px 0px 1px;
   border-radius: 8px;
   background-color: var(--darker-dsr-blue);
+}
+
+.events.monthly div
+{
+  height: 25px;
 }
 
 .events div li
@@ -313,14 +407,8 @@ background-color: var(--dark-dsr-blue);
   word-wrap: break-word;
   overflow: visible;
   text-overflow: clip;
-  width: 86.5%;
+  width: 86%;
   margin-left: 2%;
-}
-
-.events.monthly div
-{
-  height: 24px;
-  padding: 1px;
 }
 
 .events.monthly div li
@@ -333,8 +421,9 @@ background-color: var(--dark-dsr-blue);
 .events div button
 {
   font-size: 12px;
-  margin-right: 1.5%;
-  border-radius: 5px;
+  margin-top: 2.5px;
+  margin-right: 2%;
+  border-radius: 8px;
   border: none;
   float: right;
   width: 10%;
