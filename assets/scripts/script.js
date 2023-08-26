@@ -548,93 +548,109 @@ zoomOut.on("click", function()
 
 
 
-// adding the variable for the Youtube API 
-//the youtube api is very straight forward when fetching videos
+//added variable for the youtube API key"
+// the youtube API is somewhat streamline
+var ytapiKey = 'AIzaSyCY2Pd1yOE43whBV0mjNYPwqtgBd9n1Pds'; 
 
-var ytapiKey = 'AIzaSyCY2Pd1yOE43whBV0mjNYPwqtgBd9n1Pds';
 
-//adding a function to save data to local storage
-//function to save data to local storage
+//added a function to save data to local storage
 function saveToLocalStorage(key, data) {
-  
   localStorage.setItem(key, JSON.stringify(data));
 }
-// this function will load the data from the local storage
+//added a function to LOAD data from the local storage
 function loadFromLocalStorage(key) {
-
   var data = localStorage.getItem(key);
   if (data) {
-    
-  return  JSON, parse(data);
+    return JSON.parse(data); //parses and returns the data if it exists
+  }
+  return null; //return null if no data is found locally
 }
-return null;
+
+//function added to trigger when the Fetch Videos button is clicked on
+//this will pull data from the youtube channels Channel ID
+//this can be accessed by going to the specified Youtube Channel => About => Share Channel => Copy Channel ID
+function fetchAndRender() {
+  var channelIdInput = document.getElementById('channelIdInput');
+  var channelId = channelIdInput.value;
+
+  if (channelId) {
+
+    fetchVideos(channelId); //this will fetch and render videos if a valid channel ID in inputed in the box
+
+  } else {
+    console.error('Please provide a valid Youtube Channel ID.');
+  }
 }
-//function to fetch the videos from any youtube channel that the user has provided the channel ID for 
-//(can be found in the About tab of any specified youtube channel => clicking on the share button => clicking on Share Channel ID => paste in to button function)
 
 function fetchVideos(channelId) {
-    var videosDiv = document.getElementById('videos');
-    var request = new XMLHttpRequest();
-  //Youtube API GET which will acquire the videos
- request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
- 
- request.onload = function(){
 
-  //successful response event handler
-  if (request.status >= 200 && request.status < 400) {
-    var data = JSON.parse(request.responseText);
-    saveToLocalStorage('youtubeData', data);
-    renderVideos(data);
+  var savedData = loadFromLocalStorage('youtubeData'); // Load saved data from local storage
+
+  if (savedData) {
+
+    renderVideos(savedData); // If data is available in local storage it will render it
+
   } else {
-    console.error('Request failed with status:', request.status);
-  }
- };
- // error response event handler
-    request.onerror = function(){
+    var request = new XMLHttpRequest();
+    request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
+
+    request.onload = function () {
+      if (request.status >= 200 && request.status < 400) {
+        var data = JSON.parse(request.responseText);
+        saveToLocalStorage('youtubeData', data); // Save fetched data to local storage
+        renderVideos(data);
+      } else {
+        console.error('Request failed with status:', request.status);
+      }
+    };
+
+    request.onerror = function () {
       console.error('Request failed.');
     };
-//sends the request
-    request.send();
+
+    request.send(); //sends the api request
   }
+}
 
-  //renders the video in the UI
-function renderVideos(data){
+//added a function to render videos in the UI
+function renderVideos(data) {
+
   var videosDiv = document.getElementById('videos');
-  videosDiv.innerHTML = ''; //clears the existing content
+  videosDiv.innerHTML = '';// clears existing content
 
-//  Loops through the video items and creates video iframes
-for (var i = 0; i < data.items.length; i++){
-  var video = data.items[i];
-  var videoId = video.id.videoId;
 
-  var iframe = document.createElement('iframe');
-  iframe.src = "https://www.youtube.com/embed/" + videoId;
-  iframe.width = '560';
-  iframe.height = '315';
+  for (var i = 0; i < data.items.length; i++) {
+    var video = data.items[i];
+    var videoId = video.id.videoId;
 
-  var videoDiv = document.createElement('div');
-  videoDiv.className = 'video-box';
-  videoDiv.appendChild(iframe);
+    var iframe = document.createElement('iframe');
+    iframe.src = "https://www.youtube.com/embed/" + videoId;
+    iframe.width = '560';
+    iframe.height = '315';
 
-  videosDiv.appendChild(videoDiv);
-}  
-}
-// added a function to fetch and render the videos when the button is clicked
-function fetchAndRender() {
-var channelIdInput = document.getElementById('channelIdInput');
-var channelId = channelIdInput.value;
+    var videoDiv = document.createElement('div');
+    videoDiv.className = 'video-box';
+    videoDiv.appendChild(iframe);
 
-if (channelId) {
-  fetchVideos(channelId);
-} else {
-  console.error('Please provide a valid Youtube Channel ID.');
+    videosDiv.appendChild(videoDiv); //appends video div to the video container
+  }
 }
 
-}
 
-// attatched an event listener to the button
+//added an event listener to the fetch button
 document.getElementById('fetchButton').addEventListener('click', fetchAndRender);
 
+
+//added an event Listener when the page loads
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  var savedData = loadFromLocalStorage('youtubeData');
+
+  if (savedData) {
+    renderVideos(savedData);
+  }
+});
 
 
 /* Wesley's code here */
