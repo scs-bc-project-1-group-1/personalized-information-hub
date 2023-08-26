@@ -2,11 +2,14 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/24
+Last Edited 2023/08/25
 */
 
 
 /* ETHAN CSS */
+
+/* NOTE; MAKE SURE TO GO OVER AND CONSOLIDATE ALL STYLES FOR BUTTONS
+   & INPUTS IN THIS SECTION TO SEE WHAT ENDS UP BEING APPLIED TO ALL */
 
 /* sets all elements to include padding & border in element size */
 *
@@ -14,26 +17,10 @@ Last Edited 2023/08/24
   box-sizing: border-box;
 }
 
-/* displays names of each day of the week horizontally in-line */
-#day-names div
-{
-  width: 14.28%;
-  text-align: center;
-  display: inline;
-  float: left;
-}
-
-/* displays event blocks horizontally in-line within each week */
-.event-block
-{
-  width: 14.28%;
-  display: inline;
-  float: left;
-}
-
 #event-planner-content
 {
-  width: 60%;
+  width: 80%;
+  margin: 0px 10%;
 }
 
 #month-year
@@ -56,13 +43,90 @@ Last Edited 2023/08/24
   border: none;
 }
 
+/* displays names of each day of the week horizontally in-line */
+#day-names div
+{
+  width: 14.28%;
+  text-align: center;
+  display: inline;
+  float: left;
+}
+
+/* hides small whitespace between each event block */
+.event-row
+{
+  outline: solid 1px mediumslateblue;
+  font-size: 0px;
+}
+
+/* displays event blocks horizontally in-line within each week */
+.event-block
+{
+  width: 14.28%;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  outline: solid 1px mediumspringgreen;
+}
+
+.outside-month
+{
+  color: #bbbbbb;
+}
+
+.events div
+{
+  width: 94%;
+  margin: 0px 3% 0px 3%;
+  padding: 3px 0px;
+}
+
+.events div li
+{
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: visible;
+  text-overflow: clip;
+  width: 90%;
+}
+
+.events.monthly div
+{
+  width: 94%;
+  padding: 0px;
+}
+
+.events.monthly div li
+{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 1.2px;
+}
+
+.events div button
+{
+  font-size: 12px;
+  padding: 2px 0px;
+  border-radius: 3px;
+  border: none;
+  float: right;
+  width: 10%;
+}
+
+.date
+{
+  text-align: center;
+}
+
 /* displays month name in middle of parent block */
 .month-name
 {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  
 }
 
 .month-row
@@ -87,6 +151,7 @@ Last Edited 2023/08/24
 .date-row div
 {
   width: 14.28%;
+  padding-top: 10px;
   text-align: center;
 }
 
