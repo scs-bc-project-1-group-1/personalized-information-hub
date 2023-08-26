@@ -676,7 +676,7 @@ if (localStorage === null) {
 function getApi() {
 
   currentDayWeather.innerHTML = '';
-  // nextHoursWeather = '';
+  nextHoursWeather.innerHTML = '';
   nextDays.innerHTML = '';
 
   console.log(inputCity);
@@ -789,7 +789,7 @@ function nextHoursForecast(lat, lon){
     var forecastList = data.days[0].hours;
     console.log(forecastList);
 
-    for (var i = 0; i < 23; i = i + 1) {
+    for (var i = 0; i < 24; i = i + 1) {
       var nextHoursForecastContent = document.createElement('div');
       nextHoursForecastContent.classList.add('hourly-forecast');
       var nextHourTime = document.createElement('div');
@@ -798,7 +798,7 @@ function nextHoursForecast(lat, lon){
       var nextHoursWind = document.createElement('div');
       var nextHoursWindDirection = document.createElement('div');
       var rawDate = forecastList[i].datetime;
-      var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {hour: 'numeric', minute: 'numeric'}); //change to actual hours rather than date
+      // var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {hour: 'numeric', minute: 'numeric'}); //change to actual hours rather than date
 
 
       var weatherConditions = forecastList[i].icon;
@@ -811,7 +811,7 @@ function nextHoursForecast(lat, lon){
       weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
 
 
-      nextHourTime.textContent = formattedDate;
+      nextHourTime.textContent = rawDate;
       nextHoursTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
       nextHoursHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
       nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``

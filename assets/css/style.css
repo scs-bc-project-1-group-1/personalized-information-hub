@@ -169,7 +169,7 @@ body, h1, h2, h3, p, ul, li {
 
 
 body {
-color: #fff;
+  color: #fff;
   font-family: Raleway;
   background-color: var(--desaturated-royal-blue);
 }
