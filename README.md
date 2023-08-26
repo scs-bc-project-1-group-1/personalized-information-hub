@@ -4,6 +4,12 @@
 
 ### ETHAN'S LINKS
 
+https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
+
+https://www.flaticon.com/free-icons/sun
+
+https://www.flaticon.com/free-icons/video
+
 https://www.vecteezy.com/vector-art/2581966-hub-network-connection-line-vector-icon-on-white-background
 
 offsetHeight
