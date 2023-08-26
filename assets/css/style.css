@@ -161,17 +161,20 @@ background-color: var(--dark-dsr-blue);
   box-sizing: border-box;
 }
 
+/* added hover effect to buttons in event planner section */
 #event-planner-content button:hover
 {
   background-color: var(--light-dsr-blue);
   transition: 0.25s;
 }
 
+/* displays event creator section as a flex item */
 #event-creator
 {
   display: flex;
 }
 
+/* defines display settings for inputs & button used for creating events */
 #event-creator > *
 {
   margin-right: 1%;
@@ -181,23 +184,27 @@ background-color: var(--dark-dsr-blue);
   border-radius: 10px;
 }
 
+/* defines width of event name input */
 #event-input
 {
   width: 55%;
 }
 
+/* defines width & center-aligns text of event date picker */
 #event-date-picker
 {
   width: 15%;
   text-align: center;
 }
 
+/* defines width & increases padding of add event button */
 #event-creator button
 {
   width: 15%;
   padding: 10px;
 }
 
+/* changes size & width of various elements at large-moderate sizes */
 @media screen and (max-width: 1280px)
 {
   #month-year
@@ -214,6 +221,7 @@ background-color: var(--dark-dsr-blue);
   }
 }
 
+/* changes size & width of various elements at moderate sizes */
 @media screen and (max-width: 980px)
 {
   #event-creator > *
@@ -230,6 +238,7 @@ background-color: var(--dark-dsr-blue);
   }
 }
 
+/* changes size & width of various elements at small screen sizes */
 @media screen and (max-width: 720px)
 {
   #event-input
