@@ -4,6 +4,8 @@
 
 ### ETHAN'S LINKS
 
+https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
+
 https://www.flaticon.com/free-icons/sun
 
 https://www.flaticon.com/free-icons/video

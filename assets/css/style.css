@@ -47,6 +47,11 @@ Last Edited 2023/08/25
   border: none;
 }
 
+#weekly-monthly-calendar
+{
+  border: solid 2px white;
+}
+
 /* displays names of each day of the week horizontally in-line */
 #day-names div
 {
@@ -59,7 +64,6 @@ Last Edited 2023/08/25
 /* hides small whitespace between each event block */
 .event-row
 {
-  outline: solid 1px mediumslateblue;
   font-size: 0px;
 }
 
@@ -71,12 +75,13 @@ Last Edited 2023/08/25
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
-  outline: solid 1px mediumspringgreen;
+  border-top: solid 2px white;
+  border-right: solid 2px whitesmoke;
 }
 
 .outside-month
 {
-  color: #bbbbbb;
+  color: #555555;
 }
 
 .events div
