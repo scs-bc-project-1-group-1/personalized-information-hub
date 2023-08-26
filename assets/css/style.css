@@ -5,6 +5,10 @@ Created 2023/08/15
 Last Edited 2023/08/25
 */
 
+:root
+{
+  --desaturated-royal-blue: #1e1e30;
+}
 
 /* ETHAN CSS */
 
@@ -167,7 +171,7 @@ body, h1, h2, h3, p, ul, li {
 body {
 color: #fff;
   font-family: Raleway;
-  background-color: #232323;
+  background-color: var(--desaturated-royal-blue);
 }
 
 
@@ -178,7 +182,7 @@ color: #fff;
     margin: 0;
     padding: 10px;
     border-radius: 10px;
-    background-color: #232323;
+    background-color: var(--desaturated-royal-blue);
     display:flex;
     flex-direction:column;
     align-items:center;
