@@ -730,8 +730,8 @@ function getApi() {
     weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
     currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
-    currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
-    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees';
+    currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
+    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + ' deg';
     // weatherContainer.appendChild(currentForecastContent);
     currentDayWeather.appendChild(currentDayTemp);
     currentDayWeather.appendChild(currentDayHumidity);
@@ -814,8 +814,8 @@ function nextHoursForecast(lat, lon){
       nextHourTime.textContent = rawDate;
       nextHoursTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
       nextHoursHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
-      nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``
-      nextHoursWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + 'degrees';
+      nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
+      nextHoursWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
       nextHoursForecastContent.appendChild(nextHourTime);
       nextHoursForecastContent.appendChild(nextHoursTemp);
       nextHoursForecastContent.appendChild(nextHoursHumidity);
@@ -875,8 +875,8 @@ function nextHoursForecast(lat, lon){
         nextDaysDate.textContent = formattedDate;
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
-        nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + 'kph';``
-        nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + 'degrees';
+        nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
+        nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
         dailyForecastContent.appendChild(nextDaysDate);
         dailyForecastContent.appendChild(nextDaysTemp);
         dailyForecastContent.appendChild(nextDaysHumidity);

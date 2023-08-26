@@ -66,6 +66,36 @@ input:focus
 
 /* WESLEY CSS */
 
+.weather-style-container {
+  /* display: flex; */
+  display: block;
+}
+
+.hourly-forecast {
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.forecast-sections, .weekly-weather-style {
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.weather-buttons-style {
+  background-color: var(--darker-dsr-blue);
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.weather-input-style {
+  font-size: 150%;
+  background-color: var(--darker-dsr-blue);
+  padding: 10px;
+  border-radius: 10px;
+  /* margin-top: 20px; */
+}
 /*
 border: solid 2px var(--light-dsr-blue);
 background-color: var(--dark-dsr-blue);
