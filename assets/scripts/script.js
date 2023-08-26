@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/25
+Last Edited 2023/08/26
 */
 
 /* Ethan's code here */
@@ -914,11 +914,11 @@ function nextHoursForecast(lat, lon){
     var currentDateElement = document.getElementById('current-date');
     var currentTimeElement = document.getElementById('current-time');
     
-    var currentDate = dayjs().format('YYYY-MM-DD');
+    var currentDate = dayjs().format("MMMM D, YYYY");
     var currentTime = dayjs().format('HH:mm:ss');
 
-    currentDateElement.textContent = 'Current Date: ' + currentDate;
-    currentTimeElement.textContent = 'Current Time: ' + currentTime;
+    currentDateElement.textContent = currentDate;
+    currentTimeElement.textContent = currentTime;
   }
 
   setInterval(updateDateAndTime, 1000);
