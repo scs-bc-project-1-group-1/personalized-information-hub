@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //Visual Crossing API Key
-var weatherApiKey = '5949XGHGML2VDMYSFYV8PCKVY';
+var weatherApiKey = 'PYRJL8KKTFHB65W4AWDUCJN3G';
 
 var fetchButton = document.getElementById('search-button');
 var currentDayWeather = document.getElementById('current-day-weather');
@@ -909,3 +909,18 @@ function nextHoursForecast(lat, lon){
   }
 
   fetchButton.addEventListener('click', getApi);
+
+  function updateDateAndTime() {
+    var currentDateElement = document.getElementById('current-date');
+    var currentTimeElement = document.getElementById('current-time');
+    
+    var currentDate = dayjs().format('YYYY-MM-DD');
+    var currentTime = dayjs().format('HH:mm:ss');
+
+    currentDateElement.textContent = 'Current Date: ' + currentDate;
+    currentTimeElement.textContent = 'Current Time: ' + currentTime;
+  }
+
+  setInterval(updateDateAndTime, 1000);
+
+  updateDateAndTime();

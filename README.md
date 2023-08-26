@@ -33,3 +33,18 @@ https://www.w3schools.com/jsref/event_onload.asp
 
 ### STAVROS' LINKS
 
+https://blog.logrocket.com/localstorage-javascript-complete-guide/
+
+https://stackoverflow.com/questions/57266921/how-to-get-youtube-video-url-from-channel-id
+
+https://developer.mozilla.org/en-US/docs/Learn/JavaScript
+
+https://developers.google.com/youtube/v3/docs/videos#methods
+
+https://stackoverflow.com/questions/45141465/how-to-get-the-data-of-a-video-from-youtube-in-javascript
+
+https://developers.google.com/youtube/iframe_api_reference
+
+https://www.w3schools.com/jsref/event_onload.asp
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript
