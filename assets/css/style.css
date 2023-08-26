@@ -334,7 +334,7 @@ body, h1, h2, h3, p, ul, li {
 }
 
 .video-box {
-    width: autoa;
+    width: auto;
     margin-bottom: 1px;
     margin-right:10px;
     border-radius: 2%;
