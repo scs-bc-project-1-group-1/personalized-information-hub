@@ -128,10 +128,10 @@ function renderBlockDetails(blocks, firstDay)
         week.append(block[0]); //adds new day to appropriate week
         dayOfWeek++; //increase dayOfWeek by 1
 
-        //checks if there is a local storage entry for the current date, set its text colour to lavender
+        //checks if there is a local storage entry for the current date, set its text colour to a light blue
         if (localStorage.getItem(date))
         {
-          block.attr("style", "color: #b892ff");
+          block.addClass("has-event");
         }
 
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
@@ -225,8 +225,8 @@ function adjustRowHeight()
 {
   if (eventView === "weekly") //adjust height of day blocks in weekly view to match tallest day in that row
   {
-    rowOne.children().css({"height": "", "min-height": "200px"});
-    rowTwo.children().css({"height": "", "min-height": "200px"});
+    rowOne.children().css({"height": "", "min-height": "174px"});
+    rowTwo.children().css({"height": "", "min-height": "220px"});
     
     //retrieves pixel height of week one & two rows
     rowOneHeight = rowOne[0].offsetHeight;
@@ -365,7 +365,7 @@ function switchEventZoom(zoomButton)
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
 
       firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
-      eventBlocks.css({"min-height": "", "height": "100px"}); //removes min-height & sets a fixed height of 100px to all event day blocks
+      eventBlocks.css({"min-height": "", "height": "140px"}); //removes min-height & sets a fixed height of 100px to all event day blocks
       events.addClass("monthly"); //adds monthly class to event lists
 
       eventView = "monthly"
