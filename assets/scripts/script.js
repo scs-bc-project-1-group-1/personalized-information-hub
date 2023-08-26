@@ -496,6 +496,13 @@ function retrieveFirstDay()
   return firstDay;
 }
 
+function reloadStylesheets() {
+  var queryString = '?reload=' + new Date().getTime();
+  $('link[rel="stylesheet", href = "./assets/css/style.css"]').each(function () {
+      this.href = this.href.replace(/\?.*|$/, queryString);
+  });
+}
+
 //adds datepicker widget to event date selection input
 $(function()
 {
@@ -512,6 +519,7 @@ renderEventPlanner();
 window.addEventListener("load", function()
 {
   eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
+  reloadStylesheets();
 });
 
 //attempts to add an event when the add event button is clicked
