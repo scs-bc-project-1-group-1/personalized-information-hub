@@ -5,6 +5,13 @@ Created 2023/08/15
 Last Edited 2023/08/25
 */
 
+:root
+{
+  --desaturated-light-blue: #b1b1e4;
+  --desaturated-royal-blue: #1e1e30;
+  --darker-dsr-blue: #191926;
+  --lighter-dsr-blue: #44446e;
+}
 
 /* ETHAN CSS */
 
@@ -23,10 +30,41 @@ Last Edited 2023/08/25
   margin: 0px 10%;
 }
 
+#event-creator > *
+{
+  margin-right: 1%;
+  font-size: 150%;
+  background-color: var(--darker-dsr-blue);
+  padding: 10px;
+  border: solid 2px var(--desaturated-light-blue);
+  border-radius: 10px;
+}
+
+#event-input
+{
+  width: 55%;
+}
+
+#event-date-picker
+{
+  width: 15%;
+  text-align: center;
+}
+
+#event-creator button
+{
+  width: 15%;
+  padding: 10px;
+}
+
 #month-year
 {
   display: flex;
   justify-content: center;
+  font-size: 225%;
+  padding: 10px;
+  padding-top: 20px;
+  font-weight: bold;
 }
 
 #button-wrapper
@@ -38,48 +76,70 @@ Last Edited 2023/08/25
 #button-wrapper button
 {
   margin: 10px 5px 10px 5px;
-  padding: 5px 20px;
+  padding: 5px 25px 7px 25px;
+  background-color: var(--darker-dsr-blue);
   border-radius: 7px;
   border: none;
+}
+
+#weekly-monthly-calendar
+{
+  border-top: solid 2px var(--desaturated-light-blue);;
+  border-left: solid 2px var(--desaturated-light-blue);;
+  border-bottom: solid 2px var(--desaturated-light-blue);;
 }
 
 /* displays names of each day of the week horizontally in-line */
 #day-names div
 {
-  width: 14.28%;
+  width: 14.2859%;
+  font-size: 110%;
   text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: inline;
   float: left;
+  border-right: solid 2px var(--desaturated-light-blue);;
+  background-color: var(--darker-dsr-blue);
 }
 
 /* hides small whitespace between each event block */
 .event-row
 {
-  outline: solid 1px mediumslateblue;
   font-size: 0px;
 }
 
 /* displays event blocks horizontally in-line within each week */
 .event-block
 {
-  width: 14.28%;
+  width: 14.2859%;
   font-size: 16px;
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
-  outline: solid 1px mediumspringgreen;
+  border-top: solid 2px var(--desaturated-light-blue);
+  border-right: solid 2px var(--desaturated-light-blue);;
 }
 
 .outside-month
 {
-  color: #bbbbbb;
+  color: #555555;
+}
+
+.date
+{
+  background-color: var(--darker-dsr-blue);
+  text-align: center;
+  font-size: 110%;
+  padding: 2px 0px 5px 0px;
 }
 
 .events div
 {
-  width: 94%;
-  margin: 0px 3% 0px 3%;
-  padding: 3px 0px;
+  width: 92%;
+  margin: 4px 4%;
+  border-radius: 8px;
+  background-color: var(--darker-dsr-blue);
 }
 
 .events div li
@@ -89,13 +149,14 @@ Last Edited 2023/08/25
   word-wrap: break-word;
   overflow: visible;
   text-overflow: clip;
-  width: 90%;
+  width: 86.5%;
+  margin-left: 2%;
 }
 
 .events.monthly div
 {
-  width: 94%;
-  padding: 0px;
+  height: 24px;
+  padding: 1px;
 }
 
 .events.monthly div li
@@ -103,22 +164,26 @@ Last Edited 2023/08/25
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-bottom: 1.2px;
 }
 
 .events div button
 {
   font-size: 12px;
-  padding: 2px 0px;
-  border-radius: 3px;
+  margin-right: 1.5%;
+  border-radius: 5px;
   border: none;
   float: right;
   width: 10%;
+  vertical-align: middle;
+  background-color: var(--desaturated-royal-blue);
 }
 
-.date
+#yearly-calendar
 {
-  text-align: center;
+  border-right: solid 2px var(--desaturated-light-blue);
+  border-left: solid 2px var(--desaturated-light-blue);
+  border-bottom: solid 2px var(--desaturated-light-blue);
+  border-radius: 3px;
 }
 
 /* displays month name in middle of parent block */
@@ -127,6 +192,9 @@ Last Edited 2023/08/25
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  border-top: solid 2px var(--desaturated-light-blue);
+  border-bottom: solid 2px var(--desaturated-light-blue);
+  background-color: var(--darker-dsr-blue);
 }
 
 .month-row
@@ -150,9 +218,16 @@ Last Edited 2023/08/25
 /* each day in yearly view month blocks takes up 1 / 7th of month width */
 .date-row div
 {
-  width: 14.28%;
-  padding-top: 10px;
+  width: 14.285%;
+  padding-top: 4px;
+  padding-bottom: 7px;
   text-align: center;
+}
+
+.has-event
+{
+  color: var(--desaturated-light-blue);
+  background-color: var(--lighter-dsr-blue);
 }
 
 /* Stavros CSS */
@@ -167,7 +242,7 @@ body, h1, h2, h3, p, ul, li {
 body {
   color: #fff;
   font-family: Raleway;
-  background-color: #232323;
+  background-color: var(--desaturated-royal-blue);
 }
 
 
@@ -178,7 +253,7 @@ body {
     margin: 0;
     padding: 10px;
     border-radius: 10px;
-    background-color: #232323;
+    background-color: var(--desaturated-royal-blue);
     display:flex;
     flex-direction:column;
     align-items:center;
