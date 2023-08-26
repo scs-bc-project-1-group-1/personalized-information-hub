@@ -2,19 +2,18 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/24
+Last Edited 2023/08/25
 */
 
 /* Ethan's code here */
 
 //NEXT TO DO
-//add event creation
-//add event deletion
-//add saving events to local storage
-//add removing events from local storage
 //update styles
 
 //gets references to HTML elements necessary for event tracker functionality
+var eventTextInput = $("#event-input");
+var eventDatePicker = $("#event-date-picker");
+var addEventButton = $("#add-event-button");
 var monthYear = $("#month-year");
 var weeklyMonthlyCalendar = $("#weekly-monthly-calendar");
 var yearlyCalendar = $("#yearly-calendar");
@@ -22,10 +21,15 @@ var traverseLeft = $("#traverse-left");
 var traverseRight = $("#traverse-right");
 var zoomIn = $("#zoom-in");
 var zoomOut = $("#zoom-out");
-var rowThree = $("#row-3")
-var rowFour = $("#row-4")
-var rowFive = $("#row-5")
-var rowSix = $("#row-6")
+var eventRows = $(".event-row");
+var rowOne = $("#row-1");
+var rowTwo = $("#row-2");
+var rowThree = $("#row-3");
+var rowFour = $("#row-4");
+var rowFive = $("#row-5");
+var rowSix = $("#row-6");
+var eventBlocks = $(".event-block");
+var events = eventBlocks.children(".events");
 var monthlyRows = $(".monthly-row");
 var monthBlocks = $(".month-block");
 
@@ -33,6 +37,7 @@ var monthBlocks = $(".month-block");
 var traverseDays = 0;
 var eventView = "weekly";
 var forLoopCycles;
+var eventUpdated = false;
 
 //function to set up event calendar
 function setUpEventCalendar(firstDay)
@@ -73,34 +78,6 @@ function setUpEventCalendar(firstDay)
   }
   else //hides monthly / weekly calendar & displays yearly calendar if event view is set to yearly
   {
-    //for yearly view, have three rows with four divs each (three rows of four months)
-    //each month div has six divs within (one for possible row of weeks)
-    //12 for loops (one for each month) adds horizontally-aligned dates to each week-row div
-      //dayjs checks if the currently viewed year is a leap year, running for 29 days instead of 28 for february
-    //each for loop has an internal counter that all share the same variable to keep track of which day of the week should be added to next
-    //before any of the for loops run, use dayjs().day() to retrieve which day of the week january 1st of that year is
-      //the value returned by the above will be the starting value of the internal shared counter
-      //counter will run from 0 -> 6 inside each for loop, transferring progress between for loops, and reset back to 0 every time it hits 6
-      //e.g. 0 -> added to sunday & variable++, 3 -> added to wednesday & variable++, 6 -> added to sunday & variable = 0
-      //this way, you just have to determine which day of the week january 1st is for each year + if it's a leap year
-      //e.g. 2024 is a leap year, january 1st is a monday;
-        //dayjs().day() returns 1 -> first day will be added to column [1], second day to column [2], etc...
-        //sixth day is added to column [6] (saturday), variable is reset to 0, and seventh day is added to column [0] (sunday)
-        //repeats till end of for loop for that month (31 days -> 31 iterations)
-        //for loop for february immediately follows, dayjs checks that 2024 is a leap year, so loop will run for 29 iterations
-        //last day of january is a wednesday, so first day of february should be a thursday
-        //for last iteration of january loop, variable === 3, day is added to wednesday column, variable++, i.e. variable is now == 4
-        //variable is preserved between loops, so first day of february will be added to column [4] (thursday column)
-        //internal counter picks up where january loop left off, i.e. second day added to column [5], etc...
-        //repeats for the remaining ten months
-    //traverse buttons uses .add() method to add / subtract a year with each click in either direction
-
-    //traverse will need to return first day of year as firstDay variable to be processed by other functions
-
-    //when checking if a date in the yearly view should be highlighted, check if a local storage entry
-    //exists for the date ID assigned to that date
-    //use day numbers instead of dots for yearly view, changing the colour of the text for those with events
-
     //displays yearly calendar & hides weekly / monthly calendar
     weeklyMonthlyCalendar.attr("style", "display: none");
     yearlyCalendar.attr("style", "display: block");
@@ -151,6 +128,12 @@ function renderBlockDetails(blocks, firstDay)
         week.append(block[0]); //adds new day to appropriate week
         dayOfWeek++; //increase dayOfWeek by 1
 
+        //checks if there is a local storage entry for the current date, set its text colour to lavender
+        if (localStorage.getItem(date))
+        {
+          block.attr("style", "color: #b892ff");
+        }
+
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
           dayOfWeek = 0 //reset day of week to 0 (sunday)
@@ -174,7 +157,84 @@ function renderBlockDetails(blocks, firstDay)
 
       block.attr("id", date) //assigns current day's date as an ID
       block.children(".date").text(date.slice(8)) //removes the year and month from date string and sets the block's date text to that
+      
+      //clears any pre-existing events in the current block
+      var eventList = block.children(".events");
+      eventList.empty();
+
+      //checks if there is a local storage entry for the current date
+      if (localStorage.getItem(date))
+      {
+        //if yes, retrieve it
+        var localEventData = localStorage.getItem(date);
+        eventData = JSON.parse(localEventData);
+
+        //for loop which runs through each event item in local storage for current date
+        for (eventItem = 0; eventItem < eventData.length; eventItem++)
+        {
+          var eventContainer = $("<div></div>"); //creates empty div
+          var eventName = $("<li></li>").text(eventData[eventItem]); //creates list item with text of current event
+          var xButton = $("<button></button>").text("X"); //creates 'X' button
+
+          eventContainer.append(eventName); //adds list item with event name to div container
+          eventContainer.append(xButton); //adds 'X' button to div container
+          block.children(".events").append(eventContainer); //adds div container to current day block
+        }
+      }
     }
+
+    eventRows.children().removeClass("outside-month"); //removes any already-applied outside-month classes on certain days
+    var bottomRow; //variable to hold a reference to the bottom row of the month currently being viewed
+
+    if (forLoopCycles === 14) //if forLoopCycles is 14, i.e. event calendar is in weekly view, eject from function
+    {
+      return; 
+    }
+    else if (forLoopCycles === 28) //if forLoopCycles is 28, i.e. there are four rows of weeks, set the fourth row to be the bottom row
+    {
+      bottomRow = rowFour;
+    }
+    else if (forLoopCycles === 35) //if forLoopCycles is 35, i.e. there are five rows of weeks, set the fifth row to be the bottom row
+    {
+      bottomRow = rowFive;
+    }
+    else if (forLoopCycles === 42) //if forLoopCycles is 42, i.e. there are six rows of weeks, set the sixth row to be the bottom row
+    {
+      bottomRow = rowSix;
+    }
+
+    var dayOfWeek = firstDay.day(); //retrieves which day of the week firstDay of the month is
+    var lastDayOfMonth = firstDay.endOf("month").day(); //retrieves which day of the week last day of the month is
+
+    //for every day of the week that must be passed to reach firstDay (from sunday), change the text of an event block in the first row to gray, going from left to right
+    for (day = 0; day < dayOfWeek; day++) 
+    {
+      $(rowOne.children()[day]).addClass("outside-month") //change text in first row block with index equal to day to gray
+    }
+
+    //for every day of the week in the bottom row that isn't part of the current month, change its text to gray
+    for (day = lastDayOfMonth + 1; day < 7; day++)
+    {
+      $(bottomRow.children()[day]).addClass("outside-month"); //change text in bottom row block with index equal to day to gray
+    }
+  }
+}
+
+//function to adjust height of all blocks in both rows of weekly view to match the tallest day in that row
+function adjustRowHeight()
+{
+  if (eventView === "weekly") //adjust height of day blocks in weekly view to match tallest day in that row
+  {
+    rowOne.children().css({"height": "", "min-height": "200px"});
+    rowTwo.children().css({"height": "", "min-height": "200px"});
+    
+    //retrieves pixel height of week one & two rows
+    rowOneHeight = rowOne[0].offsetHeight;
+    rowTwoHeight = rowTwo[0].offsetHeight;
+
+    //sets height of rows one & two to that of the tallest day in that row
+    rowOne.children().css("min-height", rowOneHeight);
+    rowTwo.children().css("min-height", rowTwoHeight);
   }
 }
 
@@ -191,7 +251,7 @@ function updateMonthYearHeader(firstDay)
   }
   else //otherwise (i.e. event planner is in weekly view), update the text with the appropriate month & year
   {
-    var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
     monthYear.text(dayjs(lastDayOfFirstRow).format("MMMM YYYY")); //updates month / year header above calendar based on month & year of lastDayOfFirstRow
   }
 }
@@ -205,41 +265,27 @@ function renderEventPlanner(firstDay)
   //renders & assigns dates to calendar
   renderBlockDetails(blocks, firstDay);
 
-  /* var lastDayOfFirstRow = $("#row-1").children()[6].id;
-    var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
+  adjustRowHeight(); //adjusts height of rows in each week
+  updateMonthYearHeader(firstDay); //updates month / year header above calendar
 
-  var yearOfLastDay = dayjs(lastDayOfFirstRow).startOf("year");
-        var sundayOfYearStart = dayjs(yearOfLastDay).startOf("week");
+  //if this calendar re-render was caused by an event being added or deleted, do not change the default date of the datepicker, and reset the eventUpdated variable
+  if (eventUpdated)
+  {
+    eventUpdated = false;
+    return;
+  }
 
-  traverseDays = sundayOfYearStart.diff(sundayOfThisWeek, "day");
-
-  dayjs().add(traverseDays - dayjs().day(), "d");*/
-
-  //dayjs(dayjs().date(1)).format("ddd") -> day of week for first day of month
-
-  //https://jqueryui.com/datepicker/ -> datepicker widget
-
-  
-  
-  //change all text colour of days not in current month in monthly view to gray
-  //e.g. month starts on tuesday, ends on thursday
-    //sunday & monday of first week + friday & saturday of last week are gray
-    //use two for loops which which run for up to 6 iterations, one to check every day of first week in monthly view (other than saturday), the other for every day of final week (other than sunday)
-      //get reference to lastDayOfFirstRow / firstDayOfNewMonth
-      //for each iteration, check if dayjs().month() of day being checked equals that of the above
-        //if yes, for loop returns to end early
-        //if not, colour the day being checked gray, and repeat until all reaches the start of the month being viewed, or all 6 days are grey
-      //counts up from 0 for first week checks (sunday -> friday), counts down from 6 for final week checks (saturday -> monday)
-
-  //when creating dates for yearly view check if there is a local storage entry for its date
-    //if yes, change the text colour of that date
-    //otherwise, do nothing
-    //it would probably be more efficient to get the length of the local storage event list
-      //use a for loop running for iterations equal to the length of the list
-      //.find() days which have an ID matching
-
-  //updates month / year header above calendar
-  updateMonthYearHeader(firstDay);
+  //if firstDay has been defined, update default datepicker date to firstDay
+  if (firstDay)
+  {
+    eventDatePicker.datepicker("setDate", firstDay.format("YYYY/MM/D")); 
+  }
+  else //if it has not, set firstDay to first day of month currently being viewed, and set default datepicker date to firstDay
+  {
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
+    eventDatePicker.datepicker("setDate", firstDay.format("YYYY/MM/D")); 
+  }
 }
 
 //function to manage traversing event blocks using left & right buttons
@@ -256,7 +302,7 @@ function traverseBlocks(direction)
     else if (eventView === "monthly") //if the event calendar is in the monthly view, shift one month backwards relative to the one currently being viewed
     {
       var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-      var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+      var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
       var firstDayOfLastMonth = dayjs(lastDayOfFirstRow).subtract(1, "month").startOf("month"); //retrieves first day of month preceding the one currently being viewed
       var sundayOfMonthStart = dayjs(firstDayOfLastMonth).startOf("week"); //retrieves sunday of week containing firstDayOfLastMonth
 
@@ -281,7 +327,7 @@ function traverseBlocks(direction)
     else if (eventView === "monthly") //if the event calendar is in the monthly view, shift one month forwards relative to the one currently being viewed
     {
       var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
-      var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+      var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
       var firstDayOfNextMonth = dayjs(lastDayOfFirstRow).add(1, "month").startOf("month"); //retrieves first day of month following the one currently being viewed
       var sundayOfMonthStart = dayjs(firstDayOfNextMonth).startOf("week"); //retrieves sunday of week containing firstDayOfNextMonth
 
@@ -304,7 +350,7 @@ function traverseBlocks(direction)
 //function to change zoom level of event view
 function switchEventZoom(zoomButton)
 {
-  var lastDayOfFirstRow = $("#row-1").children()[6].id; //retrieves ID (date) of last day in first row of event planner
+  var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
   var sundayOfThisWeek = dayjs().startOf("week"); //retrieves this week's sunday
   var firstDay; //variable to hold first day of new month / year when traversing
 
@@ -319,6 +365,8 @@ function switchEventZoom(zoomButton)
       traverseDays = sundayOfMonthStart.diff(sundayOfThisWeek, "day");
 
       firstDay = monthOfLastDay; //sets firstDay to first day of month which to be zoomed out to
+      eventBlocks.css({"min-height": "", "height": "100px"}); //removes min-height & sets a fixed height of 100px to all event day blocks
+      events.addClass("monthly"); //adds monthly class to event lists
 
       eventView = "monthly"
     }
@@ -350,15 +398,127 @@ function switchEventZoom(zoomButton)
     }
     else if (eventView === "monthly") //if the planner is currently in monthly view, switch to weekly view
     {
+      events.removeClass("monthly"); //removes monthly class from event lists
       eventView = "weekly"
     }
   }
 
-  renderEventPlanner(firstDay);
+  renderEventPlanner(firstDay); //updates event calendar
 }
+
+//function to take input event data
+function createEvent()
+{
+  //retrieves event name & date
+  var eventName = eventTextInput.val();
+  var eventDate = eventDatePicker.val();
+
+  //if the user did not input both a name and date for the event, eject from function
+  if (!(eventName && eventDate))
+  {
+    return;
+  }
+
+  //attempts to retrieve entry for input date from local storage
+  var localEventList = localStorage.getItem(eventDate);
+
+  if (localEventList) //if the above entry exists, append the new event to it, and update the local storage entry
+  {
+    var eventList = JSON.parse(localEventList);
+    eventList.push(eventName);
+    localStorage.setItem(eventDate, JSON.stringify(eventList));
+  }
+  else //if it does not exist, create an empty array, append the new event to it, and save the entry to local storage
+  {
+    var eventList = [];
+    eventList.push(eventName);
+    localStorage.setItem(eventDate, JSON.stringify(eventList));
+  }
+
+  //clears event name inputs
+  eventTextInput.val("");
+
+  //gets a sample firstDay value
+  var firstDay = retrieveFirstDay();
+
+  eventUpdated = true; //marks that the following calendar re-render was triggered by a change to events
+  renderEventPlanner(firstDay); //updates event calendar
+}
+
+function deleteEvent()
+{
+  elementClicked = event.target //retrieves element that was clicked
+
+  //if a button was not clicked, eject from function
+  if (!elementClicked.matches("button"))
+  {
+    return;
+  }
+  
+  var buttonClicked = $(elementClicked); //gets a jQuery object reference to the specific button that was clicked
+  var eventContainer = buttonClicked.parent(); //gets parent div of buttonClicked
+  var eventList = eventContainer.parent(); //gets grandparent event list of buttonClicked
+  var eventDate = eventList.parent().attr("id"); //gets event date from id of great-grandparent event block
+  
+  var localStorageData = JSON.parse(localStorage.getItem(eventDate)); //retrieves event data of date associated with event block containing buttonClicked
+  
+  localStorageData.splice(eventContainer.index(), 1); //removes entry matching index of eventContainer from local storage
+
+  if (localStorageData.length === 0) //if the local storage entry for the current date contains no events, remove the entry for that date
+  {
+    localStorage.removeItem(eventDate); 
+  }
+  else //if events still remain for that date, update the entry now that the appropriate event has been removed
+  {
+    localStorage.setItem(eventDate, JSON.stringify(localStorageData)); //updates local storage after removing appropriate entry
+  }
+
+  //gets a sample firstDay value
+  var firstDay = retrieveFirstDay();
+
+  eventUpdated = true; //marks that the following calendar re-render was triggered by a change to events
+  renderEventPlanner(firstDay); //updates event calendar
+}
+
+//function to get a reference to a sample firstDay variable, used in other functions where firstDay is not referenced, but is followed up by functions that need it
+function retrieveFirstDay()
+{
+  if (eventView === "yearly") //if eventView is set to yearly, set firstDay to first day of year being viewed
+  {
+    firstDay = dayjs(monthYear.text()).startOf("year");
+  }
+  else //otherwise, set it to the first day of the month currently being viewed
+  {
+    var lastDayOfFirstRow = rowOne.children()[6].id; //retrieves ID (date) of last day in first row of event planner
+    var firstDay = dayjs(lastDayOfFirstRow).startOf("month"); //sets firstDay to first day of month containing lastDayOfFirstRow
+  }
+
+  return firstDay;
+}
+
+//adds datepicker widget to event date selection input
+$(function()
+{
+  eventDatePicker.datepicker(
+  {
+    dateFormat: "yy/mm/d",
+  });
+});
 
 //initializes event calendar view on current week
 renderEventPlanner();
+
+//resets date of datepicker to start of current month when page is finished loading
+window.addEventListener("load", function()
+{
+  eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
+});
+
+//attempts to add an event when the add event button is clicked
+addEventButton.on("click", createEvent);
+
+//attempts to delete an event when one is clicked
+events.on("click", deleteEvent);
 
 //moves event calendar one week backward when left arrow is clicked
 traverseLeft.on("click", function()
@@ -383,13 +543,6 @@ zoomOut.on("click", function()
 {
   switchEventZoom("out");
 });
-
-//purgeOldEvents function runs once, and deletes local storage data for events that passed over a month ago
-//you would probably have to put all events into a single object and name all sub-objects based on their date
-  //when a new event is created, the object is appended to the current list
-//function would perform a for loop which attempts to run through every event in the local storage list
-//if it finds a date > 30 days past, it is deleted
-//continues until it finds a date < 30 days past or a date ahead of today, at which point the loop returns to end early
 
 /* Stavros's code here */
 
@@ -507,7 +660,6 @@ var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
 var city;
 
-
 function clearCity() {
   localStorage.removeItem('savedCity');
   weatherContainer.style.display = "none";
@@ -538,6 +690,7 @@ function getApi() {
 
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
   // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
+  
   console.log(queryUrl);
 
   if (weatherContainer.style.display === "none") {
@@ -557,7 +710,6 @@ function getApi() {
   .then(function (data) {
     console.log('Fetch Response \n-------------');
     console.log(data);
-
 
     //trying to add current day dinamically
 
@@ -599,6 +751,7 @@ function getApi() {
     } */
 
 /*     var weatherConditions = data.currentConditions.icon;
+
     var weatherIcon = document.createElement('img');
     weatherIcon.setAttribute('id', 'weather-icon');
     var weatherImage = document.getElementById('weather-icon');
@@ -609,9 +762,11 @@ function getApi() {
     temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
+
     windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees'; */
     inputCity.value='';
     nextHoursForecast(data.latitude, data.longitude);
+
     sevenDayForecast(data.latitude, data.longitude);
   });
 
@@ -678,8 +833,10 @@ function nextHoursForecast(lat, lon){
 
   function sevenDayForecast(lat, lon){
     console.log(lat, lon);
+
     var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
     // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
+
 
     console.log(queryUrl);
     fetch(queryUrl)
@@ -707,8 +864,10 @@ function nextHoursForecast(lat, lon){
         var weatherIcon = document.createElement('img');
         weatherIcon.setAttribute('id', 'weather-icon');
         var weatherImage = document.getElementById('weather-icon');
+
         weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
         // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
+
         weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
         weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
 
