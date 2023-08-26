@@ -66,16 +66,36 @@ input:focus
 
 /* WESLEY CSS */
 
+.live-update-container {
+  display: flex;
+  align-items: center;
+}
+
+.date-container,
+.time-container {
+  margin-right: 20px;
+  background-color: var(--darker-dsr-blue);
+  padding: 20px;
+  border-radius: 3px;
+}
+
+#weather-container {
+  text-align: center;
+  border-radius: 3px;
+}
+
 .weather-style-container {
-  /* display: flex; */
-  /* display: block; */
   font-size: 0px;
   display: none;
+  border-right: solid 2px var(--light-dsr-blue);
+  background-color: var(--darker-dsr-blue);
 }
 
 .first-box-container {
   display: flex;
   font-size: 16px;
+  border-top: solid 2px var(--light-dsr-blue);
+  margin-top: 15px;
 }
 
 #current-day-weather
@@ -87,6 +107,8 @@ input:focus
 .forecast-sections {
   box-sizing: border-box;
   white-space: nowrap;
+  border: solid 2px var(--light-dsr-blue);
+  width: 100%;
 }
 
 #next-hours-weather
@@ -98,6 +120,7 @@ input:focus
 .hourly-forecast {
   box-sizing: border-box;
   white-space: nowrap;
+  border-left: solid 2px var(--light-dsr-blue);
 }
 
 .weekly-weather-style {
@@ -127,6 +150,28 @@ input:focus
   padding: 10px;
   margin-right: 1%;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px; /* Adjust the width as needed */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--dark-dsr-blue);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--lighter-dsr-blue); /* Adjust the handle color for visibility */
+  border-radius: 5px; /* Rounded handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-dsr-blue);
+}
+
 /*
 border: solid 2px var(--light-dsr-blue);
 background-color: var(--dark-dsr-blue);
