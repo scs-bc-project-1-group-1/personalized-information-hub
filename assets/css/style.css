@@ -5,13 +5,71 @@ Created 2023/08/15
 Last Edited 2023/08/25
 */
 
+/* COMMON CSS */
+
+/* defines primary colour scheme */
 :root
 {
-  --desaturated-light-blue: #b1b1e4;
-  --desaturated-royal-blue: #1e1e30;
-  --darker-dsr-blue: #191926;
-  --lighter-dsr-blue: #44446e;
+  --desaturated-royal-blue: #262641; /* page background colour */
+  --dark-dsr-blue: #1e1e30; /* main content background colour */
+  --darker-dsr-blue: #191926; /* button & input background colour */
+  --light-dsr-blue: #44446e; /* highlight colour (e.g. button hover) */
+  --lighter-dsr-blue: #b1b1e4; /* strong highlight colour (e.g. input focus) */
 }
+
+/* changes base font settings and page background colour */
+body
+{
+  color: #ffffff;
+  font-family: Raleway;
+  background-color: var(--desaturated-royal-blue);
+}
+
+/* defines default display settings for buttons */
+button
+{
+  background-color: var(--darker-dsr-blue);
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* defines default button hover animation */
+button:hover
+{
+  background-color: var(--light-dsr-blue);
+  transition: 0.25s;
+}
+
+/* defines default display settings for inputs */
+input
+{
+  font-size: 150%;
+  background-color: var(--darker-dsr-blue);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* defines default input focus outline */
+input:focus
+{
+  outline: solid 3px var(--lighter-dsr-blue);
+}
+
+/* defines width of main page content & centers it */
+.main-content-section
+{
+  width: 80%;
+  margin: 0px 10%;
+}
+
+/* WESLEY CSS */
+
+/*
+border: solid 2px var(--light-dsr-blue);
+background-color: var(--dark-dsr-blue);
+*/
 
 /* ETHAN CSS */
 
@@ -24,19 +82,12 @@ Last Edited 2023/08/25
   box-sizing: border-box;
 }
 
-#event-planner-content
-{
-  width: 80%;
-  margin: 0px 10%;
-}
-
 #event-creator > *
 {
   margin-right: 1%;
   font-size: 150%;
   background-color: var(--darker-dsr-blue);
   padding: 10px;
-  border: solid 2px var(--desaturated-light-blue);
   border-radius: 10px;
 }
 
@@ -84,9 +135,10 @@ Last Edited 2023/08/25
 
 #weekly-monthly-calendar
 {
-  border-top: solid 2px var(--desaturated-light-blue);;
-  border-left: solid 2px var(--desaturated-light-blue);;
-  border-bottom: solid 2px var(--desaturated-light-blue);;
+  border-top: solid 2px var(--light-dsr-blue);
+  border-left: solid 2px var(--light-dsr-blue);
+  border-bottom: solid 2px var(--light-dsr-blue);
+  background-color: var(--dark-dsr-blue);
 }
 
 /* displays names of each day of the week horizontally in-line */
@@ -99,7 +151,7 @@ Last Edited 2023/08/25
   padding-bottom: 10px;
   display: inline;
   float: left;
-  border-right: solid 2px var(--desaturated-light-blue);;
+  border-right: solid 2px var(--light-dsr-blue);
   background-color: var(--darker-dsr-blue);
 }
 
@@ -117,8 +169,8 @@ Last Edited 2023/08/25
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
-  border-top: solid 2px var(--desaturated-light-blue);
-  border-right: solid 2px var(--desaturated-light-blue);;
+  border-top: solid 2px var(--light-dsr-blue);
+  border-right: solid 2px var(--light-dsr-blue);
 }
 
 .outside-month
@@ -180,10 +232,11 @@ Last Edited 2023/08/25
 
 #yearly-calendar
 {
-  border-right: solid 2px var(--desaturated-light-blue);
-  border-left: solid 2px var(--desaturated-light-blue);
-  border-bottom: solid 2px var(--desaturated-light-blue);
+  border-right: solid 2px var(--light-dsr-blue);
+  border-left: solid 2px var(--light-dsr-blue);
+  border-bottom: solid 2px var(--light-dsr-blue);
   border-radius: 3px;
+  background-color: var(--dark-dsr-blue);
 }
 
 /* displays month name in middle of parent block */
@@ -192,8 +245,8 @@ Last Edited 2023/08/25
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-top: solid 2px var(--desaturated-light-blue);
-  border-bottom: solid 2px var(--desaturated-light-blue);
+  border-top: solid 2px var(--light-dsr-blue);
+  border-bottom: solid 2px var(--light-dsr-blue);
   background-color: var(--darker-dsr-blue);
 }
 
@@ -226,8 +279,8 @@ Last Edited 2023/08/25
 
 .has-event
 {
-  color: var(--desaturated-light-blue);
-  background-color: var(--lighter-dsr-blue);
+  color: var(--lighter-dsr-blue);
+  background-color: var(--light-dsr-blue);
 }
 
 /* Stavros CSS */
@@ -239,11 +292,11 @@ body, h1, h2, h3, p, ul, li {
 }
 
 
-body {
+/*body {
   color: #fff;
   font-family: Raleway;
   background-color: var(--desaturated-royal-blue);
-}
+}*/
 
 
 
@@ -300,15 +353,15 @@ font-family: Raleway;
 font-size:10px x-small;
   flex-grow: 1;
   padding: 10px;
-  border: 2px solid #5900ff;
+  /*border: 2px solid #5900ff;
   color: #fff;
   background-color: #232323;
-   border-radius: 0 5px 5px 0;
+   border-radius: 0 5px 5px 0;*/
  
 
 }
 
-#fetchButton {
+/*#fetchButton {
 
   padding: 5px 10px;
   background-color: #5900ff;
@@ -316,9 +369,9 @@ font-size:10px x-small;
   border:none;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
-}
+}*/
 
-#fetchButton:hover {
+/*#fetchButton:hover {
 
   background-color: #6c27ee
-}
+}*/
