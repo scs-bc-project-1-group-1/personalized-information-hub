@@ -24,7 +24,16 @@ Last Edited 2023/08/25
 </head>
 
 <body>
-	<div id = "weather-dashboard" class = "main-content-section">
+  <div class="live-update-container main-content-section">
+    <div class="date-container">
+      <p id="current-date"></p>
+    </div>
+    <div class="time-container">
+      <p id="current-time"></p>
+    </div>
+  </div>
+
+<div id = "weather-dashboard" class = "main-content-section">
   <input type="text" id="city-search" class="weather-input-style">
   <button id="search-button" class="weather-buttons-style">+</button>
   <button id="clear-city" class="weather-buttons-style">Clear City</button>
