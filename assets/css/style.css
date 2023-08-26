@@ -157,33 +157,93 @@ Last Edited 2023/08/25
 
 /* Stavros CSS */
 
+body, h1, h2, h3, p, ul, li {
+
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+color: #fff;
+  font-family: Raleway;
+  background-color: #232323;
+}
+
+
+
 
 .container {
-    max-width:565px;
-    margin: 10px;
+    max-width:100%;
+    margin: 0;
     padding: 10px;
-    background-color: #232323;
-    display:grid;
-    flex-direction:column;
     border-radius: 10px;
-    flex-grow:1;
+    background-color: #232323;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: flex-end;
+    min-height: 100vh;
+   
   
 }
 
 
 .video-container {
-    display:row;
+
+    display:flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    justify-content:space-between;
-    align-items: flex-end;
-    margin-top: auto;
+    margin-top: 10px;
 }
 
 .video-box {
-    width: calc(100% - 5px);
+    width: calc(50% - 10px);
     margin-bottom: 10px;
+    margin-right: 10px;
     border: 1px solid #5900ff;
     border-radius: 5px;
     overflow:hidden;
   
+}
+
+.video-box iframe {
+  width: 100%;
+  height: auto;
+}
+
+.input-container {
+
+  display:flex;
+  align-items: center;
+  margin-top: 10px;
+  
+}
+
+#channelIdInput {
+font-family: Raleway;
+font-size:10px x-small;
+  flex-grow: 1;
+  padding: 10px;
+  border: 2px solid #5900ff;
+  color: #fff;
+  background-color: #232323;
+   border-radius: 0 5px 5px 0;
+ 
+
+}
+
+#fetchButton {
+
+  padding: 5px 10px;
+  background-color: #5900ff;
+  color: #fff;
+  border:none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+#fetchButton:hover {
+
+  background-color: #6c27ee
 }
