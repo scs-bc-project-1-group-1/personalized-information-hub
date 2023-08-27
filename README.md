@@ -1,4 +1,23 @@
-# personal-information-hub
+# Project 1 - Personalized Information Hub
+
+## Description
+
+I am a very busy man,
+
+***[DESCRIPTION OF PROJECT'S INSPIRATION & PURPOSE]***
+
+## Usage
+
+View my ***[PROJECT]*** here;
+
+***[LINK]***
+
+***[USAGE GUIDE]***
+
+## Preview
+
+![Preview of ***[PROJECT]***](./assets/images/challenge-***[CHALLENGE NUMBER]***-website-preview.jpg)
+
 
 ## Credits
 
@@ -27,10 +46,6 @@ https://stackoverflow.com/questions/28952509/jquery-how-to-get-the-index-of-an-e
 onload event
 https://www.w3schools.com/jsref/event_onload.asp
 
-### WESLEY'S LINKS
-
-
-
 ### STAVROS' LINKS
 
 https://blog.logrocket.com/localstorage-javascript-complete-guide/
@@ -48,3 +63,7 @@ https://developers.google.com/youtube/iframe_api_reference
 https://www.w3schools.com/jsref/event_onload.asp
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
+## License
+
+Operates under a standard MIT license, refer to the LICENSE file in the repository for more information.

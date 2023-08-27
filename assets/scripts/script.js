@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/26
+Last Edited 2023/08/27
 */
 
 /* Ethan's code here */
