@@ -1,23 +1,26 @@
 # Project 1 - Personalized Information Hub
 
+![Project Logo](./assets/images/favicon.png)
+
 ## Description
 
-I am a very busy man,
+I am an avid internet user, who frequently visits & utilizes various sites and applications for various purposes. However, I am also a *very* busy man, and as such, wish that I could have the functionality of all these apps consolidated into one location for quick and efficient use. This project is meant to fulfill that wish.
 
-***[DESCRIPTION OF PROJECT'S INSPIRATION & PURPOSE]***
+Specifically, it combines the functionality of a city-based weather app, a calendar which tracks user-generated events over the short, medium, and long-term, and a menu which retrieves the lastest five uploads from a specific YouTube Channel.
 
 ## Usage
 
-View my ***[PROJECT]*** here;
+Visit the Personalized Information Hub here;
 
-***[LINK]***
+https://scs-bc-project-1-group-1.github.io/personalized-information-hub/
 
-***[USAGE GUIDE]***
+At the top of the page, there will be two blocks, displaying the current date on the left, and the current time (24-hour format) on the right, which will update in real-time.
+
+Below will be an input box and two buttons, which are used to render weather data to the page. After typing a city's name into the input, click "Add City", and an attempt will be made
 
 ## Preview
 
-![Preview of ***[PROJECT]***](./assets/images/challenge-***[CHALLENGE NUMBER]***-website-preview.jpg)
-
+![Preview of Personalized Information Hub](./assets/images/project-1-website-preview.jpg)
 
 ## Credits
 
@@ -28,8 +31,6 @@ https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
 https://www.flaticon.com/free-icons/sun
 
 https://www.flaticon.com/free-icons/video
-
-https://www.vecteezy.com/vector-art/2581966-hub-network-connection-line-vector-icon-on-white-background
 
 offsetHeight
 https://stackoverflow.com/questions/294250/how-do-i-retrieve-an-html-elements-actual-width-and-height
@@ -45,6 +46,10 @@ https://stackoverflow.com/questions/28952509/jquery-how-to-get-the-index-of-an-e
 
 onload event
 https://www.w3schools.com/jsref/event_onload.asp
+
+### WESLEY'S LINKS
+
+
 
 ### STAVROS' LINKS
 

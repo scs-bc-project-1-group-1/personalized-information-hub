@@ -796,7 +796,7 @@ body, h1, h2, h3, p, ul, li {
 
 .video-container {
 
-    display:flex;
+    display: none;
     justify-content: flex-start;
     flex-wrap: wrap;
     background-color: var(--dark-dsr-blue);
