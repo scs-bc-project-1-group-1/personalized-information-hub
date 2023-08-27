@@ -3,6 +3,7 @@
 ## Description
 
 <img src = "./assets/images/favicon.png" align = "right" alt = "Project Logo" width = "200px"/>
+
 I am an avid internet user, who frequently visits & utilizes various sites and applications for various purposes. However, I am also a *very* busy man, and as such, wish that I could have the functionality of all these apps consolidated into one location for quick and efficient use. This project is meant to fulfill that wish.
 
 Specifically, it combines the functionality of a city-based weather app, a calendar which tracks user-generated events over the short, medium, and long-term, and a menu which retrieves the lastest five uploads from a specific YouTube Channel.
