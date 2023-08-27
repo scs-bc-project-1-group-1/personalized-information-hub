@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //Visual Crossing API Key
-var weatherApiKey = 'PYRJL8KKTFHB65W4AWDUCJN3G';
+var weatherApiKey = 'DWZMTC97DXDUUZ9PZMQAP64BT';
 
 var fetchButton = document.getElementById('search-button');
 var currentDayWeather = document.getElementById('current-day-weather');
