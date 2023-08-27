@@ -113,19 +113,32 @@ function renderBlockDetails(blocks, firstDay)
       {
         var emptyDiv = $("<div></div>"); //creates empty div
         var firstWeekOfMonth = $(monthBlocks[month]).children()[1]; //gets reference to first week of current month (+1 to avoid month name div)
+        emptyDiv.addClass("blank-date");
         firstWeekOfMonth.append(emptyDiv[0]) //adds empty div to first week of current month
       }
 
+      var firstDayOfWeekAndInMonth = true; //variable to track if the day being added is the first day of the week in this month
+      var lastDayOfThisMonth; //variable to hold last day of the current month
       var weekOfMonth = 0; //variable to track which week of the month new date element should be added to
 
-      for (day = 0; day < forLoopCycles; day++) //for loop to create days of current month
+      //for loop to create days of current month (beyond the first)
+      for (day = 0; day < forLoopCycles; day++) 
       {
         var block = $("<div></div>"); //creates empty div
         var week = $(monthBlocks[month]).children()[weekOfMonth + 1]; //gets reference to current week of month (+1 to avoid month name div)
         var date = dayjs(firstDay).add(day + daysPast, "d").format("YYYY/MM/D"); //retrieves date of current day being added
         block.attr("id", date); //assigns current day's date as an ID
         block.text(date.slice(8)); //removes the year and month from date string and sets the block's date text to that
+        
+        //checks if the day currently being is the first day of the week & is in the current month
+        if (firstDayOfWeekAndInMonth)
+        {
+          block.addClass("first-day-of-week"); //applies a style class which gives rounded edges on the left side 
+          firstDayOfWeekAndInMonth = false; //mark that the first-day-of-week class has already been applied to a day in this week
+        }
+  
         week.append(block[0]); //adds new day to appropriate week
+        lastDayOfThisMonth = block; //refers to current block as last day of current month
         dayOfWeek++; //increase dayOfWeek by 1
 
         //checks if there is a local storage entry for the current date, set its text colour to a light blue
@@ -136,11 +149,14 @@ function renderBlockDetails(blocks, firstDay)
 
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
+          block.addClass("last-day-of-week"); //applies a style class to current block which gives rounded edges on the right side 
+          firstDayOfWeekAndInMonth = true; //resets application of first-day-of-week class
           dayOfWeek = 0 //reset day of week to 0 (sunday)
           weekOfMonth++; //proceeds to next week in current month
-        }   
+        }
       }
 
+      lastDayOfThisMonth.addClass("last-day-of-week"); //marks last day created in above for loop as last day of the current month, which gives rounded edges on the right side 
       daysPast += forLoopCycles; //increase daysPast variable once for each day added
     }
   }
@@ -509,7 +525,7 @@ renderEventPlanner();
 //resets date of datepicker to start of current month when page is finished loading
 window.addEventListener("load", function()
 {
-  eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
+  eventDatePicker.datepicker("setDate", dayjs(rowOne.children()[6].id).startOf("month").format("YYYY/MM/D"));
 });
 
 //updates row height while window is being resized
@@ -582,8 +598,6 @@ function fetchAndRender() {
   } else {
     console.error('Please provide a valid Youtube Channel ID.');
   }
-
-  channelIdInput.value = ""; //empties channel id input
 }
 //added a function to fetch videos from Youtube API when the channel ID is inputed
 function fetchVideos(channelId) {
@@ -599,6 +613,8 @@ function fetchVideos(channelId) {
 
       saveToLocalStorage('youtubeData', data); // this will save fetched data to local storage
       renderVideos(data); //calls the renderVideos function to display videos on webpage
+
+      channelIdInput.value = ""; //empties channel id input
 
     } else {
 
@@ -804,7 +820,8 @@ function nextHoursForecast(lat, lon){
 
   console.log(queryUrl);
   fetch(queryUrl)
-  .then(function (response) {
+  .then(function (response)
+  {
     return response.json();
   })
   .then(function (data) {
