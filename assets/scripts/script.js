@@ -694,26 +694,31 @@ var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
 var city;
 
+// Function to clear the saved city and hide weather container
 function clearCity() {
   localStorage.removeItem('savedCity');
   weatherContainer.style.display = "none";
-}
+};
 
+// Attach the clearCity function to the "Clear City" button's click event
 clearCityInput.addEventListener('click', clearCity);
 
+// Check if a saved city exists and load its weather data
 if (localStorage === null) {
 
 } else {
   getApi();
-}
+};
 
+// Function to fetch weather data from the API
 function getApi() {
 
+  // Clear existing weather data on UI
   currentDayWeather.innerHTML = '';
   nextHoursWeather.innerHTML = '';
   nextDays.innerHTML = '';
 
-  console.log(typeof inputCity.value);
+  // Determine the city based on input or saved value
   if (inputCity.value === "") {
     var storedValue = localStorage.getItem("savedCity");
     city = storedValue;
@@ -722,20 +727,21 @@ function getApi() {
     localStorage.setItem('savedCity', inputCity.value);
   }
 
+  // Build the API URL for the current day's weather
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
-  
-  console.log(queryUrl);
 
+  // Display the weather container if hidden
   if (weatherContainer.style.display === "none") {
     weatherContainer.style.display = "block";
   }
 
-
+  // Handle cases where city is not specified
   if (city === null) {
 
     return false;
   }
 
+  // Fetch weather data for the current day
   fetch(queryUrl)
   .then(function (response) {
     if (!response.ok) {
@@ -748,8 +754,6 @@ function getApi() {
   })
 
   .then(function (data) {
-    console.log('Fetch Response \n-------------');
-    console.log(data);
 
     $(".weather-style-container").attr("style", ("display: block"));
 
@@ -792,22 +796,18 @@ function getApi() {
   })
 }
 
-
+// Function to fetch hourly forecast data
 function nextHoursForecast(lat, lon){
-  console.log(lat, lon);
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
 
-  console.log(queryUrl);
   fetch(queryUrl)
   .then(function (response)
   {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
 
     var forecastList = data.days[0].hours;
-    console.log(forecastList);
 
     for (var i = 0; i < 24; i = i + 1) {
       var nextHoursForecastContent = document.createElement('div');
@@ -845,26 +845,21 @@ function nextHoursForecast(lat, lon){
       
 
       nextHoursWeather.appendChild(nextHoursForecastContent);
-      console.log(data.length);
     }
   });
 }
 
 
-
+// Function to fetch seven-day forecast data
   function sevenDayForecast(lat, lon){
-    console.log(lat, lon);
 
     var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
 
-
-    console.log(queryUrl);
     fetch(queryUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
 
       var forecastList = data.days;
 
@@ -909,19 +904,23 @@ function nextHoursForecast(lat, lon){
     });
   }
 
+  // Attach the getApi function to the "Search" button's click event
   fetchButton.addEventListener('click', getApi);
 
+  // Function to update current date and time every second
   function updateDateAndTime() {
     var currentDateElement = document.getElementById('current-date');
     var currentTimeElement = document.getElementById('current-time');
     
+    // Use the dayjs library to format and display date and time
     var currentDate = dayjs().format("MMMM D, YYYY");
     var currentTime = dayjs().format('HH:mm:ss');
 
+    // Update the displayed date and time
     currentDateElement.textContent = currentDate;
     currentTimeElement.textContent = currentTime;
   }
 
+  // Update date and time immediately and set interval to update every second
   setInterval(updateDateAndTime, 1000);
-
   updateDateAndTime();
