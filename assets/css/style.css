@@ -17,6 +17,12 @@ Last Edited 2023/08/26
   --lighter-dsr-blue: #b1b1e4; /* strong highlight colour (e.g. input focus) */
 }
 
+/* sets all elements to include padding & border in element size */
+*
+{
+  box-sizing: border-box;
+}
+
 /* changes base font settings and page background colour */
 body
 {
@@ -336,10 +342,59 @@ body {
 
 /* ETHAN CSS */
 
-/* sets all elements to include padding & border in element size */
-*
+/* defined colours & basic display settings of datepicker */
+.ui-datepicker
 {
-  box-sizing: border-box;
+  font-family: Raleway;
+  background-color: var(--dark-dsr-blue);
+  color: #ffffff;
+  border: solid 2px var(--light-dsr-blue);
+  padding: 0px;
+}
+
+/* defines display settings for month / year header in datepicker */
+.ui-datepicker-header
+{
+  background: var(--darker-dsr-blue);
+  color: #ffffff;
+  border: none;
+}
+
+/* sets background colour for datepicker previous month button */
+.ui-datepicker-prev
+{
+  background: var(--light-dsr-blue);
+  margin: 1.5px;
+}
+
+/* sets background colour for datepicker next month button */
+.ui-datepicker-next
+{
+  background: var(--light-dsr-blue);
+  margin: 1.5px;
+}
+
+/* sets general background colour for datepicker */
+.ui-datepicker-calendar
+{
+  background: var(--dark-dsr-blue);
+}
+
+/* sets background colour for datepicker dates */
+.ui-datepicker .ui-state-default
+{
+  text-align: center;
+  background: var(--dark-dsr-blue);
+  border: solid 2px var(--light-dsr-blue);
+  border-radius: 2px;
+  color: #ffffff;
+}
+
+/* sets hover colour for datepicker dates */
+.ui-datepicker .ui-state-default:hover
+{
+  background: var(--light-dsr-blue);
+  transition: 0.15s;
 }
 
 /* added hover effect to buttons in event planner section */
