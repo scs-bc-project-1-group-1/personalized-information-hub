@@ -746,19 +746,19 @@ function getApi() {
     var weatherImage = document.getElementById('weather-icon');
     weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
     // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+    weatherIcon.style.width = '40%'; // Set the width in pixels or any other unit
+    weatherIcon.style.height = '40%'; // Set the height in pixels or any other unit
+    weatherIcon.classList.add("weather-icons");
     currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
-    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + ' deg';
+    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + '°';
     // weatherContainer.appendChild(currentForecastContent);
+    currentDayWeather.appendChild(weatherIcon);
     currentDayWeather.appendChild(currentDayTemp);
     currentDayWeather.appendChild(currentDayHumidity);
     currentDayWeather.appendChild(currentDayWind);
     currentDayWeather.appendChild(currentDayWindDirection);
-    currentDayWeather.appendChild(weatherIcon);
-
 
     //end of current day dinamically
 
@@ -827,21 +827,24 @@ function nextHoursForecast(lat, lon){
       var weatherImage = document.getElementById('weather-icon');
       weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
       // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-      weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-      weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+      weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
+      weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
+      weatherIcon.classList.add("weather-icons");
 
 
       nextHourTime.textContent = rawDate;
+      nextHourTime.classList.add("weather-time-marker");
       nextHoursTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
       nextHoursHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
       nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
-      nextHoursWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
+      nextHoursWindDirection.textContent = 'Direction: ' + forecastList[i].winddir + '°';
       nextHoursForecastContent.appendChild(nextHourTime);
+      nextHoursForecastContent.appendChild(weatherIcon);
       nextHoursForecastContent.appendChild(nextHoursTemp);
       nextHoursForecastContent.appendChild(nextHoursHumidity);
       nextHoursForecastContent.appendChild(nextHoursWind);
       nextHoursForecastContent.appendChild(nextHoursWindDirection);
-      nextHoursForecastContent.appendChild(weatherIcon);
+      
 
       nextHoursWeather.appendChild(nextHoursForecastContent);
       console.log(data.length);
@@ -888,21 +891,22 @@ function nextHoursForecast(lat, lon){
         weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
         // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
 
-        weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-        weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
-
+        weatherIcon.style.width = '30%'; // Set the width in pixels or any other unit
+        weatherIcon.style.height = '30%'; // Set the height in pixels or any other unit
+        weatherIcon.classList.add("weather-icons");
 
         nextDaysDate.textContent = formattedDate;
+        nextDaysDate.classList.add("weather-time-marker");
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
         nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
-        nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
+        nextDaysWindDirection.textContent = 'Direction: ' + forecastList[i].winddir + '°';
         dailyForecastContent.appendChild(nextDaysDate);
+        dailyForecastContent.appendChild(weatherIcon);
         dailyForecastContent.appendChild(nextDaysTemp);
         dailyForecastContent.appendChild(nextDaysHumidity);
         dailyForecastContent.appendChild(nextDaysWind);
         dailyForecastContent.appendChild(nextDaysWindDirection);
-        dailyForecastContent.appendChild(weatherIcon);
 
         nextDays.appendChild(dailyForecastContent);
         // console.log(data.length);

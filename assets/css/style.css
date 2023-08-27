@@ -64,8 +64,8 @@ input:focus
   margin: 15px 10%;
 }
 
-/* increases main content width at large-moderate screen sizes */
-@media screen and (max-width: 1280px)
+/* increases main content width at moderate screen sizes */
+@media screen and (max-width: 1080px)
 {
   .main-content-section
   {
@@ -138,33 +138,38 @@ input:focus
 #weather-container {
   text-align: center;
   border-radius: 3px;
+  border-bottom: solid 2px var(--light-dsr-blue);
 }
 
 .weather-style-container {
   font-size: 0px;
   display: none;
-  border-right: solid 2px var(--light-dsr-blue);
-  background-color: var(--darker-dsr-blue);
+}
+
+.forecast-sections {
+  box-sizing: border-box;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .first-box-container {
   display: flex;
   font-size: 16px;
   border-top: solid 2px var(--light-dsr-blue);
+  border-right: solid 2px var(--light-dsr-blue);
+  border-bottom: solid 2px var(--light-dsr-blue);
   margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: var(--darker-dsr-blue);
+  border-radius: 3px;
 }
 
 #current-day-weather
 {
   width: 20%;
-  border: solid 2px var(--light-dsr-blue);
-}
-
-.forecast-sections {
-  box-sizing: border-box;
-  white-space: nowrap;
-  border: solid 2px var(--light-dsr-blue);
-  width: 100%;
+  padding-top: 15px;
+  border-right: solid 2px var(--light-dsr-blue);
+  border-left: solid 2px var(--light-dsr-blue);
 }
 
 #next-hours-weather
@@ -176,7 +181,19 @@ input:focus
 .hourly-forecast {
   box-sizing: border-box;
   white-space: nowrap;
-  border-left: solid 2px var(--light-dsr-blue);
+  padding: 5px 10px 25px 10px;
+  border-right: solid 2px var(--light-dsr-blue);
+  border-bottom: solid 2px var(--light-dsr-blue);
+}
+
+.weather-time-marker
+{
+  font-size: 120%;
+}
+
+.weather-icons
+{
+  margin: 0px 30%;
 }
 
 .weekly-weather-style {
@@ -184,11 +201,33 @@ input:focus
   box-sizing: border-box;
   font-size: 16px;
   width: 100%;
+  border-radius: 3px;
+  border-top: solid 2px var(--light-dsr-blue);
+  border-left: solid 2px var(--light-dsr-blue);
+  background-color: var(--darker-dsr-blue);
+}
+
+.daily-forecast
+{
+  border-right: solid 2px var(--light-dsr-blue);
+  padding: 5px 10px 15px 10px;
+}
+
+/* adds borders which wrap around scroll bar of weekly forecast when it appears */
+@media screen and (max-width: 1390px)
+{
+  .weekly-weather-style {
+    border-right: solid 2px var(--light-dsr-blue);
+  }
+  
+  .daily-forecast
+  {
+    border-bottom: solid 2px var(--light-dsr-blue);
+  }
 }
 
 .weather-buttons-style {
   background-color: var(--darker-dsr-blue);
-  padding: 10px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -198,14 +237,67 @@ input:focus
 }
 
 .weather-input-style {
-  font-size: 150%;
   background-color: var(--darker-dsr-blue);
-  padding: 10px;
   border-radius: 10px;
   font-size: 150%;
   padding: 10px;
   margin-right: 1%;
 }
+
+/* adjust weather detail sizes at moderate screen sizes */
+@media screen and (max-width: 960px)
+{
+  #current-day-weather
+  {
+    width: 30%;
+  }
+  #next-hours-weather
+  {
+    width: 70%;
+    font-size: 14px;
+  }
+  .forecast-sections
+  {
+    font-size: 14px;
+  }
+}
+
+/* shrink city search input & buttons at small screen sizes */
+@media screen and (max-width: 720px)
+{
+  .weather-buttons-style {
+    font-size: 125%;
+    padding: 10px 8px; 
+  }
+  .weather-input-style {
+    font-size: 125%;
+    padding-right: 5px; 
+  }
+}
+
+/* adjusts various weather dashboard elements at very small screen sizes */
+@media screen and (max-width: 600px)
+{
+  .weather-buttons-style {
+    font-size: 100%;
+  }
+  .weather-input-style {
+    font-size: 100%;
+  }
+  #next-hours-weather
+  {
+    font-size: 12px;
+  }
+  .forecast-sections
+  {
+    font-size: 12px;
+  }
+  .weather-time-marker
+  {
+    font-size: 125%;
+  }
+}
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -252,7 +344,7 @@ input:focus
 /* defines display settings for inputs & button used for creating events */
 #event-creator > *
 {
-  margin-right: 1%;
+  margin-right: 2%;
   font-size: 150%;
   background-color: var(--darker-dsr-blue);
   padding: 10px;
@@ -289,6 +381,10 @@ input:focus
   #event-date-picker
   {
     width: 18%;
+  }
+  #event-creator button
+  {
+    width: 20%;
   }
 }
 
@@ -546,8 +642,8 @@ body, h1, h2, h3, p, ul, li {
 
 .container {
     max-width:100%;
-    border-radius: 10px;
-    margin-top: 10px;
+    border-radius: 15px;
+    margin-top: 15px;
     background-color: var(--desaturated-royal-blue);
     display:flex;
     flex-direction:column;
