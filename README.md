@@ -1,6 +1,6 @@
 # Project 1 - Personalized Information Hub
 
-![Project Logo](./assets/images/favicon.png)
+<img src = "./assets/images/favicon.png" alt = "Project Logo" width = "150px"/>
 
 ## Description
 
@@ -16,7 +16,9 @@ https://scs-bc-project-1-group-1.github.io/personalized-information-hub/
 
 At the top of the page, there will be two blocks, displaying the current date on the left, and the current time (24-hour format) on the right, which will update in real-time.
 
-Below will be an input box and two buttons, which are used to render weather data to the page. After typing a city's name into the input, click "Add City", and an attempt will be made to retrieve the weather data of that city. If successful, the input box will be cleared, and the appropriate city data will be rendered to the page. If the search was not successful, nothing will change. The last successful search will be stored locally, such that the appropriate weather data will be loaded again upon refreshing / reopening the page. A new successful search will overwrite the previous entry. Clicking the "Clear City" button will remove the weather data from the page, 
+Below will be an input box and two buttons, which are used to render weather data to the page. After typing a city's name into the input, click "Add City", and an attempt will be made to retrieve the weather data of that city. If successful, the input box will be cleared, and the appropriate city data will be rendered to the page. If the search was not successful, nothing will change. The last successful search will be stored locally, such that the appropriate weather data will be loaded again upon refreshing / reopening the page. A new successful search will overwrite the previous entry. Clicking the "Clear City" button will remove the weather data from the page and clear the city saved in local storage.
+
+The weather data will be split into two sections; today's weather (above), and this week's weather (below). The current weather will be displayed in a larger box on the left, with the name of the city being tracked at the top, with an icon representing weather conditions, temperature, humidity, wind speed, and wind direction following below. To the right will be the hourly forecast for the day, headed by a time signature for the hour followed by the same weather properties as before. There will be a scrollbar to allow scrolling through the various hours of the day. The weekly forecast will appear as per the above hourly forecast, with hours swapped out for days.
 
 ## Preview
 
@@ -26,10 +28,13 @@ Below will be an input box and two buttons, which are used to render weather dat
 
 ### ETHAN'S LINKS
 
+linked triangle (icon base)
 https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
 
+sun & cloud (icon part)
 https://www.flaticon.com/free-icons/sun
 
+video player (icon part)
 https://www.flaticon.com/free-icons/video
 
 offsetHeight
