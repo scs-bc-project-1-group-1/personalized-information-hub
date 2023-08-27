@@ -695,6 +695,11 @@ var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
 var city;
 
+if (!localStorage.getItem('savedCity'))
+{
+  localStorage.setItem('savedCity', '');
+}
+
 // Function to clear the saved city and hide weather container
 function clearCity() {
   localStorage.setItem('savedCity', '');
