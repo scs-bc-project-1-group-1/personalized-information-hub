@@ -749,7 +749,7 @@ function getApi() {
     // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
     weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
     weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
-    weatherIcon.classList.add("weather-icons");
+    weatherIcon.classList.add("today-icon");
     cityName.textContent = city;
     currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
@@ -833,7 +833,7 @@ function nextHoursForecast(lat, lon){
       // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
       weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
       weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
-      weatherIcon.classList.add("weather-icons");
+      weatherIcon.classList.add("today-icon");
 
 
       nextHourTime.textContent = rawDate;
@@ -897,7 +897,7 @@ function nextHoursForecast(lat, lon){
 
         weatherIcon.style.width = '30%'; // Set the width in pixels or any other unit
         weatherIcon.style.height = '30%'; // Set the height in pixels or any other unit
-        weatherIcon.classList.add("weather-icons");
+        weatherIcon.classList.add("weekly-icon");
 
         nextDaysDate.textContent = formattedDate;
         nextDaysDate.classList.add("weather-time-marker");

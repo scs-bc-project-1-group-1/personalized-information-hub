@@ -196,9 +196,14 @@ input:focus
   font-size: 120%;
 }
 
-.weather-icons
+.today-icon
 {
-  margin: 0px 30%;
+  margin: 0px 31%;
+}
+
+.weekly-icon
+{
+  margin: 0px 35%;
 }
 
 .weekly-weather-style {
