@@ -143,7 +143,7 @@ input:focus
 
 #weather-container {
   text-align: center;
-  border-radius: 3px;
+  border-radius: 4px;
   border-bottom: solid 2px var(--light-dsr-blue);
 }
 
@@ -167,7 +167,7 @@ input:focus
   margin-top: 15px;
   margin-bottom: 15px;
   background-color: var(--darker-dsr-blue);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 #current-day-weather
@@ -195,11 +195,22 @@ input:focus
 .city-name
 {
   font-size: 130%;
+  background-color: var(--desaturated-royal-blue);
+  width: 90%;
+  margin: 0px 5%;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 5px;
 }
 
 .weather-time-marker
 {
   font-size: 120%;
+  background-color: var(--desaturated-royal-blue);
+  margin-top: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 5px;
 }
 
 .today-icon
@@ -209,7 +220,7 @@ input:focus
 
 .weekly-icon
 {
-  margin: 0px 35%;
+  margin: 3px 35% 0px;
 }
 
 .weekly-weather-style {
@@ -217,7 +228,7 @@ input:focus
   box-sizing: border-box;
   font-size: 16px;
   width: 100%;
-  border-radius: 3px;
+  border-radius: 4px;
   border-top: solid 2px var(--light-dsr-blue);
   border-left: solid 2px var(--light-dsr-blue);
   background-color: var(--darker-dsr-blue);
@@ -230,7 +241,7 @@ input:focus
 }
 
 /* adds borders which wrap around scroll bar of weekly forecast when it appears */
-@media screen and (max-width: 1390px)
+@media screen and (max-width: 1560px)
 {
   .weekly-weather-style {
     border-right: solid 2px var(--light-dsr-blue);
@@ -358,6 +369,13 @@ body {
   background: var(--darker-dsr-blue);
   color: #ffffff;
   border: none;
+  font-weight: normal;
+}
+
+/* defines display settings for month / year header in datepicker */
+.ui-datepicker thead tr th
+{
+  font-weight: normal;
 }
 
 /* sets background colour for datepicker previous month button */
@@ -374,8 +392,25 @@ body {
   margin: 1.5px;
 }
 
+/* sets hover colour for datepicker previous month button */
+.ui-datepicker-prev:hover
+{
+  background: var(--lighter-dsr-blue);
+}
+
+/* sets hover colour for datepicker next month button */
+.ui-datepicker-next:hover
+{
+  background: var(--lighter-dsr-blue);
+}
+
 /* sets general background colour for datepicker */
 .ui-datepicker-calendar
+{
+  background-color: var(--dark-dsr-blue);
+}
+
+.ui-datepicker thead tr th
 {
   background: var(--dark-dsr-blue);
 }
@@ -384,10 +419,11 @@ body {
 .ui-datepicker .ui-state-default
 {
   text-align: center;
-  background: var(--dark-dsr-blue);
+  background: var(--darker-dsr-blue);
   border: solid 2px var(--light-dsr-blue);
-  border-radius: 2px;
+  border-radius: 4px;
   color: #ffffff;
+  margin: 1px;
 }
 
 /* sets hover colour for datepicker dates */
@@ -641,7 +677,6 @@ body {
   margin-right: 2%;
   border-radius: 5px;
   padding-top: 1px;
-  padding-left: 1px;
   border: none;
   float: right;
   width: 10%;
@@ -649,12 +684,13 @@ body {
   background-color: var(--desaturated-royal-blue);
 }
 
+/* defines border settings for yearly calendar */
 #yearly-calendar
 {
   border-right: solid 2px var(--light-dsr-blue);
   border-left: solid 2px var(--light-dsr-blue);
   border-bottom: solid 2px var(--light-dsr-blue);
-  border-radius: 3px;
+  border-radius: 4px;
   background-color: var(--dark-dsr-blue);
 }
 
@@ -664,11 +700,13 @@ body {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-bottom: 10px;
   border-top: solid 2px var(--light-dsr-blue);
   border-bottom: solid 2px var(--light-dsr-blue);
   background-color: var(--darker-dsr-blue);
 }
 
+/* displays each row of four months in the yearly view as a flex container */
 .month-row
 {
   display: flex;
@@ -681,6 +719,7 @@ body {
   padding-bottom: 10px;
 }
 
+/* adds slight gap between rows of weeks in yearly view, and pushes them slightly in from the sides */
 .date-row
 {
   display: flex;
@@ -693,13 +732,39 @@ body {
   width: 14.285%;
   padding-top: 4px;
   padding-bottom: 7px;
+  background-color: var(--darker-dsr-blue);
   text-align: center;
 }
 
-.has-event
+/* highlights dates in event calendar which have at least one even attached */
+div.has-event
 {
   color: var(--lighter-dsr-blue);
   background-color: var(--light-dsr-blue);
+}
+
+/* matches background colour of empty divs used to push first day of month to correct position with the background of the calendar */
+div.blank-date
+{
+  background-color: var(--dark-dsr-blue);
+}
+
+/* rounds the left edges of the first day of each week (also contained in month) */
+.first-day-of-week
+{
+  border-radius: 10px 0px 0px 10px;
+}
+
+/* rounds the right edges of the last day of each week (plus last day in month) */
+.last-day-of-week
+{
+  border-radius: 0px 10px 10px 0px;
+}
+
+/* fully rounds borders of day if it is a saturday beginning a month, or a sunday ending a month */
+.first-day-of-week.last-day-of-week
+{
+  border-radius: 10px;
 }
 
 /* Stavros CSS */
@@ -733,6 +798,10 @@ body, h1, h2, h3, p, ul, li {
     display:flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    background-color: var(--dark-dsr-blue);
+    padding: 1.6% 0px 1% 2%;
+    border-radius: 10px;
+    border: solid 2px var(--light-dsr-blue);
 }
 
 
