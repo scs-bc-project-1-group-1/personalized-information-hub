@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/25
+Last Edited 2023/08/26
 */
 
 /* Ethan's code here */
@@ -113,19 +113,32 @@ function renderBlockDetails(blocks, firstDay)
       {
         var emptyDiv = $("<div></div>"); //creates empty div
         var firstWeekOfMonth = $(monthBlocks[month]).children()[1]; //gets reference to first week of current month (+1 to avoid month name div)
+        emptyDiv.addClass("blank-date");
         firstWeekOfMonth.append(emptyDiv[0]) //adds empty div to first week of current month
       }
 
+      var firstDayOfWeekAndInMonth = true; //variable to track if the day being added is the first day of the week in this month
+      var lastDayOfThisMonth; //variable to hold last day of the current month
       var weekOfMonth = 0; //variable to track which week of the month new date element should be added to
 
-      for (day = 0; day < forLoopCycles; day++) //for loop to create days of current month
+      //for loop to create days of current month (beyond the first)
+      for (day = 0; day < forLoopCycles; day++) 
       {
         var block = $("<div></div>"); //creates empty div
         var week = $(monthBlocks[month]).children()[weekOfMonth + 1]; //gets reference to current week of month (+1 to avoid month name div)
         var date = dayjs(firstDay).add(day + daysPast, "d").format("YYYY/MM/D"); //retrieves date of current day being added
         block.attr("id", date); //assigns current day's date as an ID
         block.text(date.slice(8)); //removes the year and month from date string and sets the block's date text to that
+        
+        //checks if the day currently being is the first day of the week & is in the current month
+        if (firstDayOfWeekAndInMonth)
+        {
+          block.addClass("first-day-of-week"); //applies a style class which gives rounded edges on the left side 
+          firstDayOfWeekAndInMonth = false; //mark that the first-day-of-week class has already been applied to a day in this week
+        }
+  
         week.append(block[0]); //adds new day to appropriate week
+        lastDayOfThisMonth = block; //refers to current block as last day of current month
         dayOfWeek++; //increase dayOfWeek by 1
 
         //checks if there is a local storage entry for the current date, set its text colour to a light blue
@@ -136,11 +149,14 @@ function renderBlockDetails(blocks, firstDay)
 
         if (dayOfWeek > 6) //if the last day that was added was saturday, reset dayOfWeek & proceed to next week row
         {
+          block.addClass("last-day-of-week"); //applies a style class to current block which gives rounded edges on the right side 
+          firstDayOfWeekAndInMonth = true; //resets application of first-day-of-week class
           dayOfWeek = 0 //reset day of week to 0 (sunday)
           weekOfMonth++; //proceeds to next week in current month
-        }   
+        }
       }
 
+      lastDayOfThisMonth.addClass("last-day-of-week"); //marks last day created in above for loop as last day of the current month, which gives rounded edges on the right side 
       daysPast += forLoopCycles; //increase daysPast variable once for each day added
     }
   }
@@ -262,9 +278,7 @@ function renderEventPlanner(firstDay)
   //determines how many iterations the upcoming for loop will run for, and how many rows of event blocks will be displayed
   var blocks = setUpEventCalendar(firstDay);
 
-  //renders & assigns dates to calendar
-  renderBlockDetails(blocks, firstDay);
-
+  renderBlockDetails(blocks, firstDay); //renders & assigns dates to calendar
   adjustRowHeight(); //adjusts height of rows in each week
   updateMonthYearHeader(firstDay); //updates month / year header above calendar
 
@@ -511,8 +525,11 @@ renderEventPlanner();
 //resets date of datepicker to start of current month when page is finished loading
 window.addEventListener("load", function()
 {
-  eventDatePicker.datepicker("setDate", dayjs().startOf("month").format("YYYY/MM/D"));
+  eventDatePicker.datepicker("setDate", dayjs(rowOne.children()[6].id).startOf("month").format("YYYY/MM/D"));
 });
+
+//updates row height while window is being resized
+window.addEventListener("resize", adjustRowHeight);
 
 //attempts to add an event when the add event button is clicked
 addEventButton.on("click", createEvent);
@@ -548,9 +565,10 @@ zoomOut.on("click", function()
 
 
 
-//added variable for the youtube API key"
-// the youtube API is somewhat streamline
-var ytapiKey = 'AIzaSyCY2Pd1yOE43whBV0mjNYPwqtgBd9n1Pds'; 
+//added variable for the youtube API key
+// the youtube API is somewhat streamline 
+
+var ytapiKey = 'AIzaSyBCbd2zYGG1SG1qqbBwNrwanUNbLqH4OAE'; 
 
 
 //added a function to save data to local storage
@@ -571,7 +589,7 @@ function loadFromLocalStorage(key) {
 //this can be accessed by going to the specified Youtube Channel => About => Share Channel => Copy Channel ID
 function fetchAndRender() {
   var channelIdInput = document.getElementById('channelIdInput');
-  var channelId = channelIdInput.value;
+  var channelId = channelIdInput.value; 
 
   if (channelId) {
 
@@ -581,36 +599,36 @@ function fetchAndRender() {
     console.error('Please provide a valid Youtube Channel ID.');
   }
 }
-
+//added a function to fetch videos from Youtube API when the channel ID is inputed
 function fetchVideos(channelId) {
 
-  var savedData = loadFromLocalStorage('youtubeData'); // Load saved data from local storage
+  var request = new XMLHttpRequest(); //creates a new XMLHTTP Request object
+  request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
 
-  if (savedData) {
+  request.onload = function () {
 
-    renderVideos(savedData); // If data is available in local storage it will render it
+    if (request.status >= 200 && request.status < 400) {
 
-  } else {
-    var request = new XMLHttpRequest();
-    request.open('GET', "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channelId + "&order=date&maxResults=5&key=" + ytapiKey, true);
+      var data = JSON.parse(request.responseText);  // this will parse the response JSON data
 
-    request.onload = function () {
-      if (request.status >= 200 && request.status < 400) {
-        var data = JSON.parse(request.responseText);
-        saveToLocalStorage('youtubeData', data); // Save fetched data to local storage
-        renderVideos(data);
-      } else {
-        console.error('Request failed with status:', request.status);
-      }
-    };
+      saveToLocalStorage('youtubeData', data); // this will save fetched data to local storage
+      renderVideos(data); //calls the renderVideos function to display videos on webpage
 
-    request.onerror = function () {
-      console.error('Request failed.');
-    };
+      channelIdInput.value = ""; //empties channel id input
 
-    request.send(); //sends the api request
-  }
+    } else {
+
+      console.error('Request failed with status:', request.status); // logs an error if the request fails
+    }
+  };
+
+  request.onerror = function () {
+    console.error('Request failed.'); //logs an error if the request encounters an error 
+  };
+
+  request.send(); // sends the Youtube API request
 }
+
 
 //added a function to render videos in the UI
 function renderVideos(data) {
@@ -620,16 +638,16 @@ function renderVideos(data) {
 
 
   for (var i = 0; i < data.items.length; i++) {
-    var video = data.items[i];
-    var videoId = video.id.videoId;
+    var video = data.items[i]; //gets a video item from the fetched youtube data
+    var videoId = video.id.videoId; //gets the video ID
 
-    var iframe = document.createElement('iframe');
-    iframe.src = "https://www.youtube.com/embed/" + videoId;
-    iframe.width = '560';
-    iframe.height = '315';
+    var iframe = document.createElement('iframe'); //creats an iframe element that will display video thumbnail
+    iframe.src = "https://www.youtube.com/embed/" + videoId; //iframe source is attatched to embedded video
+    iframe.width = '560'; //sets the iframe width
+    iframe.height = '315'; //sets iframe height
 
     var videoDiv = document.createElement('div');
-    videoDiv.className = 'video-box';
+    videoDiv.className = 'video-box'; //applies a CSS class for styling the video box
     videoDiv.appendChild(iframe);
 
     videosDiv.appendChild(videoDiv); //appends video div to the video container
@@ -648,7 +666,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var savedData = loadFromLocalStorage('youtubeData');
 
   if (savedData) {
-    renderVideos(savedData);
+    renderVideos(savedData); //if there is saved data locally, the videos will render 
   }
 });
 
@@ -733,6 +751,7 @@ function getApi() {
 
     // var currentForecastContent = document.createElement('div');
     // currentForecastContent.classList.add('current-forecast');
+    var cityName = document.createElement('div');
     var currentDayTemp = document.createElement('div');
     var currentDayHumidity = document.createElement('div');
     var currentDayWind = document.createElement('div');
@@ -744,19 +763,22 @@ function getApi() {
     var weatherImage = document.getElementById('weather-icon');
     weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
     // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+    weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
+    weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
+    weatherIcon.classList.add("today-icon");
+    cityName.textContent = city;
     currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
-    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + ' deg';
+    currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + '°';
     // weatherContainer.appendChild(currentForecastContent);
+    cityName.classList.add("city-name");
+    currentDayWeather.appendChild(cityName);
+    currentDayWeather.appendChild(weatherIcon);
     currentDayWeather.appendChild(currentDayTemp);
     currentDayWeather.appendChild(currentDayHumidity);
     currentDayWeather.appendChild(currentDayWind);
     currentDayWeather.appendChild(currentDayWindDirection);
-    currentDayWeather.appendChild(weatherIcon);
-
 
     //end of current day dinamically
 
@@ -798,7 +820,8 @@ function nextHoursForecast(lat, lon){
 
   console.log(queryUrl);
   fetch(queryUrl)
-  .then(function (response) {
+  .then(function (response)
+  {
     return response.json();
   })
   .then(function (data) {
@@ -825,21 +848,24 @@ function nextHoursForecast(lat, lon){
       var weatherImage = document.getElementById('weather-icon');
       weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
       // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-      weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-      weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
+      weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
+      weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
+      weatherIcon.classList.add("today-icon");
 
 
       nextHourTime.textContent = rawDate;
+      nextHourTime.classList.add("weather-time-marker");
       nextHoursTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
       nextHoursHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
       nextHoursWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
-      nextHoursWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
+      nextHoursWindDirection.textContent = 'Direction: ' + forecastList[i].winddir + '°';
       nextHoursForecastContent.appendChild(nextHourTime);
+      nextHoursForecastContent.appendChild(weatherIcon);
       nextHoursForecastContent.appendChild(nextHoursTemp);
       nextHoursForecastContent.appendChild(nextHoursHumidity);
       nextHoursForecastContent.appendChild(nextHoursWind);
       nextHoursForecastContent.appendChild(nextHoursWindDirection);
-      nextHoursForecastContent.appendChild(weatherIcon);
+      
 
       nextHoursWeather.appendChild(nextHoursForecastContent);
       console.log(data.length);
@@ -886,21 +912,22 @@ function nextHoursForecast(lat, lon){
         weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
         // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
 
-        weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-        weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
-
+        weatherIcon.style.width = '30%'; // Set the width in pixels or any other unit
+        weatherIcon.style.height = '30%'; // Set the height in pixels or any other unit
+        weatherIcon.classList.add("weekly-icon");
 
         nextDaysDate.textContent = formattedDate;
+        nextDaysDate.classList.add("weather-time-marker");
         nextDaysTemp.textContent = 'Temp: ' + forecastList[i].temp + '°C';
         nextDaysHumidity.textContent = 'Humidity: ' + forecastList[i].humidity + '%';
         nextDaysWind.textContent = 'Wind: ' + forecastList[i].windspeed + ' kph';``
-        nextDaysWindDirection.textContent = 'Wind Direction ' + forecastList[i].winddir + ' deg';
+        nextDaysWindDirection.textContent = 'Direction: ' + forecastList[i].winddir + '°';
         dailyForecastContent.appendChild(nextDaysDate);
+        dailyForecastContent.appendChild(weatherIcon);
         dailyForecastContent.appendChild(nextDaysTemp);
         dailyForecastContent.appendChild(nextDaysHumidity);
         dailyForecastContent.appendChild(nextDaysWind);
         dailyForecastContent.appendChild(nextDaysWindDirection);
-        dailyForecastContent.appendChild(weatherIcon);
 
         nextDays.appendChild(dailyForecastContent);
         // console.log(data.length);
@@ -914,11 +941,11 @@ function nextHoursForecast(lat, lon){
     var currentDateElement = document.getElementById('current-date');
     var currentTimeElement = document.getElementById('current-time');
     
-    var currentDate = dayjs().format('YYYY-MM-DD');
+    var currentDate = dayjs().format("MMMM D, YYYY");
     var currentTime = dayjs().format('HH:mm:ss');
 
-    currentDateElement.textContent = 'Current Date: ' + currentDate;
-    currentTimeElement.textContent = 'Current Time: ' + currentTime;
+    currentDateElement.textContent = currentDate;
+    currentTimeElement.textContent = currentTime;
   }
 
   setInterval(updateDateAndTime, 1000);
