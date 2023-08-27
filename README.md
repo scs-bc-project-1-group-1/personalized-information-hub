@@ -49,7 +49,15 @@ https://www.w3schools.com/jsref/event_onload.asp
 
 ### WESLEY'S LINKS
 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw
 
+https://developer.mozilla.org/en-US/docs/Web/API/Response
+
+https://www.w3schools.com/js/js_errors.asp
+
+https://www.freecodecamp.org/news/use-svg-images-in-css-html/#:~:text=SVG%20images%20can%20be%20written,element%20in%20your%20HTML%20document.&text=body%3E-,If%20you%20did%20everything%20correctly%2C%20your%20webpage%20should,exactly%20like%20the%20demo%20below.
+
+https://forum.freecodecamp.org/t/how-to-get-and-post-the-icons-from-open-weather-api-to-html/23180/4
 
 ### STAVROS' LINKS
 
