@@ -698,7 +698,7 @@ var city;
 function clearCity() {
   localStorage.removeItem('savedCity');
   weatherContainer.style.display = "none";
-};
+}
 
 // Attach the clearCity function to the "Clear City" button's click event
 clearCityInput.addEventListener('click', clearCity);
@@ -708,7 +708,7 @@ if (localStorage === null) {
 
 } else {
   getApi();
-};
+}
 
 // Function to fetch weather data from the API
 function getApi() {

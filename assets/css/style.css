@@ -174,7 +174,7 @@ input:focus
 {
   width: 20%;
   padding-top: 8px;
-  padding-bottom: 30px;
+  padding-bottom: 35px;
   border-right: solid 2px var(--light-dsr-blue);
   border-left: solid 2px var(--light-dsr-blue);
 }
