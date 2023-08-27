@@ -92,6 +92,7 @@ input:focus
 
 /* WESLEY CSS */
 
+/* defines general display format & spacing for live date & time blocks */
 .live-update-container {
   display: flex;
   justify-content: center;
@@ -100,6 +101,7 @@ input:focus
   margin-bottom: 40px;
 }
 
+/* defines display settings for live date & time blocks */
 .date-container, .time-container {
   background-color: var(--darker-dsr-blue);
   border-radius: 10px;
@@ -193,6 +195,7 @@ input:focus
   border-bottom: solid 2px var(--light-dsr-blue);
 }
 
+/* defines display settings for city name in weather dashboard */
 .city-name
 {
   font-size: 130%;
@@ -204,6 +207,7 @@ input:focus
   border-radius: 5px;
 }
 
+/* defines display settings for time markers (date or hour) in weather dashboard */
 .weather-time-marker
 {
   font-size: 120%;
@@ -214,11 +218,13 @@ input:focus
   border-radius: 5px;
 }
 
+/* defines spacing for today's weather icons */
 .today-icon
 {
   margin: 5px 31%;
 }
 
+/* defines spacing for the week's weather icons */
 .weekly-icon
 {
   margin: 3px 35% 0px;
@@ -247,7 +253,6 @@ input:focus
   .weekly-weather-style {
     border-right: solid 2px var(--light-dsr-blue);
   }
-  
   .daily-forecast
   {
     border-bottom: solid 2px var(--light-dsr-blue);
@@ -397,12 +402,14 @@ body {
 .ui-datepicker-prev:hover
 {
   background: var(--lighter-dsr-blue);
+  transition: 0.1s;
 }
 
 /* sets hover colour for datepicker next month button */
 .ui-datepicker-next:hover
 {
   background: var(--lighter-dsr-blue);
+  transition: 0.1s;
 }
 
 /* sets general background colour for datepicker */
@@ -431,7 +438,7 @@ body {
 .ui-datepicker .ui-state-default:hover
 {
   background: var(--light-dsr-blue);
-  transition: 0.15s;
+  transition: 0.1s;
 }
 
 /* added hover effect to buttons in event planner section */

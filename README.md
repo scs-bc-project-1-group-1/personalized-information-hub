@@ -1,9 +1,8 @@
 # Project 1 - Personalized Information Hub
 
-<img src = "./assets/images/favicon.png" alt = "Project Logo" width = "150px"/>
-
 ## Description
 
+<img src = "./assets/images/favicon.png" align = "right" alt = "Project Logo" width = "200px"/>
 I am an avid internet user, who frequently visits & utilizes various sites and applications for various purposes. However, I am also a *very* busy man, and as such, wish that I could have the functionality of all these apps consolidated into one location for quick and efficient use. This project is meant to fulfill that wish.
 
 Specifically, it combines the functionality of a city-based weather app, a calendar which tracks user-generated events over the short, medium, and long-term, and a menu which retrieves the lastest five uploads from a specific YouTube Channel.
@@ -20,7 +19,17 @@ Below will be an input box and two buttons, which are used to render weather dat
 
 The weather data will be split into two sections; today's weather (above), and this week's weather (below). The current weather will be displayed in a larger box on the left, with the name of the city being tracked at the top, with an icon representing weather conditions, temperature, humidity, wind speed, and wind direction following below. To the right will be the hourly forecast for the day, headed by a time signature for the hour followed by the same weather properties as before. There will be a scrollbar to allow scrolling through the various hours of the day. The weekly forecast will appear as per the above hourly forecast, with hours swapped out for days.
 
-The Youtube script is designed to fetch and display videos from a Youtube channel on our web page. Users can input a Youtube channel's unique ID tag which can be found in the channel's "About" section. When the "Fetch Videos" button is pressed, the script is the started. The script will check if a valid ID has been inputed in the text box, if yes, it will fetch the videos from that specified channel ID using the Youtube API. This script uses an API key to interact with Youtube's servers. It will gather video data from Youtube such as details about each video which is then saved in the browser's memory. The script then takes the video data and displays it on the webpage using a window for each video, which is called an "iframe". This "iframe" will show the video itself. The Youtube script that we developed also utilizes local storage so that when you close the page or refresh it will display the previously loaded content instead of pinging the Youtube servers to constantly fetch which would use up your daily 10,000 queries limit. If you fetch videos from one channel and then type in a new channel's ID and fetch again, the script updates the saved video data. This way, the new channel's videos will replace the old ones, but you won't lose the old videos. We also implemented error messages in the script in case something goes wrong which will hopefully help the user troubleshoot their issues. 
+Below will be the event creator section of the calendar, composed of two inputs and a button. Type the name of the desired event in the first input, use the datepicker widget to select the associated date in the second input, then click "Add Event" to add it to the calendar. Events will appear as vertically-stacking list items in their associated date block, with a small 'X' button on their right side, which can be clicked to delete the event. All event additions & deletions are saved locally.
+
+Below the event creator will be a header displaying the month / year currently being viewed, along with four buttons; two for traversing left & right, and two for zooming in and out. The calendar has three zoom levels; bi-weekly, monthly, and yearly. In the bi-weekly view, the traverse buttons will move the calendar by one week, by a month in the monthly view, and by a year in yearly. Note that the default date in the datepicker will update to the first of the month / year you are currently viewing.
+
+In the bi-weekly view, events will take up as much space as they need, with their parent week expanding vertically if necessary. In the monthly view, each event will be limited to one line, with any overflow being cut off with an ellipsis, and every day has a fixed height, i.e. events will be cut off if there are too many attached to a single day. In the yearly view, events themselves will not be listed, but any day which has at least one event attached will be highlighted with an alternate text + background colour. Note that you cannot remove events while in the yearly view.
+
+Below is the UI for the YouTube channel tracker, which will fetch and display the five latest videos from a specified YouTube channel, given the ID. Instructions for retrieving a channel's ID can be found below. After inserting the desired channel's ID into the input box, press the "Fetch Videos" button, and the five latest videos from that channel will be displayed in a box below. It will gather video data from Youtube such as details about each video which is then saved in the browser's memory. The script then takes the video data and displays it on the webpage using a window for each video, which is called an "iframe". This "iframe" will show the video itself. The Youtube script that we developed also utilizes local storage so that when you close the page or refresh it will display the previously loaded content instead of pinging the Youtube servers to constantly fetch which would use up your daily 10,000 queries limit. If you fetch videos from one channel and then type in a new channel's ID and fetch again, the script updates the saved video data. This way, the new channel's videos will replace the old ones, but you won't lose the old videos.
+
+### Retreiving a YouTube Channel ID
+
+To retrieve a YouTube channel's ID, first head to the home page of the desired channel to be tracked. Just below the section containing the channel's icon & name will be a navbar leading to various other sections of the channel. Click the section on the far right, "About". In this section, you will see a small "Stats" block on the right, at the bottom of which will be the "Share" button, represented by a small icon of an arrow which goes up & then to the right. Click it, and then click the "Copy channel ID" option in the menu that appears. This will copy the channel's ID to your clipboard, which can then be pasted into the channel ID input box.
 
 ## Preview
 
@@ -30,29 +39,34 @@ The Youtube script is designed to fetch and display videos from a Youtube channe
 
 ### ETHAN'S LINKS
 
+offsetHeight (./assets/scripts/script.js, lines 248-249);
+https://stackoverflow.com/questions/294250/how-do-i-retrieve-an-html-elements-actual-width-and-height
+
+input readonly (./index.html, line 65);
+https://stackoverflow.com/questions/4164542/how-to-disable-manual-input-for-jquery-ui-datepicker-field
+
+jQuery datepicker (./assets/scripts/script.js, lines 295, 301, 516, 528);
+https://api.jqueryui.com/datepicker/
+
+.index() syntax (./assets/scripts/script.js, line 479);
+https://stackoverflow.com/questions/28952509/jquery-how-to-get-the-index-of-an-element-in-the-selection-array
+
+onload Event syntax (./assets/scripts/script.js, line 526);
+https://www.w3schools.com/jsref/event_onload.asp
+
+#### Icon stuff (./assets/images/favicon.png)
+
 linked triangle (icon base)
 https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
+
+calendar (icon part)
+https://www.nicepng.com/ourpic/u2q8a9r5r5u2a9e6_calendar-comments-calendar-icon-vector-png/
 
 sun & cloud (icon part)
 https://www.flaticon.com/free-icons/sun
 
 video player (icon part)
 https://www.flaticon.com/free-icons/video
-
-offsetHeight
-https://stackoverflow.com/questions/294250/how-do-i-retrieve-an-html-elements-actual-width-and-height
-
-readonly input
-https://stackoverflow.com/questions/4164542/how-to-disable-manual-input-for-jquery-ui-datepicker-field
-
-jquery datepicker setdate
-https://stackoverflow.com/questions/6646376/jquery-date-picker-default-date
-
-.index()
-https://stackoverflow.com/questions/28952509/jquery-how-to-get-the-index-of-an-element-in-the-selection-array
-
-onload event
-https://www.w3schools.com/jsref/event_onload.asp
 
 ### WESLEY'S LINKS
 

@@ -459,6 +459,7 @@ function createEvent()
   renderEventPlanner(firstDay); //updates event calendar
 }
 
+//function to delete events from the calendar
 function deleteEvent()
 {
   elementClicked = event.target //retrieves element that was clicked
@@ -694,6 +695,12 @@ var currentDay = document.getElementById('current-date');
 var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
 var city;
+
+//if there is no local storage variable set for the saved city, create an empty one
+if (!localStorage.getItem('savedCity'))
+{
+  localStorage.setItem('savedCity', '');
+}
 
 // Function to clear the saved city and hide weather container
 function clearCity() {
