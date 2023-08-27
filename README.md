@@ -16,7 +16,7 @@ https://scs-bc-project-1-group-1.github.io/personalized-information-hub/
 
 At the top of the page, there will be two blocks, displaying the current date on the left, and the current time (24-hour format) on the right, which will update in real-time.
 
-Below will be an input box and two buttons, which are used to render weather data to the page. After typing a city's name into the input, click "Add City", and an attempt will be made
+Below will be an input box and two buttons, which are used to render weather data to the page. After typing a city's name into the input, click "Add City", and an attempt will be made to retrieve the weather data of that city. If successful, the input box will be cleared, and the appropriate city data will be rendered to the page. If the search was not successful, nothing will change. The last successful search will be stored locally, such that the appropriate weather data will be loaded again upon refreshing / reopening the page. A new successful search will overwrite the previous entry. Clicking the "Clear City" button will remove the weather data from the page, 
 
 ## Preview
 
@@ -49,16 +49,6 @@ https://www.w3schools.com/jsref/event_onload.asp
 
 ### WESLEY'S LINKS
 
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw
-
-https://developer.mozilla.org/en-US/docs/Web/API/Response
-
-https://www.w3schools.com/js/js_errors.asp
-
-https://www.freecodecamp.org/news/use-svg-images-in-css-html/#:~:text=SVG%20images%20can%20be%20written,element%20in%20your%20HTML%20document.&text=body%3E-,If%20you%20did%20everything%20correctly%2C%20your%20webpage%20should,exactly%20like%20the%20demo%20below.
-
-https://forum.freecodecamp.org/t/how-to-get-and-post-the-icons-from-open-weather-api-to-html/23180/4
 
 
 ### STAVROS' LINKS
