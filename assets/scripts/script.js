@@ -735,6 +735,7 @@ function getApi() {
 
     // var currentForecastContent = document.createElement('div');
     // currentForecastContent.classList.add('current-forecast');
+    var cityName = document.createElement('div');
     var currentDayTemp = document.createElement('div');
     var currentDayHumidity = document.createElement('div');
     var currentDayWind = document.createElement('div');
@@ -746,14 +747,17 @@ function getApi() {
     var weatherImage = document.getElementById('weather-icon');
     weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
     // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-    weatherIcon.style.width = '40%'; // Set the width in pixels or any other unit
-    weatherIcon.style.height = '40%'; // Set the height in pixels or any other unit
+    weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
+    weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
     weatherIcon.classList.add("weather-icons");
+    cityName.textContent = city;
     currentDayTemp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
     currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + '°';
     // weatherContainer.appendChild(currentForecastContent);
+    cityName.classList.add("city-name");
+    currentDayWeather.appendChild(cityName);
     currentDayWeather.appendChild(weatherIcon);
     currentDayWeather.appendChild(currentDayTemp);
     currentDayWeather.appendChild(currentDayHumidity);

@@ -167,7 +167,7 @@ input:focus
 #current-day-weather
 {
   width: 20%;
-  padding-top: 15px;
+  padding-top: 8px;
   border-right: solid 2px var(--light-dsr-blue);
   border-left: solid 2px var(--light-dsr-blue);
 }
@@ -184,6 +184,11 @@ input:focus
   padding: 5px 10px 25px 10px;
   border-right: solid 2px var(--light-dsr-blue);
   border-bottom: solid 2px var(--light-dsr-blue);
+}
+
+.city-name
+{
+  font-size: 130%;
 }
 
 .weather-time-marker
@@ -298,7 +303,6 @@ input:focus
   }
 }
 
-
 /* width */
 ::-webkit-scrollbar {
   width: 5px; /* Adjust the width as needed */
@@ -311,13 +315,18 @@ input:focus
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--lighter-dsr-blue); /* Adjust the handle color for visibility */
+  background: var(--light-dsr-blue); /* Adjust the handle color for visibility */
   border-radius: 5px; /* Rounded handle */
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--light-dsr-blue);
+  background: var(--lighter-dsr-blue);
+}
+
+/* changes scrollbar colour for poor firefox users like me (webkit isn't supported) */
+body {
+  scrollbar-color: var(--light-dsr-blue) var(--dark-dsr-blue);
 }
 
 /* ETHAN CSS */
@@ -539,7 +548,7 @@ input:focus
 /* sets height of event entries in each day block while in monthly view */
 .events.monthly div
 {
-  height: 25px;
+  height: 27px;
 }
 
 /* defines display settings for event text in each event entry */
@@ -550,6 +559,8 @@ input:focus
   word-wrap: break-word;
   overflow: visible;
   text-overflow: clip;
+  padding-left: 2px;
+  padding-bottom: 2px;
   width: 86%;
   margin-left: 2%;
 }
@@ -568,7 +579,9 @@ input:focus
   font-size: 12px;
   margin-top: 2.5px;
   margin-right: 2%;
-  border-radius: 8px;
+  border-radius: 5px;
+  padding-top: 1px;
+  padding-left: 1px;
   border: none;
   float: right;
   width: 10%;
