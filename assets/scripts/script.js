@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //Visual Crossing API Key
-var weatherApiKey = 'PYRJL8KKTFHB65W4AWDUCJN3G';
+var weatherApiKey = 'DWZMTC97DXDUUZ9PZMQAP64BT';
 
 var fetchButton = document.getElementById('search-button');
 var currentDayWeather = document.getElementById('current-day-weather');
@@ -694,26 +694,31 @@ var clearCityInput = document.getElementById('clear-city');
 var weatherContainer = document.getElementById('weather-container');
 var city;
 
+// Function to clear the saved city and hide weather container
 function clearCity() {
   localStorage.removeItem('savedCity');
   weatherContainer.style.display = "none";
-}
+};
 
+// Attach the clearCity function to the "Clear City" button's click event
 clearCityInput.addEventListener('click', clearCity);
 
+// Check if a saved city exists and load its weather data
 if (localStorage === null) {
 
 } else {
   getApi();
-}
+};
 
+// Function to fetch weather data from the API
 function getApi() {
 
+  // Clear existing weather data on UI
   currentDayWeather.innerHTML = '';
   nextHoursWeather.innerHTML = '';
   nextDays.innerHTML = '';
 
-  console.log(inputCity);
+  // Determine the city based on input or saved value
   if (inputCity.value === "") {
     var storedValue = localStorage.getItem("savedCity");
     city = storedValue;
@@ -722,35 +727,36 @@ function getApi() {
     localStorage.setItem('savedCity', inputCity.value);
   }
 
+  // Build the API URL for the current day's weather
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
-  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
-  
-  console.log(queryUrl);
 
+  // Display the weather container if hidden
   if (weatherContainer.style.display === "none") {
     weatherContainer.style.display = "block";
   }
 
-
+  // Handle cases where city is not specified
   if (city === null) {
 
     return false;
   }
 
+  // Fetch weather data for the current day
   fetch(queryUrl)
   .then(function (response) {
+    if (!response.ok) {
+      throw new Error("City not found");
+    } else {
+      weatherContainer.setAttribute('style', 'display: block');
+    } 
+    console.log(response.status);
     return response.json();
   })
+
   .then(function (data) {
-    console.log('Fetch Response \n-------------');
-    console.log(data);
 
     $(".weather-style-container").attr("style", ("display: block"));
 
-    //trying to add current day dinamically
-
-    // var currentForecastContent = document.createElement('div');
-    // currentForecastContent.classList.add('current-forecast');
     var cityName = document.createElement('div');
     var currentDayTemp = document.createElement('div');
     var currentDayHumidity = document.createElement('div');
@@ -762,7 +768,6 @@ function getApi() {
     weatherIcon.setAttribute('id', 'weather-icon');
     var weatherImage = document.getElementById('weather-icon');
     weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-    // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
     weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
     weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
     weatherIcon.classList.add("today-icon");
@@ -771,7 +776,6 @@ function getApi() {
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
     currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + '°';
-    // weatherContainer.appendChild(currentForecastContent);
     cityName.classList.add("city-name");
     currentDayWeather.appendChild(cityName);
     currentDayWeather.appendChild(weatherIcon);
@@ -780,55 +784,30 @@ function getApi() {
     currentDayWeather.appendChild(currentDayWind);
     currentDayWeather.appendChild(currentDayWindDirection);
 
-    //end of current day dinamically
-
-/*     // Get the current weather icon element if it exists
-    var existingWeatherIcon = document.getElementById('weather-icon');
-
-    // If the existing icon element exists, remove it
-    if (existingWeatherIcon) {
-        existingWeatherIcon.parentNode.removeChild(existingWeatherIcon);
-    } */
-
-/*     var weatherConditions = data.currentConditions.icon;
-
-    var weatherIcon = document.createElement('img');
-    weatherIcon.setAttribute('id', 'weather-icon');
-    var weatherImage = document.getElementById('weather-icon');
-    weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-    currentDayWeather.appendChild(weatherIcon);
-    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
-    temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
-    humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
-    wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
-
-    windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees'; */
     inputCity.value='';
     nextHoursForecast(data.latitude, data.longitude);
 
     sevenDayForecast(data.latitude, data.longitude);
-  });
+  })
 
+  .catch(function (error) {
+    console.error('Error fetching data:', error);
+    weatherContainer.setAttribute('style', 'display: none');
+  })
 }
 
-
+// Function to fetch hourly forecast data
 function nextHoursForecast(lat, lon){
-  console.log(lat, lon);
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
-  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
 
-  console.log(queryUrl);
   fetch(queryUrl)
   .then(function (response)
   {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
 
     var forecastList = data.days[0].hours;
-    console.log(forecastList);
 
     for (var i = 0; i < 24; i = i + 1) {
       var nextHoursForecastContent = document.createElement('div');
@@ -839,7 +818,6 @@ function nextHoursForecast(lat, lon){
       var nextHoursWind = document.createElement('div');
       var nextHoursWindDirection = document.createElement('div');
       var rawDate = forecastList[i].datetime;
-      // var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {hour: 'numeric', minute: 'numeric'}); //change to actual hours rather than date
 
 
       var weatherConditions = forecastList[i].icon;
@@ -847,7 +825,6 @@ function nextHoursForecast(lat, lon){
       weatherIcon.setAttribute('id', 'weather-icon');
       var weatherImage = document.getElementById('weather-icon');
       weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-      // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
       weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
       weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
       weatherIcon.classList.add("today-icon");
@@ -868,27 +845,21 @@ function nextHoursForecast(lat, lon){
       
 
       nextHoursWeather.appendChild(nextHoursForecastContent);
-      console.log(data.length);
     }
   });
 }
 
 
-
+// Function to fetch seven-day forecast data
   function sevenDayForecast(lat, lon){
-    console.log(lat, lon);
 
     var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
-    // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
 
-
-    console.log(queryUrl);
     fetch(queryUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
 
       var forecastList = data.days;
 
@@ -910,7 +881,6 @@ function nextHoursForecast(lat, lon){
         var weatherImage = document.getElementById('weather-icon');
 
         weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-        // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
 
         weatherIcon.style.width = '30%'; // Set the width in pixels or any other unit
         weatherIcon.style.height = '30%'; // Set the height in pixels or any other unit
@@ -930,24 +900,27 @@ function nextHoursForecast(lat, lon){
         dailyForecastContent.appendChild(nextDaysWindDirection);
 
         nextDays.appendChild(dailyForecastContent);
-        // console.log(data.length);
       }
     });
   }
 
+  // Attach the getApi function to the "Search" button's click event
   fetchButton.addEventListener('click', getApi);
 
+  // Function to update current date and time every second
   function updateDateAndTime() {
     var currentDateElement = document.getElementById('current-date');
     var currentTimeElement = document.getElementById('current-time');
     
+    // Use the dayjs library to format and display date and time
     var currentDate = dayjs().format("MMMM D, YYYY");
     var currentTime = dayjs().format('HH:mm:ss');
 
+    // Update the displayed date and time
     currentDateElement.textContent = currentDate;
     currentTimeElement.textContent = currentTime;
   }
 
+  // Update date and time immediately and set interval to update every second
   setInterval(updateDateAndTime, 1000);
-
   updateDateAndTime();
