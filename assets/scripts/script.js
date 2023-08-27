@@ -713,7 +713,7 @@ function getApi() {
   nextHoursWeather.innerHTML = '';
   nextDays.innerHTML = '';
 
-  console.log(inputCity);
+  console.log(typeof inputCity.value);
   if (inputCity.value === "") {
     var storedValue = localStorage.getItem("savedCity");
     city = storedValue;
@@ -723,7 +723,6 @@ function getApi() {
   }
 
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
-  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${weatherApiKey}&unitGroup=metric`
   
   console.log(queryUrl);
 
@@ -739,18 +738,21 @@ function getApi() {
 
   fetch(queryUrl)
   .then(function (response) {
+    if (!response.ok) {
+      throw new Error("City not found");
+    } else {
+      weatherContainer.setAttribute('style', 'display: block');
+    } 
+    console.log(response.status);
     return response.json();
   })
+
   .then(function (data) {
     console.log('Fetch Response \n-------------');
     console.log(data);
 
     $(".weather-style-container").attr("style", ("display: block"));
 
-    //trying to add current day dinamically
-
-    // var currentForecastContent = document.createElement('div');
-    // currentForecastContent.classList.add('current-forecast');
     var cityName = document.createElement('div');
     var currentDayTemp = document.createElement('div');
     var currentDayHumidity = document.createElement('div');
@@ -762,7 +764,6 @@ function getApi() {
     weatherIcon.setAttribute('id', 'weather-icon');
     var weatherImage = document.getElementById('weather-icon');
     weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-    // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
     weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
     weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
     weatherIcon.classList.add("today-icon");
@@ -771,7 +772,6 @@ function getApi() {
     currentDayHumidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
     currentDayWind.textContent = 'Wind: ' + data.currentConditions.windspeed + ' kph';
     currentDayWindDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + '°';
-    // weatherContainer.appendChild(currentForecastContent);
     cityName.classList.add("city-name");
     currentDayWeather.appendChild(cityName);
     currentDayWeather.appendChild(weatherIcon);
@@ -780,43 +780,22 @@ function getApi() {
     currentDayWeather.appendChild(currentDayWind);
     currentDayWeather.appendChild(currentDayWindDirection);
 
-    //end of current day dinamically
-
-/*     // Get the current weather icon element if it exists
-    var existingWeatherIcon = document.getElementById('weather-icon');
-
-    // If the existing icon element exists, remove it
-    if (existingWeatherIcon) {
-        existingWeatherIcon.parentNode.removeChild(existingWeatherIcon);
-    } */
-
-/*     var weatherConditions = data.currentConditions.icon;
-
-    var weatherIcon = document.createElement('img');
-    weatherIcon.setAttribute('id', 'weather-icon');
-    var weatherImage = document.getElementById('weather-icon');
-    weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
-    currentDayWeather.appendChild(weatherIcon);
-    weatherIcon.style.width = '30px'; // Set the width in pixels or any other unit
-    weatherIcon.style.height = '30px'; // Set the height in pixels or any other unit
-    temp.textContent = 'Temp: ' + data.currentConditions.temp + '°C';
-    humidity.textContent = 'Humidity: ' + data.currentConditions.humidity + '%';
-    wind.textContent = 'Wind: ' + data.currentConditions.windspeed + 'kph';
-
-    windDirection.textContent = 'Wind Direction: ' + data.currentConditions.winddir + 'degrees'; */
     inputCity.value='';
     nextHoursForecast(data.latitude, data.longitude);
 
     sevenDayForecast(data.latitude, data.longitude);
-  });
+  })
 
+  .catch(function (error) {
+    console.error('Error fetching data:', error);
+    weatherContainer.setAttribute('style', 'display: none');
+  })
 }
 
 
 function nextHoursForecast(lat, lon){
   console.log(lat, lon);
   var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
-  // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
 
   console.log(queryUrl);
   fetch(queryUrl)
@@ -839,7 +818,6 @@ function nextHoursForecast(lat, lon){
       var nextHoursWind = document.createElement('div');
       var nextHoursWindDirection = document.createElement('div');
       var rawDate = forecastList[i].datetime;
-      // var formattedDate = new Date(rawDate).toLocaleDateString('en-US', {hour: 'numeric', minute: 'numeric'}); //change to actual hours rather than date
 
 
       var weatherConditions = forecastList[i].icon;
@@ -847,7 +825,6 @@ function nextHoursForecast(lat, lon){
       weatherIcon.setAttribute('id', 'weather-icon');
       var weatherImage = document.getElementById('weather-icon');
       weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-      // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
       weatherIcon.style.width = '38%'; // Set the width in pixels or any other unit
       weatherIcon.style.height = '38%'; // Set the height in pixels or any other unit
       weatherIcon.classList.add("today-icon");
@@ -879,7 +856,6 @@ function nextHoursForecast(lat, lon){
     console.log(lat, lon);
 
     var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=" + weatherApiKey + "&unitGroup=metric";
-    // var queryUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=${weatherApiKey}&unitGroup=metric`;
 
 
     console.log(queryUrl);
@@ -910,7 +886,6 @@ function nextHoursForecast(lat, lon){
         var weatherImage = document.getElementById('weather-icon');
 
         weatherIcon.src = './assets/images/WeatherIcons-main/SVG/2nd Set - Color/' + weatherConditions + '.svg';
-        // weatherIcon.src = `./assets/images/WeatherIcons-main/SVG/2nd Set - Color/${weatherConditions}` + ".svg";
 
         weatherIcon.style.width = '30%'; // Set the width in pixels or any other unit
         weatherIcon.style.height = '30%'; // Set the height in pixels or any other unit
@@ -930,7 +905,6 @@ function nextHoursForecast(lat, lon){
         dailyForecastContent.appendChild(nextDaysWindDirection);
 
         nextDays.appendChild(dailyForecastContent);
-        // console.log(data.length);
       }
     });
   }
