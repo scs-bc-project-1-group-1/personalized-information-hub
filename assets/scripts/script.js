@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/26
+Last Edited 2023/08/27
 */
 
 /* Ethan's code here */
@@ -634,6 +634,7 @@ function fetchVideos(channelId) {
 function renderVideos(data) {
 
   var videosDiv = document.getElementById('videos');
+  videosDiv.setAttribute("style", "display: flex");
   videosDiv.innerHTML = '';// clears existing content
 
 
@@ -666,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var savedData = loadFromLocalStorage('youtubeData');
 
   if (savedData) {
-    renderVideos(savedData); //if there is saved data locally, the videos will render 
+    renderVideos(savedData); //if there is saved data locally, the videos will render
   }
 });
 
@@ -696,63 +697,88 @@ var city;
 
 // Function to clear the saved city and hide weather container
 function clearCity() {
-  localStorage.removeItem('savedCity');
+  localStorage.setItem('savedCity', '');
   weatherContainer.style.display = "none";
-};
+}
 
 // Attach the clearCity function to the "Clear City" button's click event
 clearCityInput.addEventListener('click', clearCity);
 
-// Check if a saved city exists and load its weather data
-if (localStorage === null) {
-
-} else {
-  getApi();
-};
-
 // Function to fetch weather data from the API
-function getApi() {
+async function getApi() {
+
+  // Determine the city based on input or saved value
+  if (inputCity.value === '')
+  {
+    var storedValue = localStorage.getItem("savedCity");
+    city = storedValue;
+  }
+  else
+  {
+    city = inputCity.value; // Assuming inputCity is defined
+  }
+
+  // Build the API URL for the current day's weather
+  var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
+
+  var successfulRequest = false; //variable to track if request was successful
+
+  /* checks if the current city input is a valid search, clearing input box if true */
+  await fetch(queryUrl)
+  .then(function (response) {
+    if (response.ok) {
+      successfulRequest = true;
+      inputCity.value='';
+    }
+  })
+
+  //if the city search was not valid & there is a city in local storage, attempt to use that to render weather data instead
+  if (localStorage.getItem("savedCity") && successfulRequest === false)
+  {
+    var currentCity = document.querySelector(".city-name"); //attempts to retrieve name of city with weather data currently being displayed
+    city = localStorage.getItem("savedCity"); //retrieves city name from local storage
+
+    if (city === '') //if city is an empty entry, eject from function
+    {
+      return;
+    }
+
+    if (currentCity) //checks if there is currently weather data being displayed
+    {
+      if (currentCity.textContent !== city) //if the current city being displayed does not match the city held in local storage
+      {
+        successfulRequest = true; //approve the search to have its weather generated
+      }
+    }
+    else //if there is currently no weather data being displayed
+    {
+      successfulRequest = true; //approve the search to have its weather generated
+    }
+
+    //updates search URL with city from local storage
+    queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
+  }
+
+  if (!successfulRequest) //if search was not approved for weather generation, eject from function
+  {
+    return;
+  }
 
   // Clear existing weather data on UI
   currentDayWeather.innerHTML = '';
   nextHoursWeather.innerHTML = '';
   nextDays.innerHTML = '';
 
-  // Determine the city based on input or saved value
-  if (inputCity.value === "") {
-    var storedValue = localStorage.getItem("savedCity");
-    city = storedValue;
-  } else if (inputCity.value !== undefined){
-    city = inputCity.value; // Assuming inputCity is defined
-    localStorage.setItem('savedCity', inputCity.value);
-  }
-
-  // Build the API URL for the current day's weather
-  var queryUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + city + "?key=" + weatherApiKey + "&unitGroup=metric";
-
-  // Display the weather container if hidden
-  if (weatherContainer.style.display === "none") {
-    weatherContainer.style.display = "block";
-  }
-
-  // Handle cases where city is not specified
-  if (city === null) {
-
-    return false;
-  }
-
   // Fetch weather data for the current day
-  fetch(queryUrl)
+  await fetch(queryUrl)
   .then(function (response) {
     if (!response.ok) {
       throw new Error("City not found");
     } else {
       weatherContainer.setAttribute('style', 'display: block');
     } 
-    console.log(response.status);
     return response.json();
   })
-
   .then(function (data) {
 
     $(".weather-style-container").attr("style", ("display: block"));
@@ -784,7 +810,7 @@ function getApi() {
     currentDayWeather.appendChild(currentDayWind);
     currentDayWeather.appendChild(currentDayWindDirection);
 
-    inputCity.value='';
+    localStorage.setItem('savedCity', cityName.textContent); //updates city in local storage
     nextHoursForecast(data.latitude, data.longitude);
 
     sevenDayForecast(data.latitude, data.longitude);
@@ -903,6 +929,9 @@ function nextHoursForecast(lat, lon){
       }
     });
   }
+
+  // load weather data
+  getApi();
 
   // Attach the getApi function to the "Search" button's click event
   fetchButton.addEventListener('click', getApi);

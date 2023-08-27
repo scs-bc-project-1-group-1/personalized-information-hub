@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer), WesleyHAS, Stavros Panagiotopoulos (stavrospana)
 SCS Boot Camp Project 1 Group 1 - Personal Information Hub
 Created 2023/08/15
-Last Edited 2023/08/26
+Last Edited 2023/08/27
 */
 
 /* COMMON CSS */
@@ -174,6 +174,7 @@ input:focus
 {
   width: 20%;
   padding-top: 8px;
+  padding-bottom: 35px;
   border-right: solid 2px var(--light-dsr-blue);
   border-left: solid 2px var(--light-dsr-blue);
 }
@@ -215,7 +216,7 @@ input:focus
 
 .today-icon
 {
-  margin: 0px 31%;
+  margin: 5px 31%;
 }
 
 .weekly-icon
@@ -237,7 +238,7 @@ input:focus
 .daily-forecast
 {
   border-right: solid 2px var(--light-dsr-blue);
-  padding: 5px 10px 15px 10px;
+  padding: 5px 10px 25px 10px;
 }
 
 /* adds borders which wrap around scroll bar of weekly forecast when it appears */
@@ -795,7 +796,7 @@ body, h1, h2, h3, p, ul, li {
 
 .video-container {
 
-    display:flex;
+    display: none;
     justify-content: flex-start;
     flex-wrap: wrap;
     background-color: var(--dark-dsr-blue);
@@ -811,8 +812,9 @@ body, h1, h2, h3, p, ul, li {
   width: 18%;
     margin-right: 2%;
     margin-bottom: 7px;
-    border-radius: 10px;
+    border-radius: 6px;
     overflow:hidden;
+    background-color: var(--darker-dsr-blue);
 }
 
 /* splits videos onto two rows at small screen sizes */
