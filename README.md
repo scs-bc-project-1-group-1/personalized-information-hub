@@ -28,10 +28,13 @@ The weather data will be split into two sections; today's weather (above), and t
 
 ### ETHAN'S LINKS
 
+linked triangle (icon base)
 https://www.veryicon.com/icons/education-technology/big-data-1/porana-data.html
 
+sun & cloud (icon part)
 https://www.flaticon.com/free-icons/sun
 
+video player (icon part)
 https://www.flaticon.com/free-icons/video
 
 offsetHeight
